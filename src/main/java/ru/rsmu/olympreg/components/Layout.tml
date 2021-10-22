@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd">
+<head>
+    <title>${pageTitle}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="shortcut icon" href="${context:static/icons/favicon.ico}" type="image/x-icon" />
+</head>
+<body>
+
+<nav class="navbar navbar-rnimu navbar-inverse" style="border-radius: 0 !important; margin-bottom: 0 !important;">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#monreg-nav" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <div style="display: flex; flex-direction: row">
+                <t:pagelink page="index" class="navbar-brand" style="padding: 8px 15px !important; display: flex; flex-direction: row">
+                    <img style="max-height: 34px" alt="${message:navbar.logotitle}" title="${message:navbar.logotitle}" src="${context:static/img/px.png}" id="logoImage"/>
+                    <div style="display: flex; align-items: center; margin-left: 15px">
+                        <span>${message:navbar.university}</span>
+                    </div>
+                </t:pagelink>
+            </div>
+        </div>
+
+        <div class="collapse navbar-collapse" id="monreg-nav">
+            <t:security.user>
+                <ul class="nav navbar-nav navbar-right" style="margin-right: 10px">
+                    <li>
+                        <t:eventlink event="toggleLocale" class="nav-link rsmu-lang-switch">
+                            ${localeNameToSwitch}
+                        </t:eventlink>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="nav-link dropdown-toggle rsmu-lang-switch" data-toggle="dropdown" aria-haspopup="true" id="userDropdown" aria-expanded="false">
+                            ${message:navbar.welcome} ${username}. <span class="caret"/></a>
+                        <ul class="dropdown-menu bg-light" aria-labelledby="userDropdown">
+                            <li><t:pagelink page="userpassword">${message:navbar.admin.password}</t:pagelink></li>
+                            <li role="separator" class="divider"></li>
+                            <li><t:eventlink event="logout">${message:navbar.logout}</t:eventlink></li>
+                        </ul>
+                    </li>
+                </ul>
+            </t:security.user>
+            <t:security.guest>
+                <ul class="nav navbar-nav navbar-right" style="margin-right: 10px">
+                    <li>
+                        <t:eventlink event="toggleLocale" class="nav-link rsmu-lang-switch">
+                            ${localeNameToSwitch}
+                        </t:eventlink>
+                    </li>
+                    <li>
+                        <t:pagelink page="login" class="rsmu-lang-switch" title="${message:navbar.login}">
+                            ${message:navbar.login}
+                        </t:pagelink>
+                    </li>
+                </ul>
+            </t:security.guest>
+        </div>
+    </div>
+</nav>
+
+<div class="container" role="main">
+    <t:body/>
+</div>
+
+<div>
+    <div class="col-sm-11 col-sm-offset-1">
+        <p class="text-muted">
+            <small>Copyright <span class="glyphicon glyphicon-copyright-mark" aria-hidden="true"></span>
+                &nbsp;&nbsp;&nbsp; РНИМУ им.Н.И.Пирогова
+                &nbsp;&nbsp;&nbsp; 2020-${thisYear}</small>
+        </p>
+    </div>
+</div>
+</body>
+</html>

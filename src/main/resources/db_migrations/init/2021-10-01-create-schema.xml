@@ -1,0 +1,502 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                   http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet id="2021-10-01-user-roles" author="lginzburg">
+        <createTable tableName="roles" >
+            <column name="id" type="${id.type}" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="role" type="${string.type}"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="2021-10-01-users" author="lginzburg">
+        <createTable tableName="t_user">
+            <column name="id" type="${id.type}" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="enabled" type="BIT(1)"/>
+            <column name="firstName" type="${string.type}"/>
+            <column name="lastName" type="${string.type}"/>
+            <column name="middleName" type="${string.type}"/>
+            <column name="password" type="${string.type}"/>
+            <column name="username" type="${string.type}">
+                <constraints unique="true"/>
+            </column>
+        </createTable>
+        <createTable tableName="user_roles">
+            <column name="user_id" type="${id.type}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role_id" type="${id.type}">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="user_roles" baseColumnNames="user_id"
+                                 constraintName="fk_roles_to_users" referencedTableName="t_user"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="user_roles" baseColumnNames="role_id"
+                                 constraintName="fk_users_to_roles" referencedTableName="roles"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="2021-10-01-system-properties" author="lginzburg">
+        <createTable tableName="system_properties">
+            <column autoIncrement="true" name="id" type="${id.type}">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="property_name" type="${string.type}"/>
+            <column name="value" type="${string.type}"/>
+        </createTable>
+
+    </changeSet>
+
+    <changeSet id="2021-10-01-user-candidates" author="lginzburg">
+        <createTable tableName="user_candidates">
+            <column autoIncrement="true" name="id" type="${id.type}">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_date" type="datetime"/>
+            <column name="email" type="${string.type}"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2021-10-01-regions" author="lginzburg">
+        <createTable tableName="subject_regions">
+            <column autoIncrement="true" name="id" type="${id.type}">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="code" type="INT"/>
+            <column name="name" type="${string.type}"/>
+        </createTable>
+    </changeSet>
+
+<!--
+    <changeSet id="2021-10-01-populate-regions" author="lginzburg">
+        <insert tableName="subject_regions">
+            <column name="name" value="республика Адыгея"/>
+            <column name="code" valueNumeric="1"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="республика Башкортостан"/>
+            <column name="code" valueNumeric="2"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="республика Бурятия"/>
+            <column name="code" valueNumeric="3"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="республика Алтай"/>
+            <column name="code" valueNumeric="4"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="республика Дагестан"/>
+            <column name="code" valueNumeric="5"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="республика Ингушетия"/>
+            <column name="code" valueNumeric="6"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Кабардино-Балкарская республика"/>
+            <column name="code" valueNumeric="7"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="республика Калмыкия"/>
+            <column name="code" valueNumeric="8"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Карачаево-Черкеская республика"/>
+            <column name="code" valueNumeric="9"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="республика Карелия"/>
+            <column name="code" valueNumeric="10"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="республика Коми"/>
+            <column name="code" valueNumeric="11"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="республика Марий Эл"/>
+            <column name="code" valueNumeric="12"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="республика Мордовия"/>
+            <column name="code" valueNumeric="13"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="республика Саха-Якутия"/>
+            <column name="code" valueNumeric="14"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="республика Северная Осетия"/>
+            <column name="code" valueNumeric="15"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="республика Татарстан"/>
+            <column name="code" valueNumeric="16"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="республика Тыва"/>
+            <column name="code" valueNumeric="17"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Удмуртская республика"/>
+            <column name="code" valueNumeric="18"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="республика Хакасия"/>
+            <column name="code" valueNumeric="19"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Чеченская республика"/>
+            <column name="code" valueNumeric="20"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="республика Чувашия"/>
+            <column name="code" valueNumeric="21"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Алтайский край"/>
+            <column name="code" valueNumeric="22"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Краснодарский край"/>
+            <column name="code" valueNumeric="23"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Красноярский край"/>
+            <column name="code" valueNumeric="24"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Приморский край"/>
+            <column name="code" valueNumeric="25"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Ставропольский край"/>
+            <column name="code" valueNumeric="26"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Хабаровский край"/>
+            <column name="code" valueNumeric="27"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Амурская область"/>
+            <column name="code" valueNumeric="28"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Архангельская область"/>
+            <column name="code" valueNumeric="29"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Астраханская область"/>
+            <column name="code" valueNumeric="30"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Белгородская область"/>
+            <column name="code" valueNumeric="31"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Брянская область"/>
+            <column name="code" valueNumeric="32"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Владимирская область"/>
+            <column name="code" valueNumeric="33"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Волгоградская область"/>
+            <column name="code" valueNumeric="34"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Вологодская область"/>
+            <column name="code" valueNumeric="35"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Воронежская область"/>
+            <column name="code" valueNumeric="36"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Ивановская область"/>
+            <column name="code" valueNumeric="37"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Иркутская область"/>
+            <column name="code" valueNumeric="38"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Калининградская область"/>
+            <column name="code" valueNumeric="39"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Калужская область"/>
+            <column name="code" valueNumeric="40"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Камчатский край"/>
+            <column name="code" valueNumeric="41"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Кемеровская область"/>
+            <column name="code" valueNumeric="42"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Кировская область"/>
+            <column name="code" valueNumeric="43"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Костромская область"/>
+            <column name="code" valueNumeric="44"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Курганская область"/>
+            <column name="code" valueNumeric="45"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Курская область"/>
+            <column name="code" valueNumeric="46"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Ленинградская область"/>
+            <column name="code" valueNumeric="47"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Липецкая область"/>
+            <column name="code" valueNumeric="48"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Магаданская область"/>
+            <column name="code" valueNumeric="49"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Московская область"/>
+            <column name="code" valueNumeric="50"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Мурманская область"/>
+            <column name="code" valueNumeric="51"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Нижегородская область"/>
+            <column name="code" valueNumeric="52"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Новгородская область"/>
+            <column name="code" valueNumeric="53"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Новосибирская область"/>
+            <column name="code" valueNumeric="54"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Омская область"/>
+            <column name="code" valueNumeric="55"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Оренбургская область"/>
+            <column name="code" valueNumeric="56"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Орловская область"/>
+            <column name="code" valueNumeric="57"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Пензенская область"/>
+            <column name="code" valueNumeric="58"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Пермский край"/>
+            <column name="code" valueNumeric="59"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Псковская область"/>
+            <column name="code" valueNumeric="60"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Ростовская область"/>
+            <column name="code" valueNumeric="61"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Рязанская область"/>
+            <column name="code" valueNumeric="62"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Самарская область"/>
+            <column name="code" valueNumeric="63"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Саратовская область"/>
+            <column name="code" valueNumeric="64"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Сахалинская область"/>
+            <column name="code" valueNumeric="65"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Свердловская область"/>
+            <column name="code" valueNumeric="66"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Смоленская область"/>
+            <column name="code" valueNumeric="67"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Тамбовская область"/>
+            <column name="code" valueNumeric="68"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Тверская область"/>
+            <column name="code" valueNumeric="69"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Томская область"/>
+            <column name="code" valueNumeric="70"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Тульская область"/>
+            <column name="code" valueNumeric="71"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Тюменская область"/>
+            <column name="code" valueNumeric="72"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Ульяновская область"/>
+            <column name="code" valueNumeric="73"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Челябинская область"/>
+            <column name="code" valueNumeric="74"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Забайкальский край"/>
+            <column name="code" valueNumeric="75"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Ярославская область"/>
+            <column name="code" valueNumeric="76"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Москва"/>
+            <column name="code" valueNumeric="77"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Санкт-Петербург"/>
+            <column name="code" valueNumeric="78"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Еврейская автономная область"/>
+            <column name="code" valueNumeric="79"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="республика Крым"/>
+            <column name="code" valueNumeric="82"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Ненецкий автономный округ"/>
+            <column name="code" valueNumeric="83"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Ханты-Мансийский автономный округ"/>
+            <column name="code" valueNumeric="86"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Чукотский автономный округ"/>
+            <column name="code" valueNumeric="87"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Ямало-Ненецкий автономный округ"/>
+            <column name="code" valueNumeric="89"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Севастополь"/>
+            <column name="code" valueNumeric="92"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Не РФ"/>
+            <column name="code" valueNumeric="100"/>
+        </insert>
+        <insert tableName="subject_regions">
+            <column name="name" value="Школы РФ, находящиеся за пределами территории РФ"/>
+            <column name="code" valueNumeric="101"/>
+        </insert>
+
+    </changeSet>
+-->
+
+    <changeSet id="2021-10-01-profile" author="lginzburg">
+        <createTable tableName="competitor_profile">
+            <column autoIncrement="true" name="id" type="${id.type}">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="birth_date" type="date" />
+            <column name="case_number" type="${string.type}"/>
+            <column name="class_number" type="INT"/>
+            <column name="phone_number" type="${string.type}"/>
+            <column name="school_number" type="${string.type}"/>
+            <column name="sex" type="${string.type}"/>
+            <column name="region_id" type="${id.type}"/>
+            <column name="user_id" type="${id.type}"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="competitor_profile" baseColumnNames="user_id"
+                                 constraintName="fk_profile_to_users"
+                                 referencedTableName="t_user"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="competitor_profile" baseColumnNames="region_id"
+                                 constraintName="fk_profile_to_regions"
+                                 referencedTableName="subject_regions"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="2021-10-08-modify-user-candidate" author="lginzburg">
+        <addColumn tableName="user_candidates">
+            <column name="firstName" type="${string.type}"/>
+            <column name="lastName" type="${string.type}"/>
+            <column name="middleName" type="${string.type}"/>
+            <column name="password" type="${string.type}"/>
+            <column name="key_code" type="${string.type}"/>
+        </addColumn>
+        <createIndex tableName="user_candidates" indexName="idx_key_code">
+            <column name="key_code"/>
+        </createIndex>
+    </changeSet>
+    
+    <changeSet id="2021-10-15-email-queue" author="lginzburg">
+        <createTable tableName="email_queue">
+            <column autoIncrement="true" name="id" type="${id.type}">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="user_id" type="${id.type}"/>
+            <column name="email_address" type="${string.type}"/>
+            <column name="email_type" type="${string.type}"/>
+            <column name="model" type="${text.type}"/>
+            <column name="status" type="${string.type}"/>
+            <column name="created_at" type="DATETIME"/>
+            <column name="updated_at" type="DATETIME"/>
+        </createTable>
+    </changeSet>
+    
+    <changeSet id="2021-10-15-competitior-counter" author="lginzburg">
+        <createTable tableName="competitor_counter">
+            <column autoIncrement="true" name="id" type="${id.type}">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="year" type="INT"/>
+            <column name="counter" type="INT"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2021-10-16-profile-stage" author="lginzburg">
+        <addColumn tableName="competitor_profile">
+            <column name="profile_stage" type="${string.type}"/>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

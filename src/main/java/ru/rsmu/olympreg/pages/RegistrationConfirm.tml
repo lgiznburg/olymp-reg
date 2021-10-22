@@ -1,0 +1,30 @@
+<html t:type="layout" t:pageTitle="${message:userpassword-pagetitle}"
+      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd">
+<div>
+    <div class="row">
+        <h2>Подтверждение электронной почты</h2>
+    </div>
+    <t:delegate to="resultBlock"/>
+
+</div>
+
+<t:block t:id="successBlock">
+<div class="row">
+    <h4>Адрес Вашей почты успешно подтвержден</h4>
+    <div class="col-sm-5 col-sm-offset-1">
+        Пожалуйста, подолжите процесс регистрации. Вам необходимо ввести дополнительную информацию,
+        и загрузить некоторые документы.
+        Пожалуйста, перейдите в "Личный кабинет"
+    </div>
+</div>
+</t:block>
+<t:block t:id="failBlock">
+    <div class="row">
+        <h4 class="danger">К сожалению, что-то пошло не так.</h4>
+        <div class="col-sm-5 col-sm-offset-1">
+            Использованная ссылка содержит некорректные данные. Пожалуйста, повторите процесс
+            <t:pagelink page="signup" class="btn btn-success">Регистрации для участия</t:pagelink>
+        </div>
+    </div>
+</t:block>
+</html>

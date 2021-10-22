@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
+>
+<t:content>
+    <t:form t:id="tempoLoginForm" class="form-horizontal">
+        <t:if test="loginMessage"><div class="alert alert-danger">${loginMessage}</div></t:if>
+        <div class="login-card">
+            <div class="login-card-image">
+                <img style="width: 100%" src="${context:static/img/banner1200x400.jpg}" alt="RSMU"/>
+            </div>
+            <div class="login-card-content">
+                <div class="row" style="margin-bottom: 15px">
+                    <div class="col-sm-3 login-text-right" style="margin-top: 5px">
+                        <b>${message:login-label}</b>
+                    </div>
+                    <div class="col-sm-9">
+                        <t:textfield value="login" validate="required" t:id="login" class="form-control" placeholder="${message:login-label}"/>
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom: 15px">
+                    <div class="col-sm-3 login-text-right" style="margin-top: 5px">
+                        <b>${message:password-label}</b>
+                    </div>
+                    <div class="col-sm-9">
+                        <t:passwordfield value="password" validate="required" t:id="password" class="form-control" placeholder="${message:password-label}"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-9 col-sm-offset-3">
+                        <t:if test="includeRememberMe">
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <t:label for="rememberMe">
+                                        <t:checkbox value="rememberMe" t:id="rememberMe"/>
+                                        ${message:rememberMe-label} </t:label>
+                                </div>
+                            </div>
+                        </t:if>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-9 col-sm-offset-3">
+                        <input type="submit" class="btn btn-primary" value="${message:loginSubmit}" style="margin-right: 15px; margin-bottom: 10px"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </t:form>
+</t:content>
+</html>

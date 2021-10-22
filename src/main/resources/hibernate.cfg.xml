@@ -1,0 +1,26 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.connection.driver_class">${hibernate.connection.driver_class}</property>
+        <property name="hibernate.connection.url">${hibernate.connection.url}</property>
+        <property name="hibernate.dialect">${hibernate.dialect}</property>
+        <property name="hibernate.default_schema">${hibernate.default_schema}</property>
+        <property name="hibernate.connection.username">${hibernate.connection.username}</property>
+        <property name="hibernate.connection.password">${hibernate.connection.password}</property>
+        <!--<property name="hbm2ddl.auto">update</property>-->
+        <property name="hibernate.show_sql">false</property>
+        <property name="hibernate.format_sql">false</property>
+        <property name="hibernate.connection.CharSet">utf8</property>
+        <property name="hibernate.connection.characterEncoding">utf8</property>
+        <property name="hibernate.connection.useUnicode">true</property>
+
+        <property name="hibernate.connection.provider_class">org.hibernate.c3p0.internal.C3P0ConnectionProvider</property>
+        <property name="hibernate.c3p0.min_size">5</property>
+        <property name="hibernate.c3p0.max_size">50</property>
+        <property name="hibernate.c3p0.timeout">120</property>
+<!--        <property name="hibernate.c3p0.max_statements">30</property>-->
+<!--        <property name="hibernate.c3p0.idle_test_period">120</property>-->
+    </session-factory>
+</hibernate-configuration>
