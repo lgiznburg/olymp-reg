@@ -4,6 +4,7 @@ import org.apache.tapestry5.ioc.LoggerSource;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.quartz.*;
 import ru.rsmu.olympreg.services.RunJobsService;
+import ru.rsmu.olympreg.utils.CleanUpRegistrationJob;
 import ru.rsmu.olympreg.utils.SendEmailJob;
 
 /**
@@ -22,14 +23,14 @@ public class RunJobsServiceImpl implements RunJobsService {
     }
 
     public void starUp() {
-        /*JobDetail cleanupJob = JobBuilder.newJob( CleanupJob.class ).build();
+        JobDetail cleanupJob = JobBuilder.newJob( CleanUpRegistrationJob.class ).build();
 
         ScheduleBuilder<?> scheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
-                .withIntervalInMinutes( 2 ).repeatForever();
+                .withIntervalInMinutes( 60 ).repeatForever();
         Trigger cleanupTrigger = TriggerBuilder.newTrigger()
                 .withSchedule( scheduleBuilder )
                 .forJob( cleanupJob )
-                .build();*/
+                .build();
 
         JobDetail sendEmailJob = JobBuilder.newJob( SendEmailJob.class ).build();
 
@@ -41,7 +42,7 @@ public class RunJobsServiceImpl implements RunJobsService {
                 .build();
 
         try {
-            //scheduler.scheduleJob( cleanupJob, cleanupTrigger );
+            scheduler.scheduleJob( cleanupJob, cleanupTrigger );
             scheduler.scheduleJob( sendEmailJob, emailJobTrigger );
         } catch (SchedulerException e) {
             loggerSource.getLogger( RunJobsServiceImpl.class ).error( "Can't start scheduled jobs", e );

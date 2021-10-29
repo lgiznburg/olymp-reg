@@ -2,11 +2,9 @@ package ru.rsmu.olympreg.dao;
 
 
 import org.apache.tapestry5.hibernate.annotations.CommitAfter;
-import ru.rsmu.olympreg.entities.SubjectRegion;
-import ru.rsmu.olympreg.entities.User;
-import ru.rsmu.olympreg.entities.UserRole;
-import ru.rsmu.olympreg.entities.UserRoleName;
+import ru.rsmu.olympreg.entities.*;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,4 +21,8 @@ public interface UserDao extends BaseDao {
     int getNextPersonalNumber();
 
     UserRole findRole( UserRoleName roleName );
+
+    CompetitorProfile findProfile( User user );
+
+    List<UserCandidate> findOutdatedCandidates( Date time );
 }

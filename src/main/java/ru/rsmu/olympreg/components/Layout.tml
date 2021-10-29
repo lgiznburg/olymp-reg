@@ -30,12 +30,12 @@
         <div class="collapse navbar-collapse" id="monreg-nav">
             <t:security.user>
                 <ul class="nav navbar-nav navbar-right" style="margin-right: 10px">
-                    <li>
+                    <!--<li>
                         <t:eventlink event="toggleLocale" class="nav-link rsmu-lang-switch">
                             ${localeNameToSwitch}
                         </t:eventlink>
-                    </li>
-                    <li class="dropdown">
+                    </li>-->
+                    <!--<li class="dropdown">
                         <a href="#" class="nav-link dropdown-toggle rsmu-lang-switch" data-toggle="dropdown" aria-haspopup="true" id="userDropdown" aria-expanded="false">
                             ${message:navbar.welcome} ${username}. <span class="caret"/></a>
                         <ul class="dropdown-menu bg-light" aria-labelledby="userDropdown">
@@ -43,16 +43,31 @@
                             <li role="separator" class="divider"></li>
                             <li><t:eventlink event="logout">${message:navbar.logout}</t:eventlink></li>
                         </ul>
+                    </li>-->
+                    <li><p class="navbar-text">${message:navbar.welcome} ${username}.</p></li>
+                    <li class="dropdown">
+                        <a href="#" class="nav-link dropdown-toggle rsmu-lang-switch" data-toggle="dropdown" aria-haspopup="true" id="accountDropdown" aria-expanded="false">
+                            <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span> <span class="caret"/></a>
+                        <ul class="dropdown-menu bg-light" aria-labelledby="accountDropdown">
+                            <t:security.hasrole role="competitor">
+                                <li><t:pagelink page="account/editprofile">Информация об участнике</t:pagelink></li>
+                                <li><t:pagelink page="account/loaddocuments">Загрузка документов</t:pagelink></li>
+                                <li><t:pagelink page="account/participation">Участие в олимпиаде</t:pagelink></li>
+                                <li role="separator" class="divider"></li>
+                            </t:security.hasrole>
+                            <li><t:pagelink page="userpassword">${message:navbar.admin.password}</t:pagelink></li>
+                            <li><t:eventlink event="logout">${message:navbar.logout}</t:eventlink></li>
+                        </ul>
                     </li>
                 </ul>
             </t:security.user>
             <t:security.guest>
                 <ul class="nav navbar-nav navbar-right" style="margin-right: 10px">
-                    <li>
+                    <!--<li>
                         <t:eventlink event="toggleLocale" class="nav-link rsmu-lang-switch">
                             ${localeNameToSwitch}
                         </t:eventlink>
-                    </li>
+                    </li>-->
                     <li>
                         <t:pagelink page="login" class="rsmu-lang-switch" title="${message:navbar.login}">
                             ${message:navbar.login}
@@ -65,6 +80,16 @@
 </nav>
 
 <div class="container" role="main">
+    <div class="row" style="margin-top:1em;margin-bottom: 2rem;">
+        <div style="display: flex;">
+            <div style="flex:0 0 16rem;"><img  style="width:100%;" src="${context:static/img/olymp_logo.png}"/> </div>
+            <div style="display:flex;align-items: center;">
+                <h1 style="margin-bottom:2rem;padding-left:1rem;"><span style="color: #c41e3a">Пироговская олимпиада для школьников</span><br/>
+                    <span style="font-weight: 300;">по химии и биологии</span></h1>
+            </div>
+        </div>
+    </div>
+
     <t:body/>
 </div>
 

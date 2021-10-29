@@ -2,11 +2,9 @@ package ru.rsmu.olympreg.pages;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.tapestry5.Field;
+import org.apache.tapestry5.PersistenceConstants;
 import org.apache.tapestry5.ValidationException;
-import org.apache.tapestry5.annotations.Environmental;
-import org.apache.tapestry5.annotations.Import;
-import org.apache.tapestry5.annotations.InjectComponent;
-import org.apache.tapestry5.annotations.Property;
+import org.apache.tapestry5.annotations.*;
 import org.apache.tapestry5.corelib.components.Form;
 import org.apache.tapestry5.ioc.Messages;
 import org.apache.tapestry5.ioc.annotations.Inject;
@@ -15,6 +13,7 @@ import ru.rsmu.olympreg.dao.EmailDao;
 import ru.rsmu.olympreg.dao.SystemPropertyDao;
 import ru.rsmu.olympreg.dao.UserDao;
 import ru.rsmu.olympreg.entities.EmailQueue;
+import ru.rsmu.olympreg.entities.User;
 import ru.rsmu.olympreg.entities.UserCandidate;
 import ru.rsmu.olympreg.entities.system.StoredPropertyName;
 import ru.rsmu.olympreg.services.EmailType;
@@ -43,6 +42,7 @@ public class SignUp {
     private String userPasswordConfirm;
 
     @Property
+    @Persist(PersistenceConstants.FLASH)
     private boolean signUpSuccess;
 
     @Inject
@@ -61,7 +61,7 @@ public class SignUp {
     private Form tempoSignupForm;
 
     @InjectComponent
-    private Field newPassword;
+    private Field newPassword, login;
 
     @Environmental
     private JavaScriptSupport javaScriptSupport;
@@ -83,6 +83,10 @@ public class SignUp {
     }
 
     public boolean onValidateFromTempoSignupForm() throws ValidationException {
+        User user = userDao.findByUsername( candidate.getEmail() );
+        if ( user != null ) {
+            tempoSignupForm.recordError( login, messages.get( "password-form-email-non-unique" ));
+        }
         if ( userPassword != null && !userPassword.isEmpty() ) {
             if ( userPassword.length() < 7 || (!userPassword.matches( ".*\\W+.*" ) && !userPassword.matches( ".*\\w+.*" ) ) ) {
                 tempoSignupForm.recordError( newPassword, messages.get("password-form-wrong"));

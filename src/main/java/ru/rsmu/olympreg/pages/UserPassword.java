@@ -1,6 +1,6 @@
 package ru.rsmu.olympreg.pages;
 
-import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.apache.shiro.authz.annotation.RequiresUser;
 import org.apache.tapestry5.Field;
 import org.apache.tapestry5.annotations.InjectComponent;
 import org.apache.tapestry5.annotations.Property;
@@ -14,7 +14,7 @@ import ru.rsmu.olympreg.services.SecurityUserHelper;
 
 import java.util.List;
 
-@RequiresAuthentication
+@RequiresUser
 public class UserPassword {
 
     /** properties */

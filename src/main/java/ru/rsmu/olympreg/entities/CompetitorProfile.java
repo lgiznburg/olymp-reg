@@ -1,8 +1,12 @@
 package ru.rsmu.olympreg.entities;
 
+import org.apache.commons.lang3.StringUtils;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author leonid.
@@ -37,7 +41,11 @@ public class CompetitorProfile implements Serializable {
     private String phoneNumber;
 
     @Column(name = "class_number")
-    private int classNumber;
+    private Integer classNumber;
+
+    @Column(name = "school_location")
+    @Enumerated( EnumType.STRING )
+    private SchoolLocation schoolLocation;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -46,6 +54,12 @@ public class CompetitorProfile implements Serializable {
     @Column( name = "profile_stage")
     @Enumerated( EnumType.STRING )
     private ProfileStage profileStage;
+
+    @OneToMany(mappedBy = "profile")
+    private List<AttachedFile> attachments;
+
+    @OneToMany(mappedBy = "profile")
+    private List<ParticipationInfo> participation;
 
     public long getId() {
         return id;
@@ -103,11 +117,11 @@ public class CompetitorProfile implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    public int getClassNumber() {
+    public Integer getClassNumber() {
         return classNumber;
     }
 
-    public void setClassNumber( int classNumber ) {
+    public void setClassNumber( Integer classNumber ) {
         this.classNumber = classNumber;
     }
 
@@ -125,5 +139,59 @@ public class CompetitorProfile implements Serializable {
 
     public void setProfileStage( ProfileStage profileStage ) {
         this.profileStage = profileStage;
+    }
+
+    public List<AttachedFile> getAttachments() {
+        return attachments;
+    }
+
+    public void setAttachments( List<AttachedFile> attachments ) {
+        this.attachments = attachments;
+    }
+
+    public void addAttachment( AttachedFile attachedFile ) {
+        attachedFile.setProfile( this );
+        if ( attachments == null ) {
+            attachments =  new ArrayList<>();
+        }
+        attachments.add( attachedFile );
+    }
+
+    public SchoolLocation getSchoolLocation() {
+        return schoolLocation;
+    }
+
+    public void setSchoolLocation( SchoolLocation schoolLocation ) {
+        this.schoolLocation = schoolLocation;
+    }
+
+    public List<ParticipationInfo> getParticipation() {
+        return participation;
+    }
+
+    public void setParticipation( List<ParticipationInfo> participations ) {
+        this.participation = participations;
+    }
+
+    @Transient
+    public boolean isProfileCompleted() {
+        return !( StringUtils.isBlank( sex ) || StringUtils.isBlank( schoolNumber )
+                || StringUtils.isBlank( phoneNumber ) || region == null
+                || classNumber == null || birthDate == null
+                || schoolLocation == null
+        );
+    }
+
+    @Transient
+    public boolean isAttachmentsCompleted() {
+        return attachments != null
+                && attachments.stream().anyMatch( at -> at.getAttachmentRole() == AttachmentRole.AGREEMENT )
+                && attachments.stream().anyMatch( at -> at.getAttachmentRole() == AttachmentRole.PASSPORT )
+                && attachments.stream().anyMatch( at -> at.getAttachmentRole() == AttachmentRole.SCHOOL );
+    }
+
+    @Transient
+    public boolean isSubjectSelected() {
+        return participation != null && !participation.isEmpty();
     }
 }

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
+>
+<t:content>
+    <t:if test="showMe()">
+        <t:delegate to="currentBlock"/>
+    </t:if>
+
+    <t:block t:id="emptyProfile">
+        <div class="panel panel-warning" style="margin-top: 1em;">
+            <div class="panel-body">
+                Отсутствует информация, необходимая для участия в олимпиаде. Вам требуется заполнить <t:pagelink page="account/editprofile">данные участника олимпиады</t:pagelink>.
+            </div>
+        </div>
+    </t:block>
+    <t:block t:id="documentsMissed">
+        <div class="panel panel-warning" style="margin-top: 1em;">
+            <div class="panel-body">
+                Введена базовая информация об участнике олимпиады. Необходимо <t:pagelink page="account/loaddocuments">загрузить скан-копии документов</t:pagelink>.
+            </div>
+        </div>
+    </t:block>
+    <t:block t:id="selectSubject">
+        <div class="panel panel-warning" style="margin-top: 1em;">
+            <div class="panel-body">
+                Вам нужно <t:pagelink page="account/participation">выбрать предмет или предметы</t:pagelink> для участия.
+            </div>
+        </div>
+    </t:block>
+    <t:block t:id="waitForLink">
+        <div class="panel panel-info" style="margin-top: 1em;">
+            <div class="panel-body">
+                Вы являетесь участником олимпиады. В дни проведения в <t:pagelink page="account/participation">личном кабинете</t:pagelink> будут доступны ссылки на задания олимпиады.
+            </div>
+        </div>
+    </t:block>
+
+</t:content>
+</html>

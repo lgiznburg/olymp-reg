@@ -1,0 +1,140 @@
+<html t:type="layout" t:pageTitle="Администрирование:Список предметов"
+      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
+>
+<body>
+<div class="row">
+    <div class="col-sm-10 text-lg" style="display: flex;">
+        <strong class="text-primary" style="padding: 8px 15px;">Личный кабинет &gt;</strong>
+        <ol class="breadcrumb">
+            <li><t:pagelink page="account/editprofile">Информация об участнике</t:pagelink></li>
+            <li class="active">Загрузка документов</li>
+            <li><t:pagelink page="account/participation">Участие в олимпиаде</t:pagelink></li>
+        </ol>
+    </div>
+
+</div>
+
+<t:competitorinfo currentPage="literal:documents"/>
+
+<div class="row"><h3>Прикрепленные документы</h3></div>
+
+<div class="row">
+    <t:form t:id="documentsForm">
+        <table class="table table-responsive">
+            <t:if test="formErrorMessage">
+                <tr><td colspan="2"><div class="alert alert-warning" role="alert">${formErrorMessage}</div></td></tr>
+            </t:if>
+        <tr>
+            <td colspan="2"><h4>Скан-копия паспорта</h4></td>
+            <td></td>
+        </tr>
+            <t:loop source="passportFiles" value="attachedTemp" encoder="attachedFileEncoder">
+                <tr>
+                    <td>${attachedTemp.sourceName}</td>
+                    <td>${attachedTemp.size}</td>
+                    <td><t:eventlink event="deleteFile" context="attachedTemp"><span class="glyphicon glyphicon-remove"/></t:eventlink> </td>
+                </tr>
+            </t:loop>
+            <t:if test="passportFiles.empty">
+                <tr>
+                    <td colspan="2">Скан-копия не загружена</td>
+                    <td></td>
+                </tr>
+            </t:if>
+
+            <tr>
+                <td colspan="2"><h4>Загрузить скан-копию паспорта</h4></td>
+                <td>
+                    <a href="#passportFileField" class="btn btn-default" data-toggle="collapse"
+                       data-target="#collapsePassportUpload"
+                       aria-expanded="false" aria-controls="collapsePassportUpload">
+                        <span class="glyphicon glyphicon-upload" aria-hidden="true"/>
+                    </a>
+                </td>
+            </tr>
+            <tr class="collapse" id="collapsePassportUpload">
+                <td>&nbsp;</td>
+                <td>
+                    <t:upload t:id="passportFileField" value="passportFile"/>
+                </td>
+                <td><button class="btn btn-default"><span class="glyphicon glyphicon-save" aria-hidden="true"/></button> </td> <!--  value="${message:save}" -->
+            </tr>
+                <!-- agreement -->
+            <tr>
+                <td colspan="2"><h4>Согласие на обработку персональных данных</h4></td>
+                <td></td>
+            </tr>
+            <t:loop source="agreementFiles" value="attachedTemp" encoder="attachedFileEncoder">
+                <tr>
+                    <td>${attachedTemp.sourceName}</td>
+                    <td>${attachedTemp.size}</td>
+                    <td><t:eventlink event="deleteFile" context="attachedTemp"><span class="glyphicon glyphicon-remove"/></t:eventlink> </td>
+                </tr>
+            </t:loop>
+            <t:if test="agreementFiles.empty">
+                <tr>
+                    <td colspan="2">Согласие не загружено</td>
+                    <td></td>
+                </tr>
+            </t:if>
+
+            <tr>
+                <td colspan="2"><h4>Загрузить соглависе на обработку персональных данных</h4></td>
+                <td>
+                    <a href="#agreementFileField" class="btn btn-default" data-toggle="collapse"
+                       data-target="#collapseAgreementUpload"
+                       aria-expanded="false" aria-controls="collapseAgreementUpload">
+                        <span class="glyphicon glyphicon-upload" aria-hidden="true"/>
+                    </a>
+                </td>
+            </tr>
+            <tr class="collapse" id="collapseAgreementUpload">
+                <td>&nbsp;</td>
+                <td>
+                    <t:upload t:id="agreementFileField" value="agreementFile"/>
+                </td>
+                <td><button class="btn btn-default"><span class="glyphicon glyphicon-save" aria-hidden="true"/></button> </td> <!--  value="${message:save}" -->
+            </tr>
+
+            <tr>
+                <td colspan="2"><h4>Справка из школы</h4></td>
+                <td></td>
+            </tr>
+            <t:loop source="schoolFiles" value="attachedTemp" encoder="attachedFileEncoder">
+                <tr>
+                    <td>${attachedTemp.sourceName}</td>
+                    <td>${attachedTemp.size}</td>
+                    <td><t:eventlink event="deleteFile" context="attachedTemp"><span class="glyphicon glyphicon-remove"/></t:eventlink> </td>
+                </tr>
+            </t:loop>
+            <t:if test="schoolFiles.empty">
+                <tr>
+                    <td colspan="2">Справка из школы не загружена</td>
+                    <td></td>
+                </tr>
+            </t:if>
+
+            <tr>
+                <td colspan="2"><h4>Загрузить скан-копию паспорта</h4></td>
+                <td>
+                    <a href="#schoolFileField" class="btn btn-default" data-toggle="collapse"
+                       data-target="#collapseSchoolUpload"
+                       aria-expanded="false" aria-controls="collapseSchoolUpload">
+                        <span class="glyphicon glyphicon-upload" aria-hidden="true"/>
+                    </a>
+                </td>
+            </tr>
+            <tr class="collapse" id="collapseSchoolUpload">
+                <td>&nbsp;</td>
+                <td>
+                    <t:upload t:id="schoolFileField" value="schoolFile"/>
+                </td>
+                <td><button class="btn btn-default"><span class="glyphicon glyphicon-save" aria-hidden="true"/></button> </td> <!--  value="${message:save}" -->
+            </tr>
+        </table>
+
+    </t:form>
+</div>
+
+</body>
+</html>

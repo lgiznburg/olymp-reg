@@ -65,7 +65,7 @@ public class AppModule {
         byte[] cipherKeySource = {10, 33, 28, 77, 48, 115, 3, 47, 109, 75, 55, 55, 68, 121, 19, 63};
         configuration.add( SecuritySymbols.REMEMBERME_CIPHERKERY, Base64.encodeToString( cipherKeySource ) );
 
-        configuration.add( UploadSymbols.FILESIZE_MAX, String.valueOf( 5242880 ) );
+        configuration.add( UploadSymbols.FILESIZE_MAX, String.valueOf( 2097152 ) );
 
         // provide liquibase integration with master changelog file
         configuration.add( LiquibaseModule.LIQUIBASE_CHANGELOG, "db_migrations/change_log.xml");
@@ -88,7 +88,7 @@ public class AppModule {
         configuration.add("loginform-anon",
                 factory.createChain("/login.loginform.tynamologinform").add(factory.anon()).build());
         configuration.add("anon", factory.createChain("/**").add(factory.anon()).build());
-        configuration.add("user-profile", factory.createChain("/lk/**").add( factory.user() ).build());
+        configuration.add("user-profile", factory.createChain("/account/**").add( factory.user() ).build());
     }
 
     public static void contributeWebSecurityManager( Configuration<Realm> configuration,

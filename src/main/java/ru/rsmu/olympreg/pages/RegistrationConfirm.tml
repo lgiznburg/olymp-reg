@@ -2,7 +2,9 @@
       xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd">
 <div>
     <div class="row">
+        <div class="col-sm-10">
         <h2>Подтверждение электронной почты</h2>
+        </div>
     </div>
     <t:delegate to="resultBlock"/>
 
@@ -10,20 +12,23 @@
 
 <t:block t:id="successBlock">
 <div class="row">
-    <h4>Адрес Вашей почты успешно подтвержден</h4>
-    <div class="col-sm-5 col-sm-offset-1">
+    <div class="col-sm-10">
+        <div class="alert alert-info" role="alert">Адрес Вашей почты успешно подтвержден</div>
         Пожалуйста, подолжите процесс регистрации. Вам необходимо ввести дополнительную информацию,
         и загрузить некоторые документы.
-        Пожалуйста, перейдите в "Личный кабинет"
+        Пожалуйста, перейдите в Личный кабинет. <br/><br/>
+        <t:pagelink page="account/editprofile" title="Личный кабинет" class="btn btn-success">
+            Личный кабинет
+        </t:pagelink>
     </div>
 </div>
 </t:block>
 <t:block t:id="failBlock">
     <div class="row">
-        <h4 class="danger">К сожалению, что-то пошло не так.</h4>
-        <div class="col-sm-5 col-sm-offset-1">
-            Использованная ссылка содержит некорректные данные. Пожалуйста, повторите процесс
-            <t:pagelink page="signup" class="btn btn-success">Регистрации для участия</t:pagelink>
+        <div class="col-sm-10">
+            <div class="alert alert-warning" role="alert">К сожалению, что-то пошло не так.</div>
+            Использованная ссылка содержит некорректные данные. Пожалуйста, повторите процесс регистрации. <br/><br/>
+            <t:pagelink page="signup" class="btn btn-success">Зарегистрироваться</t:pagelink>
         </div>
     </div>
 </t:block>

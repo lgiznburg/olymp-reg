@@ -1,81 +1,99 @@
 <html t:type="layout" t:pageTitle="${message:login-pagetitle}"
-      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
+      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd" xmlns:p="tapestry:parameter"
 > <!-- Тестирование -->
 
-<div class="row" style="margin-top: 25px">
-    <div class="col-sm-12 text-center">
-        <h1 style="margin-bottom: 0 !important;">${message:registration}</h1>
-        <h3 style="color: #4a4a4a"><t:outputraw value="${message:app-name}"/></h3>
+<t:if test="signUpSuccess">
+    <t:delegate to="block:successBlock"/>
+    <p:else>
+        <t:delegate to="block:registrationBlock"/>
+    </p:else>
+</t:if>
+
+<t:block t:id="registrationBlock">
+    <div class="row">
+        <div class="col-md-6 col-sm-12 col-md-offset-2">
+            <t:form t:id="tempoSignupForm" class="form-horizontal">
+                <t:if test="loginMessage"><div class="alert alert-danger">${loginMessage}</div></t:if>
+                <div class="login-card">
+                    <div class="login-card-image text-center">
+                        <h1 style="margin-bottom: 0 !important;">${message:registration}</h1>
+                    </div>
+                    <div class="login-card-content">
+                        <div class="form-group">
+                            <t:label for="login" class="col-sm-4">${message:login-label}</t:label>
+                            <div class="col-sm-8" style="width: 350px">
+                                <t:textfield value="candidate.email" validate="email,required" t:id="login" class="form-control" placeholder="${message:login-label}"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <t:label for="newPassword" class="col-sm-4"/>
+                            <div class="col-sm-8" style="width: 350px">
+                                <t:passwordfield value="userPassword" t:id="newPassword" autocomplete="new-password" placeholder="не менее 7 букв и цифр" validate="required"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <t:label for="passwordConfirm" class="col-sm-4"/>
+                            <div class="col-sm-8" style="width: 350px">
+                                <t:passwordfield value="userPasswordConfirm" t:id="passwordConfirm" autocomplete="new-password-confirm"  placeholder="не менее 7 букв и цифр" validate="required"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <t:label for="lastName" class="col-sm-4"/>
+                            <div class="col-sm-8" style="width: 350px">
+                                <t:textfield value="candidate.lastName" t:id="lastName" autocomplete="last-name" validate="required" placeholder="Фамилия"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <t:label for="firstName" class="col-sm-4"/>
+                            <div class="col-sm-8" style="width: 350px">
+                                <t:textfield value="candidate.firstName" t:id="firstName" autocomplete="first-name" validate="required" placeholder="Имя"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <t:label for="middleName" class="col-sm-4"/>
+                            <div class="col-sm-8" style="width: 350px">
+                                <t:textfield value="candidate.middleName" t:id="middleName" autocomplete="middle-name" placeholder="Отчество"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-4" style="text-align: right;">
+                                <input type="checkbox" value="1" id="agreementBox"/>
+                            </div>
+                            <label for="agreementBox" class="col-sm-8" style="width: 350px">
+                                Я подтверждаю, что ознакомился с правилами проведения Олимпиады школьников и даю свое согласие на обработку персональных данных.
+                            </label>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-9 col-sm-offset-3">
+                                <input type="submit" id="signupSubmit" class="btn btn-primary" value="${message:loginSubmit}" style="margin-right: 15px; margin-bottom: 10px"
+                                       disabled="disabled"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </t:form>
+        </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-md-6 col-sm-12 col-md-offset-3">
-        <t:form t:id="tempoSignupForm" class="form-horizontal">
-            <t:if test="loginMessage"><div class="alert alert-danger">${loginMessage}</div></t:if>
+</t:block>
+
+<t:block t:id="successBlock">
+    <div class="row">
+        <div class="col-md-6 col-sm-12 col-md-offset-2">
             <div class="login-card">
-                <div class="login-card-image">
-                    <img style="width: 100%" src="${context:static/img/banner1200x400.jpg}" alt="RSMU"/>
+                <div class="login-card-image text-center">
+                    <h1 style="margin-bottom: 0 !important;">${message:registration}</h1>
                 </div>
                 <div class="login-card-content">
-                    <div class="row" style="margin-bottom: 15px">
-                        <div class="col-sm-3 login-text-right" style="margin-top: 5px">
-                            <b>${message:login-label}</b>
-                        </div>
-                        <div class="col-sm-9">
-                            <t:textfield value="candidate.email" validate="email,required" t:id="login" class="form-control" placeholder="${message:login-label}"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <t:label for="newPassword" class="col-sm-4"/>
-                        <div class="col-sm-8" style="width: 350px">
-                            <t:passwordfield value="userPassword" t:id="newPassword" autocomplete="new-password"/>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <t:label for="passwordConfirm" class="col-sm-4"/>
-                        <div class="col-sm-8" style="width: 350px">
-                            <t:passwordfield value="userPasswordConfirm" t:id="passwordConfirm" autocomplete="new-password"/>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <t:label for="lastName" class="col-sm-4"/>
-                        <div class="col-sm-8" style="width: 350px">
-                            <t:textfield value="candidate.lastName" t:id="lastName" autocomplete="last-name"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <t:label for="firstName" class="col-sm-4"/>
-                        <div class="col-sm-8" style="width: 350px">
-                            <t:textfield value="candidate.firstName" t:id="firstName" autocomplete="first-name"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <t:label for="middleName" class="col-sm-4"/>
-                        <div class="col-sm-8" style="width: 350px">
-                            <t:textfield value="candidate.middleName" t:id="middleName" autocomplete="middle-name"/>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="col-sm-4" style="text-align: right;">
-                            <input type="checkbox" value="1" id="agreementBox"/>
-                        </div>
-                        <label for="agreementBox" class="col-sm-8" style="width: 350px">
-                            Я подтверждаю, что ознакомился с правилами проведения Олимпиады школьников и даю свое согласие на обработку персональных данных.
-                        </label>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-9 col-sm-offset-3">
-                            <input type="submit" id="signupSubmit" class="btn btn-primary" value="${message:loginSubmit}" style="margin-right: 15px; margin-bottom: 10px"
-                            disabled="disabled"/>
-                        </div>
-                    </div>
+                    <p class="text-lg"> Вам на почту выслано письмо с ссылкой для подтверждения введенного адреса электронной почты.
+                    Пожалуйста, перейдите по ссылке в письме для продолжения процесса регистрации. Ссылка действительна в течении 24 часов.
+                    </p>
                 </div>
             </div>
-
-        </t:form>
+        </div>
     </div>
-</div>
+</t:block>
 </html>

@@ -5,8 +5,10 @@
     <t:form t:id="tempoLoginForm" class="form-horizontal">
         <t:if test="loginMessage"><div class="alert alert-danger">${loginMessage}</div></t:if>
         <div class="login-card">
-            <div class="login-card-image">
-                <img style="width: 100%" src="${context:static/img/banner1200x400.jpg}" alt="RSMU"/>
+            <div class="login-card-image text-center">
+                <!--<img style="width: 100%" src="${context:static/img/banner1200x400.jpg}" alt="RSMU"/>-->
+                <h1 style="margin-bottom: 0 !important;">${message:authorization}</h1>
+
             </div>
             <div class="login-card-content">
                 <div class="row" style="margin-bottom: 15px">

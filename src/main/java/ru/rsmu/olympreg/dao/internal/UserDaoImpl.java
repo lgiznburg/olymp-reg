@@ -10,6 +10,7 @@ import ru.rsmu.olympreg.utils.PasswordEncoder;
 import javax.persistence.criteria.CriteriaBuilder;
 import java.security.NoSuchAlgorithmException;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -63,6 +64,21 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
                 .add( Restrictions.eq( "roleName", roleName ) )
                 .setMaxResults( 1 );
         return (UserRole) criteria.uniqueResult();
+    }
+
+    @Override
+    public CompetitorProfile findProfile( User user ) {
+        Criteria criteria =  session.createCriteria( CompetitorProfile.class )
+                .add( Restrictions.eq( "user", user  ) )
+                .setMaxResults( 1 );
+        return (CompetitorProfile) criteria.uniqueResult();
+    }
+
+    @Override
+    public List<UserCandidate> findOutdatedCandidates( Date time ) {
+        Criteria criteria = session.createCriteria( UserCandidate.class )
+                .add( Restrictions.lt( "createdDate", time ) );
+        return criteria.list();
     }
 
 }

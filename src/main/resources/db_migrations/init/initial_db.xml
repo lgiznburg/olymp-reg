@@ -7,5 +7,6 @@
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
     <include file="2021-10-01-create-schema.xml" relativeToChangelogFile="true"/>
+    <include file="2021-10-21-attached-files.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

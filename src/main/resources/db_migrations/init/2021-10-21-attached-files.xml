@@ -1,0 +1,71 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                   http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+<changeSet id="20210-10-21-attached-files" author="lginzburg">
+    <createTable tableName="attached_files">
+        <column autoIncrement="true" name="id" type="${id.type}">
+            <constraints primaryKey="true"/>
+        </column>
+        <column name="content_type" type="${string.type}"/>
+        <column name="file_size" type="INT"/>
+        <column name="source_name" type="${string.type}"/>
+        <column name="content_id" type="${id.type}"/>
+        <column name="profile_id" type="${id.type}"/>
+        <column name="attachment_role" type="${string.type}"/>
+    </createTable>
+
+    <addForeignKeyConstraint baseTableName="attached_files" baseColumnNames="profile_id"
+                             constraintName="fk_files_to_profile"
+                             referencedTableName="competitor_profile"
+                             referencedColumnNames="id"/>
+</changeSet>
+
+    <changeSet id="2021-10-21-file-content" author="lginzburg">
+        <createTable tableName="files_contents">
+            <column autoIncrement="true" name="id" type="${id.type}">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="content" type="LONGBLOB"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="attached_files" baseColumnNames="content_id"
+                                 constraintName="fk_files_content"
+                                 referencedTableName="files_contents"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="2021-10-25-participation-info" author="lginzburg">
+        <createTable tableName="participation_info">
+            <column autoIncrement="true" name="id" type="${id.type}">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="profile_id" type="${id.type}"/>
+            <column name="olympiad_subject" type="${string.type}"/>
+            <column name="exam_name" type="${string.type}"/>
+            <column name="testing_plan_name" type="${string.type}"/>
+            <column name="token" type="${string.type}"/>
+            <column name="duration" type="${string.type}"/>
+            <column name="start_date" type="datetime"/>
+            <column name="end_date" type="datetime"/>
+            <column name="examId" type="${id.type}"/>
+            <column name="exam_result" type="int"/>
+            <column name="stage" type="int"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="participation_info" baseColumnNames="profile_id"
+                                 constraintName="fk_participation_profile"
+                                 referencedTableName="competitor_profile"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="2021-10-27-school-location" author="lginzburg">
+        <addColumn tableName="competitor_profile">
+            <column name="school_location" type="${string.type}"/>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,51 @@
+<html t:type="layout" t:pageTitle="Администрирование:Список предметов"
+      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"  xmlns:p="tapestry:parameter"
+>
+<body>
+<div class="row">
+    <div class="col-sm-10 text-lg" style="display: flex;">
+        <strong class="text-primary" style="padding: 8px 15px;">Личный кабинет &gt;</strong>
+        <ol class="breadcrumb">
+            <li><t:pagelink page="account/editprofile">Информация об участнике</t:pagelink></li>
+            <li><t:pagelink page="account/loaddocuments">Загрузка документов</t:pagelink></li>
+            <li class="active">Участие в олимпиаде</li>
+        </ol>
+    </div>
+</div>
+
+<t:competitorinfo currentPage="literal:participation"/>
+
+<div class="row"><h3>Выбор предметов олимпиады</h3></div>
+
+    <t:form t:id="participationForm">
+        <div class="row">
+        <t:if test="chemistryList.empty">
+            <div class="col-sm-offset-1 col-sm-5">
+                <t:checkbox value="addToChemistry" t:id="addToChemistry"/>
+                <t:label for="addToChemistry"> Записаться для участия в олимпиаде по <strong>Химии</strong></t:label>
+            </div>
+            <div class="col-sm-5 text-right"><input type="submit" value="Сохранить"/> </div>
+            <p:else>
+                <div class="col-sm-offset-1 col-sm-5">
+                    Вы участвуете в олимпиаде по <strong>Химии</strong>
+                </div>
+            </p:else>
+        </t:if>
+        </div>
+        <div class="row">
+            <t:if test="biologyList.empty">
+                <div class="col-sm-offset-1 col-sm-5">
+                    <t:checkbox value="addToBiology" t:id="addToBiology"/>
+                    <t:label for="addToBiology"> Записаться для участия в олимпиаде по <strong>Биологии</strong></t:label>
+                </div>
+                <div class="col-sm-5 text-right"><input type="submit" value="Сохранить"/> </div>
+                <p:else>
+                    <div class="col-sm-offset-1 col-sm-5">
+                        Вы участвуете в олимпиаде по <strong>Биологии</strong>
+                    </div>
+                </p:else>
+            </t:if>
+        </div>
+    </t:form>
+</body>
+</html>

@@ -2,24 +2,25 @@
       xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
       xmlns:p="tapestry:parameter"> <!-- Тестирование -->
 
-<div class="row"><h2>Пироговская олимпиада школьников по химии и биологии</h2></div>
 
-<div class="row">
+<!--<div class="row">
     <h4>Общая информация</h4>
     <div class="col-sm-10 col-sm-offset-1 text-lg">
         Олимпиада проходит в два этапа. .....
     </div>
-</div>
+</div>-->
 
 <t:security.guest>
 
     <div class="row">
-        <div class="col-sm-5 col-sm-offset-1 text-lg">
+        <div class="col-sm-5 text-lg">
+            Чтобы принять участие в олимпиаде, Вам необходимо зарегистрироваться.<br/><br/>
             <t:pagelink page="signup" title="message:signup" class="btn btn-success">
                 ${message:signup}
             </t:pagelink>
         </div>
         <div class="col-sm-5  text-lg">
+            Если Вы уже зарегистрированы, выполните вход в Ваш личный кабинет участника.<br/><br/>
             <t:pagelink page="login" class="btn btn-success" title="${message:navbar.login}">
                 ${message:navbar.login}
             </t:pagelink>
@@ -29,10 +30,19 @@
 </t:security.guest>
 
 <t:security.hasrole role="competitor">
+    <t:competitorinfo/>
+    <!--<div class="row">
+        <div class="col-sm-5 col-sm-offset-1 text-lg">
+            <t:pagelink page="account/editprofile" title="Личный кабинет" class="btn btn-success">
+                Личный кабинет
+            </t:pagelink>
+        </div>
+
+    </div>-->
 </t:security.hasrole>
 
 <div class="row">
-    <h4>Нормативная документация</h4>
+    <div class="col-sm-10"><h3>Нормативная документация</h3></div>
     <div class="col-sm-5 text-lg" style="padding-bottom: 1rem;">
         <div class="panel panel-default">
             <div class="panel-body">
