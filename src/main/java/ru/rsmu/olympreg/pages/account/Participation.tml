@@ -1,4 +1,4 @@
-<html t:type="layout" t:pageTitle="Администрирование:Список предметов"
+<html t:type="layout" t:pageTitle="Олимпиада для школьников: личный кабинет"
       xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"  xmlns:p="tapestry:parameter"
 >
 <body>
@@ -27,7 +27,7 @@
             <div class="col-sm-5 text-right"><input type="submit" value="Сохранить"/> </div>
             <p:else>
                 <div class="col-sm-offset-1 col-sm-5">
-                    Вы участвуете в олимпиаде по <strong>Химии</strong>
+                    Вы участвуете в олимпиаде по <strong>Химии</strong>. Первый этап пройдет 22 ноября.
                 </div>
             </p:else>
         </t:if>
@@ -41,7 +41,7 @@
                 <div class="col-sm-5 text-right"><input type="submit" value="Сохранить"/> </div>
                 <p:else>
                     <div class="col-sm-offset-1 col-sm-5">
-                        Вы участвуете в олимпиаде по <strong>Биологии</strong>
+                        Вы участвуете в олимпиаде по <strong>Биологии</strong>. Первый этап пройдет 25 ноября.
                     </div>
                 </p:else>
             </t:if>

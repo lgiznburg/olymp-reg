@@ -1,4 +1,4 @@
-<html t:type="layout" t:pageTitle="Администрирование:Список предметов"
+<html t:type="layout" t:pageTitle="Олимпиада для школьников: личный кабинет"
       xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
 >
 <body>
@@ -40,7 +40,7 @@
                 <tr class="collapse" id="collapseUserLastName">
                     <td>&nbsp;</td>
                     <td>
-                        <t:textfield t:id="userLastName" value="user.lastName"/>
+                        <t:textfield t:id="userLastName" value="user.lastName" validate="required"/>
                     </td>
                     <td><button class="btn btn-default"><span class="glyphicon glyphicon-save" aria-hidden="true"/></button> </td> <!--  value="${message:save}" -->
                 </tr>
@@ -59,7 +59,7 @@
                 <tr class="collapse" id="collapseUserFirstName">
                     <td>&nbsp;</td>
                     <td>
-                        <t:textfield t:id="userFirstName" value="user.firstName"/>
+                        <t:textfield t:id="userFirstName" value="user.firstName" validate="required"/>
                     </td>
                     <td><button class="btn btn-default"><span class="glyphicon glyphicon-save" aria-hidden="true"/></button> </td> <!--  value="${message:save}" -->
                 </tr>

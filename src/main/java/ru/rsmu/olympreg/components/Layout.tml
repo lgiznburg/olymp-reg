@@ -55,6 +55,16 @@
                                 <li><t:pagelink page="account/participation">Участие в олимпиаде</t:pagelink></li>
                                 <li role="separator" class="divider"></li>
                             </t:security.hasrole>
+                            <t:security.hasanyroles roles="admin,manager">
+                                <li><t:pagelink page="control/profiles">Список участников</t:pagelink></li>
+                                <li><t:pagelink page="control/statistics">Статистика</t:pagelink></li>
+                                <li role="separator" class="divider"></li>
+                            </t:security.hasanyroles>
+                            <t:security.hasrole role="admin">
+                                <li><t:pagelink page="admin/users">Список пользователей</t:pagelink></li>
+                                <li><t:pagelink page="admin/systemproperties">Настройки</t:pagelink></li>
+                                <li role="separator" class="divider"/>
+                            </t:security.hasrole>
                             <li><t:pagelink page="userpassword">${message:navbar.admin.password}</t:pagelink></li>
                             <li><t:eventlink event="logout">${message:navbar.logout}</t:eventlink></li>
                         </ul>

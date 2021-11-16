@@ -1,0 +1,19 @@
+<html t:type="layout" t:pageTitle="Администрирование:Пользователи"
+      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
+>
+<body>
+    <div class="row"><h3>${message:navbar.admin.users}</h3></div>
+
+    <div class="row">
+        <div class="col-sm-3">
+            <t:admin.userslist user="listUser" t:id="list"/>
+            <t:eventlink t:id="toCreate" event="toCreate" class="btn btn-primary">${message:create-new-user}</t:eventlink>
+        </div>
+        <div class="col-sm-9">
+            <t:admin.usercrud user="user" mode="mode" t:id="editor"/>
+        </div>
+    </div>
+
+</body>
+
+</html>

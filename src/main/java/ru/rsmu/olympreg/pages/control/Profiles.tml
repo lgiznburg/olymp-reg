@@ -1,0 +1,61 @@
+<html t:type="layout" t:pageTitle="${message:index-pagetitle}"
+      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
+      xmlns:p="tapestry:parameter"> <!-- Тестирование -->
+
+<div class="row">
+    <t:form t:id="filterForm" async="true">
+        <div class="col-sm-3 form-group">
+            <t:label for="caseNumber"/>
+            <t:textfield value="filter.personalNumber" t:id="caseNumber"/>
+        </div>
+        <div class="col-sm-3 form-group">
+            <t:label for="email"/>
+            <t:textfield value="filter.email" t:id="email"/>
+        </div>
+        <div class="col-sm-3 form-group">
+            <t:label for="lastName"/>
+            <t:textfield value="filter.lastName" t:id="lastName"/>
+        </div>
+        <div class="col-sm-3">
+            <t:submit class="btn btn-primary" value="Применить" />
+        </div>
+    </t:form>
+</div>
+
+<t:zone id="profilesZone" t:id="profilesZone">
+<t:grid t:id="usersGrid" source="profileDataSource" row="profile"
+        model="profileBeanModel"
+        rowsPerPage="25" pagerPosition="bottom"
+        empty="block:emptyUsers">
+    <p:fullNameCell>
+<!--        <t:eventLink event="userSelected" context="userIt" class="prop:linkCssClass">-->
+            <t:pagelink page="control/profileview" context="profile"> ${profile.user.fullName}</t:pagelink>
+<!--        </t:eventLink>-->
+    </p:fullNameCell>
+    <p:profileCompletedCell>
+        <t:if test="profile.profileCompleted">
+            <span class="glyphicon glyphicon-ok" aria-hidden="true"/>
+            <p:else><span class="glyphicon glyphicon-minus" aria-hidden="true"/></p:else>
+        </t:if>
+    </p:profileCompletedCell>
+    <p:attachmentsCompletedCell>
+        <t:if test="profile.attachmentsCompleted">
+            <span class="glyphicon glyphicon-ok" aria-hidden="true"/>
+            <p:else><span class="glyphicon glyphicon-minus" aria-hidden="true"/></p:else>
+        </t:if>
+    </p:attachmentsCompletedCell>
+    <p:subjectSelectedCell>
+        <t:if test="profile.subjectSelected">
+            <span class="glyphicon glyphicon-ok" aria-hidden="true"/>
+            <p:else><span class="glyphicon glyphicon-minus" aria-hidden="true"/></p:else>
+        </t:if>
+    </p:subjectSelectedCell>
+
+</t:grid>
+    <t:block t:id="emptyUsers">
+        <div id="noUsers">${message:no-users-found}</div>
+    </t:block>
+
+</t:zone>
+
+</html>

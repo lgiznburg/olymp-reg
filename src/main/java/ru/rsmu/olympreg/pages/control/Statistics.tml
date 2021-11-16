@@ -1,0 +1,87 @@
+<html t:type="layout" t:pageTitle="Статистика"
+      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
+      xmlns:p="tapestry:parameter"> <!-- Тестирование -->
+
+<div class="row">
+    <div class="col-sm-12">
+        <h3>Статистика</h3>
+    </div>
+</div>
+<table class="table table-responsive table-bordered">
+    <thead>
+    <tr>
+        <th class="text-center">Всего зарегистрировано</th>
+        <th class="text-center">Заполнена информация</th>
+        <th class="text-center">Загружены сканы</th>
+        <th class="text-center">Выбран предмет</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td class="text-center"><strong>${totalAccounts}</strong></td>
+        <td class="text-center"><strong>${filledBaseInfo}</strong></td>
+        <td class="text-center"><strong>${uploadCompleted}</strong></td>
+        <td class="text-center"><strong>${subjectSelected}</strong></td>
+    </tr>
+    </tbody>
+</table>
+
+
+<div class="row" style="margin-top: 2em;">
+    <div class="col-sm-12">
+        <h3>Данные по предметам</h3>
+    </div>
+</div>
+<table class="table table-responsive table-bordered">
+    <thead>
+    <tr>
+        <th class="text-center">Предмет</th>
+        <th class="text-center">10 класс</th>
+        <th class="text-center">11 класс</th>
+    </tr>
+    </thead>
+    <tbody>
+    <t:loop source="allOlympiadSubject" value="olympiadSubject">
+        <tr>
+            <td>${olympiadSubjectName}</td>
+            <td class="text-center"><strong>${get10Overall()}</strong></td>
+            <td class="text-center"><strong>${get11Overall()}</strong></td>
+        </tr>
+    </t:loop>
+    </tbody>
+</table>
+
+<div class="row" style="margin-top: 2em;">
+    <div class="col-sm-12">
+        <h3>Данные по регионам</h3>
+    </div>
+</div>
+<table class="table table-responsive table-bordered">
+    <thead>
+    <tr>
+        <th rowspan="2" class="text-center">Регион</th>
+        <t:loop source="allOlympiadSubject" value="olympiadSubject">
+            <th colspan="2" class="text-center">${olympiadSubjectName}</th>
+        </t:loop>
+    </tr>
+    <tr>
+        <t:loop source="allOlympiadSubject" value="olympiadSubject">
+            <th class="text-center">10 класс</th>
+            <th class="text-center">11 класс</th>
+        </t:loop>
+    </tr>
+    </thead>
+    <tbody>
+    <t:loop source="foundRegions" value="region">
+        <tr>
+            <td>${region.name} (${region.code})</td>
+            <t:loop source="allOlympiadSubject" value="olympiadSubject">
+                <td class="text-center">${get10Region()}</td>
+                <td class="text-center">${get11Region()}</td>
+            </t:loop>
+        </tr>
+    </t:loop>
+    </tbody>
+</table>
+
+</html>

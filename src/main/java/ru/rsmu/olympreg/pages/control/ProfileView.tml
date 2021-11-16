@@ -1,0 +1,67 @@
+<html t:type="layout" t:pageTitle="Просмотр участника"
+      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
+      xmlns:p="tapestry:parameter"> <!-- Тестирование -->
+
+<div class="row">
+    <div class="col-sm-12">
+        <h3>Данные участника</h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-2">ФИО</div>
+    <div class="col-sm-4">${profile.user.fullName}</div>
+    <div class="col-sm-2">Личный номер</div>
+    <div class="col-sm-4">${profile.caseNumber}</div>
+</div>
+<div class="row">
+    <div class="col-sm-2">Дата рождения</div>
+    <div class="col-sm-4">
+        <t:if test="profile.birthDate">
+            <t:output format="literal:dd.MM.yyyy" value="profile.birthDate"/>
+        </t:if>
+    </div>
+    <div class="col-sm-2">Пол</div>
+    <div class="col-sm-4">${profileSex}</div>
+</div>
+<div class="row">
+    <div class="col-sm-2">Email</div>
+    <div class="col-sm-4">${profile.user.username}</div>
+    <div class="col-sm-2">Телефон</div>
+    <div class="col-sm-4">${profile.phoneNumber}</div>
+</div>
+<div class="row">
+    <div class="col-sm-2">Школа</div>
+    <div class="col-sm-4">${profile.schoolNumber} <br/>(${profileSchoolLocation})</div>
+    <div class="col-sm-2">Класс</div>
+    <div class="col-sm-4">${profile.classNumber}</div>
+</div>
+<div class="row">
+    <div class="col-sm-2">Загруженные документы</div>
+    <div class="col-sm-9">
+        <table class="table">
+        <t:loop source="profile.attachments" value="attachedFile">
+            <tr>
+                <td>${attachedFileRole}</td>
+                <td><t:pagelink page="control/previewfile" context="attachedFile" target="_blank">${attachedFile.sourceName}</t:pagelink></td>
+                <td>${attachedFile.size} bytes</td>
+            </tr>
+        </t:loop>
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-2">Участие в олимпиаде</div>
+    <div class="col-sm-9">
+        <t:loop source="profile.participation" value="participationInfo">
+            ${olympiadSubjectName}<br/>
+        </t:loop>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <t:pagelink page="control/profiles" class="btn btn-primary">К списку</t:pagelink>
+    </div>
+</div>
+
+</html>

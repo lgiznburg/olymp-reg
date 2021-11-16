@@ -3,7 +3,11 @@
 >
 <t:content>
     <t:if test="showMe()">
-        <t:delegate to="currentBlock"/>
+        <div class="row">
+            <div class="col-sm-10">
+                <t:delegate to="currentBlock"/>
+            </div>
+        </div>
     </t:if>
 
     <t:block t:id="emptyProfile">

@@ -1,4 +1,4 @@
-<html t:type="layout" t:pageTitle="Администрирование:Список предметов"
+<html t:type="layout" t:pageTitle="Олимпиада для школьников: личный кабинет"
       xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
 >
 <body>
@@ -56,6 +56,8 @@
                 <td>&nbsp;</td>
                 <td>
                     <t:upload t:id="passportFileField" value="passportFile"/>
+                    <br/><br/>
+                    <span class="text-muted">Необходимо загрузить скан-копию первого разворота паспорта.</span>
                 </td>
                 <td><button class="btn btn-default"><span class="glyphicon glyphicon-save" aria-hidden="true"/></button> </td> <!--  value="${message:save}" -->
             </tr>
@@ -92,12 +94,18 @@
                 <td>&nbsp;</td>
                 <td>
                     <t:upload t:id="agreementFileField" value="agreementFile"/>
+                    <br/><br/>
+                    <span class="text-muted">Скачайте и заполните
+                        <a href="https://rsmu.ru/fileadmin/templates/DOC/Conferences/Pirogov_olimp_po_himii_i_biologii/forma_sogl_na_obr_PD_o_2020.doc" target="_blank">
+                            форму согласия на обработку персональных данных
+                        </a>. Закрузите скан-копию этого документа.
+                    </span>
                 </td>
                 <td><button class="btn btn-default"><span class="glyphicon glyphicon-save" aria-hidden="true"/></button> </td> <!--  value="${message:save}" -->
             </tr>
 
             <tr>
-                <td colspan="2"><h4>Справка из школы</h4></td>
+                <td colspan="2"><h4>Справка из образовательного учереждения</h4></td>
                 <td></td>
             </tr>
             <t:loop source="schoolFiles" value="attachedTemp" encoder="attachedFileEncoder">
@@ -109,13 +117,13 @@
             </t:loop>
             <t:if test="schoolFiles.empty">
                 <tr>
-                    <td colspan="2">Справка из школы не загружена</td>
+                    <td colspan="2">Справка не загружена</td>
                     <td></td>
                 </tr>
             </t:if>
 
             <tr>
-                <td colspan="2"><h4>Загрузить скан-копию паспорта</h4></td>
+                <td colspan="2"><h4>Загрузить справку из образовательного учереждения</h4></td>
                 <td>
                     <a href="#schoolFileField" class="btn btn-default" data-toggle="collapse"
                        data-target="#collapseSchoolUpload"
@@ -128,6 +136,9 @@
                 <td>&nbsp;</td>
                 <td>
                     <t:upload t:id="schoolFileField" value="schoolFile"/>
+                    <br/><br/>
+                    <span class="text-muted">Необходимо загрузить справку, подтверждающую обучение
+                    в организации среднего или среднего-специального образования.</span>
                 </td>
                 <td><button class="btn btn-default"><span class="glyphicon glyphicon-save" aria-hidden="true"/></button> </td> <!--  value="${message:save}" -->
             </tr>

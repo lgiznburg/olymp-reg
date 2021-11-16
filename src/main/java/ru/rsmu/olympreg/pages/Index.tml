@@ -3,25 +3,18 @@
       xmlns:p="tapestry:parameter"> <!-- Тестирование -->
 
 
-<!--<div class="row">
-    <h4>Общая информация</h4>
-    <div class="col-sm-10 col-sm-offset-1 text-lg">
-        Олимпиада проходит в два этапа. .....
-    </div>
-</div>-->
-
 <t:security.guest>
 
     <div class="row">
         <div class="col-sm-5 text-lg">
             Чтобы принять участие в олимпиаде, Вам необходимо зарегистрироваться.<br/><br/>
-            <t:pagelink page="signup" title="message:signup" class="btn btn-success">
+            <t:pagelink page="signup" title="message:signup" class="btn btn-primary">
                 ${message:signup}
             </t:pagelink>
         </div>
         <div class="col-sm-5  text-lg">
             Если Вы уже зарегистрированы, выполните вход в Ваш личный кабинет участника.<br/><br/>
-            <t:pagelink page="login" class="btn btn-success" title="${message:navbar.login}">
+            <t:pagelink page="login" class="btn btn-primary" title="${message:navbar.login}">
                 ${message:navbar.login}
             </t:pagelink>
         </div>
@@ -56,11 +49,11 @@
         </div>
         <div class="panel panel-default">
             <div class="panel-body">
-                <a href="https://rsmu.ru/fileadmin/templates/DOC/Conferences/Pirogov_olimp_po_himii_i_biologii/Reglament_PO_2020-2021_3.pdf" target="_blank">
+                <a href="https://rsmu.ru/fileadmin/templates/DOC/Conferences/Pirogov_olimp_po_himii_i_biologii/Reglament_Olimpiady_2021_2022.pdf" target="_blank">
                     <div class="pull-left">
                         <img style="width: 2rem; height: 2.76rem; margin: 0.6rem 1.0rem;" src="${context:static/img/filePDFa1.svg}"/>
                     </div>
-                    <div class="linkTXT">Регламент проведения Пироговской олимпиады для школьников по химии и биологии в 2020-2021 учебном году</div>
+                    <div class="linkTXT">Регламент проведения Пироговской олимпиады для школьников по химии и биологии в 2021-2022 учебном году</div>
                 </a>
             </div>
         </div>
@@ -78,11 +71,11 @@
     <div class="col-sm-5  text-lg" style="padding-bottom: 1rem;">
         <div class="panel panel-default">
             <div class="panel-body">
-                <a href="https://rsmu.ru/fileadmin/templates/DOC/Conferences/Pirogov_olimp_po_himii_i_biologii/prikaz_745_ruk_28_10_2020_dop_2.pdf" target="_blank">
+                <a href="https://rsmu.ru/fileadmin/templates/DOC/Conferences/Pirogov_olimp_po_himii_i_biologii/prikaz_891_ruk_26_10_2021.pdf" target="_blank">
                     <div class="pull-left">
                         <img style="width: 2rem; height: 2.76rem; margin: 0.6rem 1.0rem;" src="${context:static/img/filePDFa1.svg}"/>
                     </div>
-                    <div class="linkTXT">Приказ № 745 рук от 28.10.2020 "О проведении Пироговской олимпиады для школьников по химии и биологии" (с дополнением)</div>
+                    <div class="linkTXT">Приказ № 891 рук от 26.10.2020 "О проведении Пироговской олимпиады для школьников по химии и биологии в 2021-2022 учебном году"</div>
                 </a>
             </div>
         </div>
