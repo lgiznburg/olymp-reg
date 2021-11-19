@@ -17,7 +17,7 @@
         Пожалуйста, подолжите процесс регистрации. Вам необходимо ввести дополнительную информацию,
         и загрузить некоторые документы.
         Пожалуйста, перейдите в Личный кабинет. <br/><br/>
-        <t:pagelink page="account/editprofile" title="Личный кабинет" class="btn btn-success">
+        <t:pagelink page="account/editprofile" title="Личный кабинет" class="btn btn-primary">
             Личный кабинет
         </t:pagelink>
     </div>
@@ -28,7 +28,18 @@
         <div class="col-sm-10">
             <div class="alert alert-warning" role="alert">К сожалению, что-то пошло не так.</div>
             Использованная ссылка содержит некорректные данные. Пожалуйста, повторите процесс регистрации. <br/><br/>
-            <t:pagelink page="signup" class="btn btn-success">Зарегистрироваться</t:pagelink>
+            <t:pagelink page="signup" class="btn btn-primary">Зарегистрироваться</t:pagelink>
+        </div>
+    </div>
+</t:block>
+<t:block t:id="alreadyExistBlock">
+    <div class="row">
+        <div class="col-sm-10">
+            <div class="alert alert-warning" role="alert">Процесс регистрации для данного адреса был завершен ранее.</div>
+            Использованная ссылка содержит данные, которые уже были использованы ранее для регистрации данного адреса.
+            Вероятно, Вы уже зарегистрированы. Пожалуйста, используйте функцию "Войти в личный кабинет" или "Восстановить забытый пароль".
+            <br/><br/>
+            <t:pagelink page="login" class="btn btn-primary">Войти</t:pagelink>
         </div>
     </div>
 </t:block>

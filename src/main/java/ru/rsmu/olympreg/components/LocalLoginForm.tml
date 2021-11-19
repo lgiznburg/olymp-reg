@@ -41,8 +41,11 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-9 col-sm-offset-3">
+                    <div class="col-sm-4 col-sm-offset-3">
                         <input type="submit" class="btn btn-primary" value="${message:loginSubmit}" style="margin-right: 15px; margin-bottom: 10px"/>
+                    </div>
+                    <div class="col-sm-5 text-right">
+                        <t:pagelink page="remindpassword">Забыли пароль?</t:pagelink>
                     </div>
                 </div>
             </div>

@@ -34,10 +34,17 @@ public class RegistrationConfirm {
     private Block resultBlock;
 
     @Inject
-    private Block successBlock,failBlock;
+    private Block successBlock,failBlock, alreadyExistBlock;
 
     private Object onActivate() {
         if ( candidate != null && candidate.getKeyCode().equalsIgnoreCase( key ) ) {
+            // check for existed user
+            User otherUser = userDao.findByUsername( candidate.getEmail() );
+            if ( otherUser != null ) {
+                //this user already exists
+                resultBlock = alreadyExistBlock;
+                return null;
+            }
             User user = new User();
             user.setUsername( candidate.getEmail() );
             user.setFirstName( candidate.getFirstName() );
