@@ -4,10 +4,12 @@ import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.ioc.Messages;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.tynamo.security.services.SecurityService;
+import ru.rsmu.olympreg.dao.SystemPropertyDao;
 import ru.rsmu.olympreg.dao.UserDao;
 import ru.rsmu.olympreg.entities.CompetitorProfile;
 import ru.rsmu.olympreg.entities.User;
 import ru.rsmu.olympreg.entities.UserRoleName;
+import ru.rsmu.olympreg.entities.system.StoredPropertyName;
 import ru.rsmu.olympreg.services.SecurityUserHelper;
 
 import java.util.List;
@@ -40,6 +42,8 @@ public class Index {
     @Inject
     private UserDao userDao;
 
+    @Inject
+    private SystemPropertyDao systemPropertyDao;
 
     public void onActivate() {
         if ( securityService.isUser() && securityService.hasRole( UserRoleName.competitor.name() )) {
@@ -53,6 +57,12 @@ public class Index {
         if ( securityService.isUser() ) {
             securityService.getSubject().logout();
         }
+    }
+
+
+    public boolean isRegistrationOpen() {
+        return systemPropertyDao.getPropertyAsInt( StoredPropertyName.REGISTRATION_CHEMISTRY_AVAILABLE ) > 0
+        || systemPropertyDao.getPropertyAsInt( StoredPropertyName.REGISTRATION_BIOLOGY_AVAILABLE ) > 0;
     }
 
 }

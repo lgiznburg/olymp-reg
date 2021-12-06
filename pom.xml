@@ -233,6 +233,11 @@ of testing facilities designed for use with TestNG (http://testng.org/), so it's
                 </exclusion>
             </exclusions>
         </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.5</version>
+        </dependency>
 
     </dependencies>
 

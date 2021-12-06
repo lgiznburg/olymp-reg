@@ -15,9 +15,16 @@ public enum StoredPropertyName {
     EMAIL_FROM_ADDRESS("Email","Обратный адрес для email", "olimpiada@rsmu.ru", StoredPropertyType.STRING),
     EMAIL_FROM_SIGNATURE("Email","Название обратного адреса для email", "Организационный комитет Пироговской олимпиады школьников", StoredPropertyType.STRING),
 
+    TEMPOLW_SYSTEM_URL("Integration", "URL системы проведения тестирования", "https://chembio.rsmu.ru", StoredPropertyType.STRING ),
+    TEMPOLW_USER("Integration", "Имя пользователя системы проведения тестирования", "prk_admin@rsmu.ru", StoredPropertyType.STRING ),
+    TEMPOLW_PASSWORD("Integration", "Пароль системы проведения тестирования", "6A8AEAFFD00E99F5B377B084FA577E3B", StoredPropertyType.STRING ),
+
+
     VIEW_ONLY_THIS_YEAR_EXAM("Global", "Показывать экзамены только текущего года", "1", StoredPropertyType.INTEGER ),
     MY_OWN_URI("Global", "Адрес данного сервера", "https://olymp.rsmu.ru", StoredPropertyType.STRING ),
-    REGISTRATION_AVAILABLE("Global", "Регистрация открыта", "1", StoredPropertyType.INTEGER )
+    REGISTRATION_AVAILABLE("Global", "Регистрация открыта", "1", StoredPropertyType.INTEGER ),
+    REGISTRATION_CHEMISTRY_AVAILABLE("Global", "Регистрация на Химию открыта", "1", StoredPropertyType.INTEGER ),
+    REGISTRATION_BIOLOGY_AVAILABLE("Global", "Регистрация на Биологию открыта", "1", StoredPropertyType.INTEGER )
     ;
 
     private String groupName;

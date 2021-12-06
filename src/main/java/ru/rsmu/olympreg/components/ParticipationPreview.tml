@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
+      xmlns:p="tapestry:parameter">
+<t:content>
+
+    <t:if test="examAssigned">
+        <t:delegate to="infoBlock"/>
+        <p:else>
+            <t:outputraw value="defaultInfo"/>
+        </p:else>
+    </t:if>
+
+    <t:block t:id="beforeExam">
+        <strong>${info.examName} ( ${info.testingPlanName} )</strong> начнется
+        <strong><t:output format="dateFormat" value="info.getStartDate()"/></strong>.<br/>
+        Ссылка на задания будет доступна здесь после начала.
+    </t:block>
+    <t:block t:id="examInProgress">
+        <strong>${info.examName} ( ${info.testingPlanName} )</strong> - этап начался.   <br/>
+        Пожалуйста, перейдите <a href="${examLink}" class="btn btn-primary" target="_blank">к заданиям</a>.
+
+    </t:block>
+    <t:block t:id="examFinished">
+        <strong>${info.examName} ( ${info.testingPlanName} )</strong> - этап завершился. <br/>
+        <t:outputraw value="resultInfo"/>
+    </t:block>
+
+    <t:block t:id="emptyBlock">
+
+    </t:block>
+</t:content>
+</html>

@@ -1,0 +1,42 @@
+<html t:type="layout" t:pageTitle="Администрирование:Пользователи"
+      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
+>
+<body>
+
+<div class="row" style="margin-top: 2em;">
+    <div class="col-sm-12">
+        <h3>Данные по экзаменам</h3>
+    </div>
+</div>
+    <table class="table table-responsive table-bordered">
+        <thead>
+        <tr>
+            <th class="text-center">Экзамен</th>
+            <th class="text-center">нет результата</th>
+        </tr>
+        </thead>
+        <tbody>
+        <t:loop source="overallStats" value="examStatistics">
+            <tr>
+                <td>${examStatistics.fullName}</td>
+                <td class="text-center"><strong>${examStatistics.count}</strong></td>
+            </tr>
+        </t:loop>
+        </tbody>
+    </table>
+
+<div class="row"><h3>Получить результаты</h3></div>
+
+<t:form t:id="assignExam">
+    <div class="row">
+        <div class="col-sm-8">
+            <t:select t:id="examSelect" value="exam" model="examSelectModel" encoder="examResultValueEncoder"/>
+        </div>
+        <div class="col-sm-4">
+            <t:submit value="Начать процесс"/>
+        </div>
+    </div>
+</t:form>
+</body>
+
+</html>

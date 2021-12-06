@@ -1,6 +1,8 @@
 package ru.rsmu.olympreg.dao;
 
 import ru.rsmu.olympreg.entities.CompetitorProfile;
+import ru.rsmu.olympreg.entities.OlympiadSubject;
+import ru.rsmu.olympreg.entities.ParticipationInfo;
 import ru.rsmu.olympreg.viewentities.CompetitorFilter;
 import ru.rsmu.olympreg.viewentities.SortCriterion;
 
@@ -18,7 +20,15 @@ public interface CompetitorDao extends BaseDao {
 
     List<Object[]> findDetailedStats();
 
+    List<Object[]> findGlobalDetailedStats();
+
     int countFilledBaseInfo();
 
     int countUploadCompleted();
+
+    List<ParticipationInfo> findNewParticipations( int classNumber, OlympiadSubject olympiadSubject, int maxResults );
+
+    List<Object[]> findExamsWithNoResults();
+
+    List<ParticipationInfo> findParticipation( long examId, String caseNumber );
 }

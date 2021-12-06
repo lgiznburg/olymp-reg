@@ -8,11 +8,13 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import ru.rsmu.olympreg.dao.CompetitorDao;
 import ru.rsmu.olympreg.entities.CompetitorProfile;
+import ru.rsmu.olympreg.entities.OlympiadSubject;
 import ru.rsmu.olympreg.entities.ParticipationInfo;
 import ru.rsmu.olympreg.entities.ProfileStage;
 import ru.rsmu.olympreg.viewentities.CompetitorFilter;
 import ru.rsmu.olympreg.viewentities.SortCriterion;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -49,7 +51,22 @@ public class CompetitorDaoImpl extends BaseDaoImpl implements CompetitorDao {
                         .add( Projections.groupProperty( "profile.region" ) )
                         .add( Projections.groupProperty( "profile.classNumber" ) )
                         .add( Projections.groupProperty( "olympiadSubject" ) )
-                        .add( Projections.count( "id" ) )
+                        .add( Projections.countDistinct( "profile" ) )
+                );
+        return criteria.list();
+    }
+
+    @Override
+    public List<Object[]> findGlobalDetailedStats() {
+        Criteria criteria = session.createCriteria( ParticipationInfo.class )
+                .createAlias( "profile", "profile" )
+                .add( Restrictions.isNotNull( "profile.classNumber" ) )
+                .add( Restrictions.isNotNull( "profile.region" ) )
+                .add( Restrictions.isNull( "examName" ) )
+                .setProjection( Projections.projectionList()
+                        .add( Projections.groupProperty( "profile.classNumber" ) )
+                        .add( Projections.groupProperty( "olympiadSubject" ) )
+                        .add( Projections.countDistinct( "profile" ) )
                 );
         return criteria.list();
     }
@@ -69,6 +86,41 @@ public class CompetitorDaoImpl extends BaseDaoImpl implements CompetitorDao {
                         "WHERE 3 = (SELECT count( distinct af.attachmentRole) FROM AttachedFile af WHERE af.profile = cp )"
         );
         return ((Long)query.uniqueResult()).intValue();
+    }
+
+    @Override
+    public List<ParticipationInfo> findNewParticipations( int classNumber, OlympiadSubject olympiadSubject, int maxResults ) {
+        Criteria criteria = session.createCriteria( ParticipationInfo.class )
+                .createAlias( "profile", "profile" )
+                .add( Restrictions.eq( "profile.classNumber", classNumber ) )
+                .add( Restrictions.isNotNull( "profile.region" ) )
+                .add( Restrictions.eq( "olympiadSubject", olympiadSubject ) )
+                .add( Restrictions.isNull( "examName" ) )
+                .setMaxResults( maxResults );
+        return criteria.list();
+    }
+
+    @Override
+    public List<Object[]> findExamsWithNoResults() {
+        Criteria criteria = session.createCriteria( ParticipationInfo.class )
+                .add( Restrictions.isNotNull( "examId" ) )
+                .add( Restrictions.lt("endDate", new Date()) )
+                .add( Restrictions.isNull( "result" ) )
+                .setProjection( Projections.projectionList()
+                        .add( Projections.groupProperty( "examId" ) )
+                        .add( Projections.countDistinct( "profile" ) )
+                );
+
+        return criteria.list();
+    }
+
+    @Override
+    public List<ParticipationInfo> findParticipation( long examId, String caseNumber ) {
+        Criteria criteria = session.createCriteria( ParticipationInfo.class )
+                .createAlias( "profile", "profile" )
+                .add( Restrictions.eq( "profile.caseNumber", caseNumber ) )
+                .add( Restrictions.eq( "examId", examId ) );
+        return criteria.list();
     }
 
     private Criteria buildCriteria( CompetitorFilter filter, List<SortCriterion> sortCriteria ) {

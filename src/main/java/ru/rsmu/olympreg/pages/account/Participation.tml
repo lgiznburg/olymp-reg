@@ -18,7 +18,7 @@
 <div class="row"><h3>Выбор предметов олимпиады</h3></div>
 
     <t:form t:id="participationForm">
-        <div class="row">
+        <div class="row" style="padding-bottom: 2rem;">
         <t:if test="chemistryList.empty">
             <div class="col-sm-offset-1 col-sm-5">
                 <t:checkbox value="addToChemistry" t:id="addToChemistry"/>
@@ -27,12 +27,13 @@
             <div class="col-sm-5 text-right"><input type="submit" value="Сохранить"/> </div>
             <p:else>
                 <div class="col-sm-offset-1 col-sm-5">
-                    Вы участвуете в олимпиаде по <strong>Химии</strong>. Первый этап пройдет 22 ноября.
+                    <t:participationpreview info="chemistryParticipation"/>
+<!--                    Вы участвуете в олимпиаде по <strong>Химии</strong>. Первый этап пройдет 22 ноября.-->
                 </div>
             </p:else>
         </t:if>
         </div>
-        <div class="row">
+        <div class="row"  style="padding-bottom: 2rem;">
             <t:if test="biologyList.empty">
                 <div class="col-sm-offset-1 col-sm-5">
                     <t:checkbox value="addToBiology" t:id="addToBiology"/>
@@ -41,7 +42,8 @@
                 <div class="col-sm-5 text-right"><input type="submit" value="Сохранить"/> </div>
                 <p:else>
                     <div class="col-sm-offset-1 col-sm-5">
-                        Вы участвуете в олимпиаде по <strong>Биологии</strong>. Первый этап пройдет 25 ноября.
+                        <t:participationpreview info="biologyParticipation"/>
+                        <!--                        Вы участвуете в олимпиаде по <strong>Биологии</strong>. Первый этап пройдет 25 ноября.-->
                     </div>
                 </p:else>
             </t:if>

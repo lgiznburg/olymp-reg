@@ -61,6 +61,8 @@
                                 <li role="separator" class="divider"></li>
                             </t:security.hasanyroles>
                             <t:security.hasrole role="admin">
+                                <li><t:pagelink page="admin/assignexam">Назначить экзамены</t:pagelink></li>
+                                <li><t:pagelink page="admin/loadexamresults">Получить результаты экзаменов</t:pagelink></li>
                                 <li><t:pagelink page="admin/users">Список пользователей</t:pagelink></li>
                                 <li><t:pagelink page="admin/systemproperties">Настройки</t:pagelink></li>
                                 <li role="separator" class="divider"/>
