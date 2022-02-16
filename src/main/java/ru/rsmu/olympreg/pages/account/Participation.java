@@ -5,19 +5,19 @@ import org.apache.tapestry5.PersistenceConstants;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.ioc.annotations.Inject;
+import ru.rsmu.olympreg.dao.OlympiadDao;
 import ru.rsmu.olympreg.dao.SystemPropertyDao;
 import ru.rsmu.olympreg.dao.UserDao;
-import ru.rsmu.olympreg.entities.CompetitorProfile;
-import ru.rsmu.olympreg.entities.OlympiadSubject;
-import ru.rsmu.olympreg.entities.ParticipationInfo;
-import ru.rsmu.olympreg.entities.User;
+import ru.rsmu.olympreg.entities.*;
 import ru.rsmu.olympreg.entities.system.StoredPropertyName;
 import ru.rsmu.olympreg.services.SecurityUserHelper;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author leonid.
@@ -44,11 +44,20 @@ public class Participation {
     @Property
     private boolean addToBiology;
 
+    @Property
+    private OlympiadConfig chemistryConfig;
+
+    @Property
+    private OlympiadConfig biologyConfig;
+
     @Inject
     private UserDao userDao;
 
     @Inject
     private SystemPropertyDao systemPropertyDao;
+
+    @Inject
+    private OlympiadDao olympiadDao;
 
     @Inject
     private SecurityUserHelper securityUserHelper;
@@ -64,6 +73,11 @@ public class Participation {
     private void prepare() {
         user = securityUserHelper.getCurrentUser();
         profile = userDao.findProfile( user );
+
+        if ( profile.getClassNumber() != null ) {
+            chemistryConfig = olympiadDao.findActiveForClassAndSubject( profile.getClassNumber(), OlympiadSubject.CHEMISTRY );
+            biologyConfig = olympiadDao.findActiveForClassAndSubject( profile.getClassNumber(), OlympiadSubject.BIOLOGY );
+        }
     }
 
     public List<ParticipationInfo> getChemistryList() {
@@ -82,6 +96,7 @@ public class Participation {
         return Collections.emptyList();
     }
 
+    //todo change from checkboxes to event button
     public void onSuccess() {
         if ( addToChemistry && isChemistryOpen() && getChemistryList().isEmpty() ) {
             ParticipationInfo info = new ParticipationInfo();
@@ -98,20 +113,58 @@ public class Participation {
     }
 
     public boolean isChemistryOpen() {
-        return systemPropertyDao.getPropertyAsInt( StoredPropertyName.REGISTRATION_CHEMISTRY_AVAILABLE ) > 0;
+        ParticipationInfo participationInfo1 = getChemistryParticipation();
+        return chemistryConfig != null
+                && chemistryConfig.getRegistrationStart().before( new Date() )
+                && chemistryConfig.getRegistrationEnd().after( new Date() )
+                && participationInfo1 == null;
     }
 
     public boolean isBiologyOpen() {
-        return systemPropertyDao.getPropertyAsInt( StoredPropertyName.REGISTRATION_BIOLOGY_AVAILABLE ) > 0;
+        ParticipationInfo participationInfo1 = getBiologyParticipation();
+        return biologyConfig != null
+                && biologyConfig.getRegistrationStart().before( new Date() )
+                && biologyConfig.getRegistrationEnd().after( new Date() )
+                && participationInfo1 == null;
+    }
+
+    public boolean isChemistryOpen2() {
+        ParticipationInfo participationInfo1 = getChemistryParticipation();
+        ParticipationInfo participationInfo2 = getChemistryParticipation2();
+        return chemistryConfig != null
+                && chemistryConfig.getSecondStageRegistrationStart().before( new Date() )
+                && chemistryConfig.getSecondStageRegistrationEnd().after( new Date() )
+                && participationInfo2 == null
+                && participationInfo1 != null
+                && participationInfo1.getResult() != null
+                && participationInfo1.getResult().compareTo( chemistryConfig.getSecondStagePassScore() ) >= 0;
+    }
+
+    public boolean isBiologyOpen2() {
+        ParticipationInfo participationInfo1 = getBiologyParticipation();
+        ParticipationInfo participationInfo2 = getBiologyParticipation2();
+        return biologyConfig != null
+                && biologyConfig.getSecondStageRegistrationStart().before( new Date() )
+                && biologyConfig.getSecondStageRegistrationEnd().after( new Date() )
+                && participationInfo2 == null
+                && participationInfo1 != null
+                && participationInfo1.getResult() != null
+                && participationInfo1.getResult().compareTo( biologyConfig.getSecondStagePassScore() ) >= 0;
     }
 
     public ParticipationInfo getChemistryParticipation() {
-        List<ParticipationInfo> chemList = getChemistryList();
-        if ( chemList.size() == 1 ) {
-            return chemList.get( 0 );
+         return getExactParticipationInfo( profile.getParticipation(), OlympiadSubject.CHEMISTRY, 0 );
+    }
+
+    private ParticipationInfo getExactParticipationInfo( List<ParticipationInfo> list, OlympiadSubject subject, int stage ) {
+        List<ParticipationInfo> infoList = list.stream()
+                .filter( pt -> pt.getStage() == stage && pt.getOlympiadSubject() == subject )
+                .collect( Collectors.toList());
+        if ( infoList.size() == 1 ) {
+            return infoList.stream().findFirst().orElse( null );
         }
-        else if (chemList.size() > 0) {
-            return chemList.stream()
+        else if (infoList.size() > 1) {
+            return infoList.stream()
                     .min(
                             (pt1, pt2) -> {
                                 if ( pt1.getExamName() == null ) {
@@ -131,28 +184,42 @@ public class Participation {
     }
 
     public ParticipationInfo getBiologyParticipation() {
-        List<ParticipationInfo> bioList = getBiologyList();
-        if ( bioList.size() == 1 ) {
-            return bioList.get( 0 );
-        }
-        else if (bioList.size() > 0) {
-            return bioList.stream()
-                    .min(
-                            (pt1, pt2) -> {
-                                if ( pt1.getExamName() == null ) {
-                                    return 1;
-                                }
-                                else if ( pt2.getExamName() == null ) {
-                                    return -1;
-                                }
-                                else {
-                                    return pt1.getExamName().compareTo( pt2.getExamName() );
-                                }
-                            }
-                    )
-                    .orElse( null );
-        }
-        return null;
+        return getExactParticipationInfo( profile.getParticipation(), OlympiadSubject.BIOLOGY, 0 );
     }
+
+    public ParticipationInfo getChemistryParticipation2() {
+        return getExactParticipationInfo( profile.getParticipation(), OlympiadSubject.CHEMISTRY, 1 );
+    }
+
+    public ParticipationInfo getBiologyParticipation2() {
+        return getExactParticipationInfo( profile.getParticipation(), OlympiadSubject.BIOLOGY, 1 );
+    }
+
+    public boolean onCreateChemistrySecond() {
+        prepare();
+        if ( isChemistryOpen2() ) {
+            ParticipationInfo info = new ParticipationInfo();
+            info.setProfile( profile );
+            info.setOlympiadSubject( OlympiadSubject.CHEMISTRY );
+            info.setStage( 1 );
+            info.setApproved( false );
+            userDao.save( info );
+        }
+        return true;
+    }
+
+    public boolean onCreateBiologySecond() {
+        prepare();
+        if ( isChemistryOpen2() ) {
+            ParticipationInfo info = new ParticipationInfo();
+            info.setProfile( profile );
+            info.setOlympiadSubject( OlympiadSubject.BIOLOGY );
+            info.setStage( 1 );
+            info.setApproved( false );
+            userDao.save( info );
+        }
+        return true;
+    }
+
 
 }

@@ -8,5 +8,6 @@
 
     <include file="2021-10-01-create-schema.xml" relativeToChangelogFile="true"/>
     <include file="2021-10-21-attached-files.xml" relativeToChangelogFile="true"/>
+    <include file="2021-01-15-olymp-config.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
+      xmlns:p="tapestry:parameter">
+<t:content>
+    <t:if test="modeCreate">
+        <div class="row"><h4 class="text-center">${message:create}</h4></div>
+
+        <t:form t:id="createForm" class="form-horizontal" validate="olympiadConfig">
+            <t:errors globalOnly="true"/>
+            <t:delegate to="block:editor"/>
+
+            <div class="form-group">
+                <div class="col-sm-4 col-sm-offset-4">
+                    <t:submit value="Save" class="btn btn-primary"/>
+                    <t:eventlink event="cancelCreate" class="btn btn-default">${message:cancel}</t:eventlink>
+                </div>
+            </div>
+        </t:form>
+    </t:if>
+
+    <t:if test="modeReview">
+
+        <t:if test="olympiadConfig">
+            <div class="row">
+                <div class="text-center col-sm-4">${olympiadConfig.classNumber} класс</div>
+                <div class="text-center col-sm-4">${subjectName}</div>
+                <div class="text-center col-sm-4">
+                    Используется:
+                    <t:if test="olympiadConfig.active">
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                        <p:else>
+                            <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                        </p:else>
+                    </t:if>
+
+                </div>
+            </div>
+
+            <div class="row>">
+                <div class="co-sm-6"><strong>Первый этап</strong></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-8 text-right">Регистрация:
+                    <t:output format="literal:dd/MM/yyyy" value="olympiadConfig.registrationStart"/> - <t:output format="literal:dd/MM/yyyy" value="olympiadConfig.registrationEnd"/>
+                </div>
+                <div class="col-sm-4 text-right">Проведение:
+                    <t:output format="literal:dd/MM/yyyy" value="olympiadConfig.firstStage"/>
+                </div>
+            </div>
+            <div class="row>">
+                <div class="co-sm-6"><strong>Второй этап</strong></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-8 text-right">Регистрация:
+                    <t:output format="literal:dd/MM/yyyy" value="olympiadConfig.secondStageRegistrationStart"/> - <t:output format="literal:dd/MM/yyyy" value="olympiadConfig.secondStageRegistrationEnd"/>
+                </div>
+                <div class="col-sm-4 text-right">Проведение:
+                    <t:output format="literal:dd/MM/yyyy" value="olympiadConfig.secondStage"/>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">Проходной балл: <t:if test="olympiadConfig.secondStagePassScore">${olympiadConfig.secondStagePassScore}</t:if></div>
+            </div>
+
+            <div class="buttons row">
+                <div class="col-sm-4 col-sm-offset-3">
+                    <t:eventlink event="toUpdate" context="olympiadConfig" class="btn btn-primary">${message:user-update}</t:eventlink>
+                    <!--
+                                    <t:eventlink event="delete" context="[person.id,person.version]"
+                                                 t:mixins="Confirm" Confirm.message="Delete ${person.firstName} ${person.lastName}?">Delete...</t:eventlink>
+                    -->
+                </div>
+            </div>
+
+        </t:if>
+        <t:if test="!olympiadConfig">
+            ${message:user-doesnt-exist}<br/><br/>
+        </t:if>
+
+    </t:if>
+
+    <t:if test="modeUpdate">
+        <div class="row"><h4 class="text-center">${message:user-update}</h4></div>
+        <t:form t:id="updateForm" class="form-horizontal" validate="olympiadConfig">
+            <t:errors globalOnly="true"/>
+
+            <t:if test="olympiadConfig">
+                <t:delegate to="block:editor"/>
+
+                <div class="form-group">
+                    <div class="col-sm-4 col-sm-offset-4">
+                        <t:submit class="btn btn-primary" value="${message:save}" />
+                        <t:eventlink event="cancelUpdate" context="olympiadConfig" class="btn btn-default">${message:cancel}</t:eventlink>
+                    </div>
+                </div>
+            </t:if>
+
+            <t:if test="!olympiadConfig">
+                ${message:user-doesnt-exist}<br/><br/>
+            </t:if>
+        </t:form>
+    </t:if>
+
+    <t:block t:id="editor">
+        <div class="form-group">
+            <t:label for="classNumber" class="col-sm-4"/>
+            <div class="col-sm-8">
+                <t:select value="olympiadConfig.classNumber" t:id="classNumber" t:model="literal:10,11" blankLabel="Выберите номер класса"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <t:label for="subject" class="col-sm-4"/>
+            <div class="col-sm-8">
+                <t:select value="olympiadConfig.subject" t:id="subject" blankLabel="Выберите предмет"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <t:label for="registrationStart" class="col-sm-4"/>
+            <div class="col-sm-8">
+                <t:datefield t:id="registrationStart" value="olympiadConfig.registrationStart" validate="required"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <t:label for="registrationEnd" class="col-sm-4"/>
+            <div class="col-sm-8">
+                <t:datefield t:id="registrationEnd" value="olympiadConfig.registrationEnd" validate="required"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <t:label for="firstStage" class="col-sm-4"/>
+            <div class="col-sm-8">
+                <t:datefield t:id="firstStage" value="olympiadConfig.firstStage" validate="required"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <t:label for="secondStageRegistrationStart" class="col-sm-4"/>
+            <div class="col-sm-8">
+                <t:datefield t:id="secondStageRegistrationStart" value="olympiadConfig.secondStageRegistrationStart" validate="required"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <t:label for="secondStageRegistrationEnd" class="col-sm-4"/>
+            <div class="col-sm-8">
+                <t:datefield t:id="secondStageRegistrationEnd" value="olympiadConfig.secondStageRegistrationEnd" validate="required"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <t:label for="secondStage" class="col-sm-4"/>
+            <div class="col-sm-8">
+                <t:datefield t:id="secondStage" value="olympiadConfig.secondStage" validate="required"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <t:label for="secondStagePassScore" class="col-sm-4"/>
+            <div class="col-sm-8">
+                <t:textfield t:id="secondStagePassScore" value="olympiadConfig.secondStagePassScore"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <t:label for="active" class="col-sm-4"/>
+            <div class="col-sm-8">
+                <t:checkbox t:id="active" value="olympiadConfig.active"/>
+            </div>
+        </div>
+    </t:block>
+</t:content>
+</html>

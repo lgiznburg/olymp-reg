@@ -16,6 +16,7 @@ import ru.rsmu.olympreg.viewentities.SortCriterion;
 
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * @author leonid.
@@ -30,8 +31,11 @@ public class CompetitorDaoImpl extends BaseDaoImpl implements CompetitorDao {
     }
 
     @Override
-    public List<CompetitorProfile> findProfiles( CompetitorFilter filter, List<SortCriterion> sortCriteria ) {
-        return buildCriteria( filter, sortCriteria ).list();
+    public List<CompetitorProfile> findProfiles( CompetitorFilter filter, List<SortCriterion> sortCriteria, int startIndex, int size ) {
+        Criteria criteria = buildCriteria( filter, sortCriteria )
+                .setFirstResult( startIndex )
+                .setMaxResults( size );
+        return criteria.list();
     }
 
     @Override
@@ -133,22 +137,28 @@ public class CompetitorDaoImpl extends BaseDaoImpl implements CompetitorDao {
             criteria.add( Restrictions.like( "user.firstName", "%" + filter.getFirstName() + "%" ) );
         }
         if ( StringUtils.isNotBlank( filter.getLastName() ) ) {
-            criteria.add( Restrictions.like( "user.firstName", "%" + filter.getLastName() + "%" ) );
+            criteria.add( Restrictions.like( "user.lastName", "%" + filter.getLastName() + "%" ) );
         }
         if ( StringUtils.isNotBlank( filter.getPersonalNumber() ) ) {
             criteria.add( Restrictions.like( "caseNumber", "%" + filter.getPersonalNumber() ) );
         }
 
         if ( sortCriteria != null ) {
+            AtomicBoolean lastNameOrder = new AtomicBoolean( false );
             sortCriteria.forEach( sc -> {
+                if ( sc.getPropertyName().equalsIgnoreCase( "lastName" ) ) {
+                    lastNameOrder.set( true );
+                }
                 if ( sc.getDirection() == SortCriterion.ASCENDING ) {
-                    criteria.addOrder( Order.asc( sc.getPropertyName() ) );
+                    criteria.addOrder( Order.asc( "user."+ sc.getPropertyName() ) );
                 }
                 else if ( sc.getDirection() == SortCriterion.DESCENDING ) {
-                    criteria.addOrder( Order.desc( sc.getPropertyName() ) );
+                    criteria.addOrder( Order.desc( "user." + sc.getPropertyName() ) );
                 }
             } );
-            criteria.addOrder( Order.asc("user.lastName") );
+            if ( !lastNameOrder.get() ) {
+                criteria.addOrder( Order.asc("user.lastName") );
+            }
         }
         return  criteria;
     }

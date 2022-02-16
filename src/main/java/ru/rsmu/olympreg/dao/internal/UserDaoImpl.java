@@ -1,17 +1,23 @@
 package ru.rsmu.olympreg.dao.internal;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.CriteriaSpecification;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import ru.rsmu.olympreg.dao.UserDao;
 import ru.rsmu.olympreg.entities.*;
 import ru.rsmu.olympreg.utils.PasswordEncoder;
+import ru.rsmu.olympreg.viewentities.CompetitorFilter;
+import ru.rsmu.olympreg.viewentities.SortCriterion;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import java.security.NoSuchAlgorithmException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * @author leonid.
@@ -79,6 +85,54 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
         Criteria criteria = session.createCriteria( UserCandidate.class )
                 .add( Restrictions.lt( "createdDate", time ) );
         return criteria.list();
+    }
+
+    @Override
+    public int countUsers( CompetitorFilter filter ) {
+        return ((Long)buildCriteria( filter, null )
+                .setProjection( Projections.rowCount() )
+                .uniqueResult()).intValue();
+    }
+
+    @Override
+    public List<User> findFilteredUsers( CompetitorFilter filter, List<SortCriterion> sortCriteria, int startIndex, int size ) {
+        Criteria criteria = buildCriteria( filter, sortCriteria )
+                .setFirstResult( startIndex )
+                .setMaxResults( size );
+        return criteria.list();
+    }
+
+    private Criteria buildCriteria( CompetitorFilter filter, List<SortCriterion> sortCriteria ) {
+        Criteria criteria = session.createCriteria( User.class );
+        if ( StringUtils.isNotBlank( filter.getEmail() ) ) {
+            criteria.add( Restrictions.like( "username", "%" + filter.getEmail() + "%" ) );
+        }
+        if ( StringUtils.isNotBlank( filter.getLastName() ) ) {
+            criteria.add( Restrictions.like( "lastName", "%" + filter.getLastName() + "%" ) );
+        }
+        if ( filter.getRoleName() != null ) {
+            criteria.createAlias( "roles", "roles" )
+                    .add( Restrictions.like( "roles.roleName", filter.getRoleName() ) );
+        }
+
+        if ( sortCriteria != null ) {
+            AtomicBoolean lastNameOrder = new AtomicBoolean( false );
+            sortCriteria.forEach( sc -> {
+                if ( sc.getPropertyName().equalsIgnoreCase( "lastName" ) ) {
+                    lastNameOrder.set( true );
+                }
+                if ( sc.getDirection() == SortCriterion.ASCENDING ) {
+                    criteria.addOrder( Order.asc( sc.getPropertyName() ) );
+                }
+                else if ( sc.getDirection() == SortCriterion.DESCENDING ) {
+                    criteria.addOrder( Order.desc( sc.getPropertyName() ) );
+                }
+            } );
+            if ( !lastNameOrder.get() ) {
+                criteria.addOrder( Order.asc("lastName") );
+            }
+        }
+        return  criteria;
     }
 
 }

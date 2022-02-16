@@ -49,6 +49,9 @@ public class ParticipationInfo implements Serializable {
     @Column(name = "stage")
     private int stage;
 
+    @Column(name = "approved")
+    private Boolean approved = true;
+
     @ManyToOne
     @JoinColumn(name = "profile_id")
     private CompetitorProfile profile;
@@ -147,5 +150,13 @@ public class ParticipationInfo implements Serializable {
 
     public void setProfile( CompetitorProfile profile ) {
         this.profile = profile;
+    }
+
+    public Boolean getApproved() {
+        return approved;
+    }
+
+    public void setApproved( Boolean approved ) {
+        this.approved = approved;
     }
 }

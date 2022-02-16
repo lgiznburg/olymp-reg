@@ -1,5 +1,7 @@
 package ru.rsmu.olympreg.viewentities;
 
+import ru.rsmu.olympreg.entities.UserRoleName;
+
 /**
  * @author leonid.
  */
@@ -14,6 +16,8 @@ public class CompetitorFilter {
     private String lastName = "";
 
     private String completed = "";
+
+    private UserRoleName roleName;
 
     public String getEmail() {
         return email;
@@ -53,5 +57,13 @@ public class CompetitorFilter {
 
     public void setCompleted( String completed ) {
         this.completed = completed;
+    }
+
+    public UserRoleName getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName( UserRoleName roleName ) {
+        this.roleName = roleName;
     }
 }

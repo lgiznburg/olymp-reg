@@ -8,6 +8,7 @@ import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import ru.rsmu.olympreg.dao.SystemPropertyDao;
+import ru.rsmu.olympreg.entities.OlympiadConfig;
 import ru.rsmu.olympreg.entities.ParticipationInfo;
 import ru.rsmu.olympreg.entities.system.StoredPropertyName;
 
@@ -20,9 +21,15 @@ import java.util.Date;
  * @author leonid.
  */
 public class ParticipationPreview {
+    private static final int FIRST_STAGE = 0;
+
     @Parameter(required = true)
     @Property
     private ParticipationInfo info;
+
+    @Parameter(required = true)
+    @Property
+    private OlympiadConfig config;
 
     @Inject
     private Block beforeExam, examInProgress, examFinished, emptyBlock;
@@ -30,23 +37,62 @@ public class ParticipationPreview {
     @Inject
     private SystemPropertyDao systemPropertyDao;
 
+    private static final DateFormat defaultDateFormat = new SimpleDateFormat("dd MMMM yyyy года");
+
     public boolean isExamAssigned() {
         return StringUtils.isNotBlank( info.getExamName() );
     }
 
     public String getDefaultInfo() {
+        String subject = "";
+        String examDate = defaultDateFormat.format( info.getStage() == FIRST_STAGE ? config.getFirstStage() : config.getSecondStage() );
+        String stage = info.getStage() == FIRST_STAGE ? "Первый" : "Второй";
         switch ( info.getOlympiadSubject() ) {
             case CHEMISTRY:
-                return "Вы участвуете в олимпиаде по <strong>Химии</strong>. Первый этап пройдет 22 ноября.";
+                subject = "Химии";
+                break;
             case BIOLOGY:
-                return "Вы участвуете в олимпиаде по <strong>Биологии</strong>. Первый этап пройдет 25 ноября.";
+                subject = "Биологии";
+                break;
         }
-        return "";
+        return String.format( "Вы записаны на олимпиаду по <strong>%s</strong>. %s этап пройдет %s.", subject, stage, examDate );
+    }
+
+    public String getSubjectName() {
+        String subject = "";
+        switch ( info.getOlympiadSubject() ) {
+            case CHEMISTRY:
+                subject = "Химии";
+                break;
+            case BIOLOGY:
+                subject = "Биологии";
+                break;
+        }
+        return subject;
+    }
+
+    public String getStageName() {
+        return info.getStage() == FIRST_STAGE ? "Первый" : "Второй";
+    }
+
+    public String getExamDateFormatted() {
+        if ( config == null ) return "";
+        return defaultDateFormat.format( info.getStage() == FIRST_STAGE ? config.getFirstStage() : config.getSecondStage() );
+    }
+
+    public boolean isDateExpired() {
+        if ( config == null ) return true;
+        Date examDate = info.getStage() == FIRST_STAGE ? config.getFirstStage() : config.getSecondStage();
+        return examDate.before( new Date() );
+    }
+
+    public boolean isWarningToShow() {
+        return !info.getApproved() || info.getStage() == FIRST_STAGE;
     }
 
     public Block getInfoBlock() {
         Date now = new Date();
-        if ( info.getStartDate() == null || info.getEndDate() == null ) {
+        if ( config == null || info.getStartDate() == null || info.getEndDate() == null ) {
             return emptyBlock;
         }
         else if ( now.before( info.getStartDate() ) ) {

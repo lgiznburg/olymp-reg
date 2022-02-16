@@ -16,10 +16,10 @@ public class SortCriterion {
     public SortCriterion( SortConstraint constraint ) {
         propertyName = constraint.getPropertyModel().getPropertyName();
         if ( propertyName.equals( "username" ) ) {
-            propertyName = "user.username";
+            propertyName = "username";
         }
         if ( propertyName.equals( "fullName" ) ) {
-            propertyName = "user.lastName";
+            propertyName = "lastName";
         }
         switch ( constraint.getColumnSort() ) {
             case ASCENDING:

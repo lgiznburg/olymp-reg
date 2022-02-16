@@ -5,17 +5,13 @@ import org.apache.shiro.codec.Base64;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.realm.Realm;
 import org.apache.tapestry5.SymbolConstants;
-import org.apache.tapestry5.ioc.Configuration;
-import org.apache.tapestry5.ioc.MappedConfiguration;
-import org.apache.tapestry5.ioc.OrderedConfiguration;
-import org.apache.tapestry5.ioc.ServiceBinder;
-import org.apache.tapestry5.ioc.annotations.Contribute;
-import org.apache.tapestry5.ioc.annotations.ImportModule;
-import org.apache.tapestry5.ioc.annotations.InjectService;
-import org.apache.tapestry5.ioc.annotations.Startup;
+import org.apache.tapestry5.ioc.*;
+import org.apache.tapestry5.ioc.annotations.*;
 import org.apache.tapestry5.ioc.services.ApplicationDefaults;
 import org.apache.tapestry5.ioc.services.SymbolProvider;
 import org.apache.tapestry5.upload.services.UploadSymbols;
+import org.quartz.Job;
+import org.quartz.Scheduler;
 import org.tynamo.security.SecuritySymbols;
 import org.tynamo.security.services.SecurityFilterChainFactory;
 import org.tynamo.security.services.impl.SecurityFilterChain;
@@ -23,11 +19,17 @@ import ru.rsmu.olympreg.dao.HibernateModule;
 import ru.rsmu.olympreg.services.impl.AssignExamControlImpl;
 import ru.rsmu.olympreg.services.impl.EmailServiceImpl;
 import ru.rsmu.olympreg.services.impl.RunJobsServiceImpl;
+import ru.rsmu.olympreg.utils.AssignExamJob;
+import ru.rsmu.olympreg.utils.CleanUpRegistrationJob;
+import ru.rsmu.olympreg.utils.GetExamResultsJob;
+import ru.rsmu.olympreg.utils.SendEmailJob;
 import ru.rsmu.olympreg.utils.restconnector.RestApiConnector;
 import ru.rsmu.olympreg.utils.restconnector.TempolwConnector;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.util.Collection;
+import java.util.Map;
 
 /**
  * @author leonid.
@@ -81,10 +83,23 @@ public class AppModule {
         binder.bind( SecurityUserHelper.class );
 
         binder.bind( EmailService.class, EmailServiceImpl.class );
-        binder.bind( RunJobsService.class, RunJobsServiceImpl.class );
+        //binder.bind( RunJobsService.class, RunJobsServiceImpl.class );
 
         binder.bind( /*RestApiConnector.class,*/ TempolwConnector.class );
         binder.bind( AssignExamControl.class, AssignExamControlImpl.class );
+    }
+
+    public static RunJobsService buildRunJobsService( Collection<RunJobDescription> configuration,
+                                                      @InjectService( "Scheduler" ) Scheduler scheduler,
+                                                      @InjectService( "LoggerSource" ) LoggerSource loggerSource ) {
+        return new RunJobsServiceImpl( configuration, scheduler, loggerSource );
+    }
+
+    public static void contributeRunJobsService( Configuration<RunJobDescription> configuration ) {
+        configuration.add( new RunJobDescription( CleanUpRegistrationJob.class, 60 ) );
+        configuration.add( new RunJobDescription( SendEmailJob.class, 1 ) );
+        configuration.add( new RunJobDescription( AssignExamJob.class, 2 ) );
+        configuration.add( new RunJobDescription( GetExamResultsJob.class, 7 ) );
     }
 
     public static void contributeSecurityConfiguration( OrderedConfiguration<SecurityFilterChain> configuration,

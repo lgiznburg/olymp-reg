@@ -14,7 +14,7 @@ import java.util.List;
 public interface CompetitorDao extends BaseDao {
     int countProfiles( CompetitorFilter filter );
 
-    List<CompetitorProfile> findProfiles( CompetitorFilter filter, List<SortCriterion> toSortCriteria );
+    List<CompetitorProfile> findProfiles( CompetitorFilter filter, List<SortCriterion> toSortCriteria, int startIndex, int size );
 
     int countSubjectSelectedProfiles();
 

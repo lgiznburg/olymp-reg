@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd" xmlns:p="tapestry:parameter">
+<t:content>
+    <div id="usersList">
+        <t:grid t:id="usersGrid" source="olympiadConfigList" row="olympiadIt"
+                exclude="id,registrationStart, registrationEnd, secondStage, secondStageRegistrationStart, secondStageRegistrationEnd, secondStagePassScore"
+                reorder="active,classNumber,subject,firstStage"
+                class="table table-bordered table-hover"
+                rowsPerPage="25" pagerPosition="bottom"
+                empty="block:emptyConfigs">
+            <p:activeCell>
+                <t:if test="olympiadIt.active">
+                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                </t:if>
+            </p:activeCell>
+            <p:firstStageCell>
+                <t:eventLink event="configSelected" context="olympiadIt" class="prop:linkCssClass">
+                    <t:output format="literal:dd/MM/yyyy" value="olympiadIt.firstStage"/>
+                </t:eventLink>
+            </p:firstStageCell>
+        </t:grid>
+
+        <t:block t:id="emptyConfigs">
+            <div id="noUsers">${message:no-users-found}</div>
+        </t:block>
+    </div>
+
+</t:content>
+</html>

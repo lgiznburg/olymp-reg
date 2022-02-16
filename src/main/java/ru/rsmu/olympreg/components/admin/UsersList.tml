@@ -1,9 +1,31 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd" xmlns:p="tapestry:parameter">
 <t:content>
+    <div>
+        <t:form t:id="filterForm" async="true" ><!--class="form-inline"-->
+            <div class="form-group">
+                <t:label for="email"/>
+                <t:textfield value="filter.email" t:id="email"/>
+            </div>
+            <div class="form-group">
+                <t:label for="lastName"/>
+                <t:textfield value="filter.lastName" t:id="lastName"/>
+            </div>
+            <div class="form-group">
+                <t:label for="userRole"/>
+                <t:select value="filter.roleName" t:id="userRole"/>
+            </div>
+            <div >
+                <t:submit class="btn btn-primary" value="Применить" />
+            </div>
+        </t:form>
+    </div>
+
+    <t:zone t:id="userListZone">
     <div id="usersList">
         <t:grid t:id="usersGrid" source="usersDataSource" row="userIt"
                 exclude="id,firstName,middleName,lastName,password,enabled,roles"
+                reorder="fullName,username"
                 class="table table-bordered table-hover"
                 rowsPerPage="25" pagerPosition="bottom"
                 empty="block:emptyUsers">
@@ -18,5 +40,6 @@
             <div id="noUsers">${message:no-users-found}</div>
         </t:block>
     </div>
+    </t:zone>
 </t:content>
 </html>

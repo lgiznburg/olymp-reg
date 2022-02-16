@@ -7,10 +7,7 @@ import org.apache.tapestry5.ioc.OrderedConfiguration;
 import org.apache.tapestry5.ioc.ServiceBinder;
 import org.apache.tapestry5.ioc.annotations.Contribute;
 import org.apache.tapestry5.ioc.annotations.Match;
-import ru.rsmu.olympreg.dao.internal.CompetitorDaoImpl;
-import ru.rsmu.olympreg.dao.internal.EmailDaoImpl;
-import ru.rsmu.olympreg.dao.internal.SystemPropertyDaoImpl;
-import ru.rsmu.olympreg.dao.internal.UserDaoImpl;
+import ru.rsmu.olympreg.dao.internal.*;
 import ru.rsmu.olympreg.entities.CompetitorCounter;
 import ru.rsmu.olympreg.entities.User;
 import ru.rsmu.olympreg.entities.UserRole;
@@ -33,6 +30,7 @@ public class HibernateModule {
         binder.bind( SystemPropertyDao.class, SystemPropertyDaoImpl.class );
         binder.bind( EmailDao.class, EmailDaoImpl.class );
         binder.bind( CompetitorDao.class, CompetitorDaoImpl.class );
+        binder.bind( OlympiadDao.class, OlympiadDaoImpl.class );
 
         //seed entity - initial DB population
         binder.bind(SeedEntity.class, SeedEntityImpl.class);

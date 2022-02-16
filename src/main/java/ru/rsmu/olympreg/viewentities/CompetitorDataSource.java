@@ -34,7 +34,7 @@ public class CompetitorDataSource implements GridDataSource {
     @Override
     public void prepare( final int startIndex, final int endIndex, final List<SortConstraint> sortConstraints) {
 
-        profiles = competitorDao.findProfiles( filter, toSortCriteria( sortConstraints ) );
+        profiles = competitorDao.findProfiles( filter, toSortCriteria( sortConstraints ), startIndex, endIndex-startIndex+1 );
         this.startIndex = startIndex;
     }
 
@@ -44,7 +44,7 @@ public class CompetitorDataSource implements GridDataSource {
     }
 
     @Override
-    public Class getRowType() {
+    public Class<?> getRowType() {
         return CompetitorProfile.class;
     }
 

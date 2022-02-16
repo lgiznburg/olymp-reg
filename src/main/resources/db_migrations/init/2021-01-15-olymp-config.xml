@@ -1,0 +1,37 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                   http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet id="2022-01-15-add-olymp-config" author="lginzburg">
+        <createTable tableName="olympiad_config">
+            <column autoIncrement="true" name="id" type="${id.type}">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="subject" type="${string.type}"/>
+            <column name="class_number" type="INT"/>
+            <column name="registration_start" type="DATE"/>
+            <column name="registration_end" type="DATE"/>
+            <column name="first_stage" type="DATE"/>
+            <column name="second_stage" type="DATE"/>
+            <column name="second_registration_start" type="DATE"/>
+            <column name="second_registration_end" type="DATE"/>
+            <column name="second_stage_pass_score" type="INT"/>
+            <column name="active" type="BIT(1)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2022-02-15-add-participation-approved" author="lginzburg">
+        <addColumn tableName="participation_info">
+            <column name="approved" type="boolean" defaultValueBoolean="true"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2022-02-15-set-approved-default" author="lginzburg">
+        <update tableName="participation_info">
+            <column name="approved" valueBoolean="true"/>
+        </update>
+    </changeSet>
+</databaseChangeLog>

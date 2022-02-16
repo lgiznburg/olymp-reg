@@ -1,0 +1,19 @@
+<html t:type="layout" t:pageTitle="Администрирование:Настрока олимпиады"
+      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"  xmlns:p="tapestry:parameter"
+>
+<body>
+<div class="row"><h3>Настройка правил для олимпиады</h3></div>
+
+<div class="row">
+    <div class="col-sm-4">
+        <t:admin.configlist olympiadConfig="listConfig" t:id="list"/>
+        <t:eventlink t:id="toCreate" event="toCreate" class="btn btn-primary">Созать новое правило</t:eventlink>
+    </div>
+    <div class="col-sm-8">
+        <t:admin.configcrud olympiadConfig="olympiadConfig" mode="mode" t:id="editor"/>
+    </div>
+</div>
+
+</body>
+
+</html>

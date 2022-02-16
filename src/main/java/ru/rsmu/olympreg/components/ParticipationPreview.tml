@@ -6,7 +6,16 @@
     <t:if test="examAssigned">
         <t:delegate to="infoBlock"/>
         <p:else>
-            <t:outputraw value="defaultInfo"/>
+            <t:if test="!dateExpired">
+                Вы записаны на олимпиаду по <strong>${subjectName}</strong>.
+                <strong>${stageName}</strong> этап пройдет <strong>${examDateFormatted}</strong>.
+                <t:if test="!info.approved">
+                    <br/> Ваша заявка находится на проверке.
+                </t:if>
+                <t:if test="warningToShow">
+                    <br/>Пожалуйста, убедитесь, что Вы ввели полные и корректные данные и загрузили необходимые документы.
+                </t:if>
+            </t:if>
         </p:else>
     </t:if>
 
@@ -15,11 +24,12 @@
         <strong><t:output format="dateFormat" value="info.getStartDate()"/></strong>.<br/>
         Ссылка на задания будет доступна здесь после начала.
     </t:block>
+
     <t:block t:id="examInProgress">
         <strong>${info.examName} ( ${info.testingPlanName} )</strong> - этап начался.   <br/>
         Пожалуйста, перейдите <a href="${examLink}" class="btn btn-primary" target="_blank">к заданиям</a>.
-
     </t:block>
+
     <t:block t:id="examFinished">
         <strong>${info.examName} ( ${info.testingPlanName} )</strong> - этап завершился. <br/>
         <t:outputraw value="resultInfo"/>
