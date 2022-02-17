@@ -31,4 +31,6 @@ public interface CompetitorDao extends BaseDao {
     List<Object[]> findExamsWithNoResults();
 
     List<ParticipationInfo> findParticipation( long examId, String caseNumber );
+
+    List<CompetitorProfile> findForSecondStage( OlympiadSubject subject, int classNumber, int secondStagePassScore );
 }

@@ -5,7 +5,10 @@ package ru.rsmu.olympreg.services;
  */
 public enum EmailType {
     SIGNUP_RU("/emails/SignupRu.vm", "Регистрация для участия в олимпиаде для школьников в РНИМУ им.Н.И.Пирогова"),
-    REMIND_PASSWORD( "/emails/RemindPassword.vm", "Восстановление пароля участника олимпиады для школьников в РНИМУ им.Н.И.Пирогова");
+    REMIND_PASSWORD( "/emails/RemindPassword.vm", "Восстановление пароля участника олимпиады для школьников в РНИМУ им.Н.И.Пирогова"),
+    SECOND_STAGE_REMIND( "/emails/SecondStageRemind.vm", "Участие во втором этапе олимпиады для школьников в РНИМУ им.Н.И.Пирогова"),
+    SECOND_STAGE_APPROVED( "/emails/SecondStageApproved.vm", "Подтверждение участия во втором этапе олимпиады для школьников в РНИМУ им.Н.И.Пирогова"),
+    SECOND_STAGE_REJECTED( "/emails/SecondStageRejected.vm", "Недостаточно данных для участия во втором этапе олимпиады для школьников в РНИМУ им.Н.И.Пирогова");
 
     public static final String EXAM_PASSWORD_SHORT_NAME = "EXAM_PASSWORD_";
 

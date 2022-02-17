@@ -1,5 +1,6 @@
 package ru.rsmu.olympreg.components.admin;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.annotations.InjectComponent;
 import org.apache.tapestry5.annotations.Parameter;
@@ -7,13 +8,15 @@ import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.corelib.components.Form;
 import org.apache.tapestry5.ioc.Messages;
 import org.apache.tapestry5.ioc.annotations.Inject;
+import ru.rsmu.olympreg.dao.CompetitorDao;
+import ru.rsmu.olympreg.dao.EmailDao;
 import ru.rsmu.olympreg.dao.OlympiadDao;
-import ru.rsmu.olympreg.entities.OlympiadConfig;
-import ru.rsmu.olympreg.entities.User;
-import ru.rsmu.olympreg.entities.UserRole;
+import ru.rsmu.olympreg.entities.*;
+import ru.rsmu.olympreg.services.EmailType;
 import ru.rsmu.olympreg.utils.CrudMode;
 
-import java.util.ArrayList;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * @author leonid.
@@ -33,6 +36,12 @@ public class ConfigCrud {
 
     @Inject
     private OlympiadDao olympiadDao;
+
+    @Inject
+    private CompetitorDao competitorDao;
+
+    @Inject
+    private EmailDao emailDao;
 
     @Inject
     private Messages messages;
@@ -135,5 +144,48 @@ public class ConfigCrud {
         }
     }
 
+    public boolean onSendReminder( OlympiadConfig config ) {
+        List<CompetitorProfile> competitors = competitorDao.findForSecondStage(
+                config.getSubject(),
+                config.getClassNumber(),
+                config.getSecondStagePassScore() );
+        for ( CompetitorProfile profile : competitors ) {
+            if ( profile.getParticipation().stream()
+                    .noneMatch( pt -> pt.getStage() == 1 && pt.getOlympiadSubject() == config.getSubject() ) ) {
 
+                Map<String,Object> model = new HashMap<>();
+                User competitor = profile.getUser();
+
+                model.put( "fullName", competitor.getFullName() );
+                String subjectName = "";
+                switch ( config.getSubject() ) {
+                    case CHEMISTRY:
+                        subjectName =  "Химии";
+                        break;
+                    case BIOLOGY:
+                        subjectName =  "Биологии";
+                        break;
+                }
+                model.put("subjectName", subjectName);
+
+                EmailQueue emailQueue = new EmailQueue();
+                emailQueue.setEmailType( EmailType.SECOND_STAGE_REMIND );
+                emailQueue.setEmailAddress( competitor.getUsername() );
+                ObjectMapper mapper = new ObjectMapper();
+                try {
+                    emailQueue.setModel( mapper.writeValueAsString( model ) );
+                } catch (IOException e) {
+                    // do nothing
+                }
+                emailDao.save( emailQueue );
+
+            }
+        }
+        return true;
+    }
+
+    public boolean isSecondStageRegistration() {
+        return olympiadConfig.getSecondStageRegistrationStart().before( new Date() )
+                && olympiadConfig.getSecondStageRegistrationEnd().after( new Date() );
+    }
 }

@@ -1,12 +1,19 @@
 package ru.rsmu.olympreg.pages.control;
 
-import org.apache.tapestry5.annotations.ActivationRequestParameter;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.tapestry5.annotations.InjectPage;
 import org.apache.tapestry5.annotations.PageActivationContext;
 import org.apache.tapestry5.annotations.Property;
-import ru.rsmu.olympreg.entities.AttachedFile;
-import ru.rsmu.olympreg.entities.CompetitorProfile;
-import ru.rsmu.olympreg.entities.ParticipationInfo;
+import org.apache.tapestry5.ioc.annotations.Inject;
+import ru.rsmu.olympreg.dao.CompetitorDao;
+import ru.rsmu.olympreg.dao.EmailDao;
+import ru.rsmu.olympreg.entities.*;
+import ru.rsmu.olympreg.entities.system.StoredPropertyName;
+import ru.rsmu.olympreg.services.EmailType;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author leonid.
@@ -21,6 +28,15 @@ public class ProfileView {
 
     @Property
     private ParticipationInfo participationInfo;
+
+    @Property
+    private String rejectReason;
+
+    @Inject
+    private CompetitorDao competitorDao;
+
+    @Inject
+    private EmailDao emailDao;
 
     @InjectPage
     private PreviewFile previewFile;
@@ -61,14 +77,83 @@ public class ProfileView {
     }
 
     public String getOlympiadSubjectName() {
+        String subjectName = "";
         switch ( participationInfo.getOlympiadSubject() ) {
             case CHEMISTRY:
-                return "Химия";
+                subjectName =  "Химия";
+                break;
             case BIOLOGY:
-                return "Биология";
-            default:
-                return "";
+                subjectName =  "Биология";
+                break;
         }
+        return String.format( "%s (%s этап)", subjectName, participationInfo.getStage() == 0 ? "1-ый" : "2-ой" );
+    }
+
+    public String getOlympiadResult() {
+        if ( participationInfo.getResult() == null ) {
+            return "Еще не определены";
+        }
+        else if( participationInfo.getResult() < 0 ) {
+            return "Неявка";
+        }
+        else {
+            return String.valueOf( participationInfo.getResult() ) + " баллов";
+        }
+    }
+
+    public boolean onApproveParticipation( ParticipationInfo info ) {
+        info.setApproved( true );
+        competitorDao.save( info );
+
+        Map<String,Object> model = new HashMap<>();
+        User competitor = info.getProfile().getUser();
+
+        model.put( "fullName", competitor.getFullName() );
+        String subjectName = "";
+        switch ( info.getOlympiadSubject() ) {
+            case CHEMISTRY:
+                subjectName =  "Химии";
+                break;
+            case BIOLOGY:
+                subjectName =  "Биологии";
+                break;
+        }
+        model.put("subjectName", subjectName);
+
+        EmailQueue emailQueue = new EmailQueue();
+        emailQueue.setEmailType( EmailType.SECOND_STAGE_APPROVED );
+        emailQueue.setEmailAddress( competitor.getUsername() );
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            emailQueue.setModel( mapper.writeValueAsString( model ) );
+        } catch (IOException e) {
+            // do nothing
+        }
+        emailDao.save( emailQueue );
+        return true;
+    }
+    public boolean isApproveAvailable() {
+        return profile.getParticipation().stream()
+                .anyMatch( pr -> !pr.getApproved() );
+    }
+    public void onSuccess() {
+        Map<String,Object> model = new HashMap<>();
+        User competitor = profile.getUser();
+
+        model.put( "fullName", competitor.getFullName() );
+        model.put("reason", rejectReason.replace( "\n", "<br/>" ));
+
+        EmailQueue emailQueue = new EmailQueue();
+        emailQueue.setEmailType( EmailType.SECOND_STAGE_REJECTED );
+        emailQueue.setEmailAddress( competitor.getUsername() );
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            emailQueue.setModel( mapper.writeValueAsString( model ) );
+        } catch (IOException e) {
+            // do nothing
+        }
+        emailDao.save( emailQueue );
+
     }
 
     public String getAttachedURI() {

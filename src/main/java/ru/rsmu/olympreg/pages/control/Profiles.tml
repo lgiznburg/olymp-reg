@@ -2,8 +2,8 @@
       xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
       xmlns:p="tapestry:parameter"> <!-- Тестирование -->
 
-<div class="row">
-    <t:form t:id="filterForm" async="true">
+<t:form t:id="filterForm" async="true">
+    <div class="row">
         <div class="col-sm-3 form-group">
             <t:label for="caseNumber"/>
             <t:textfield value="filter.personalNumber" t:id="caseNumber"/>
@@ -16,11 +16,29 @@
             <t:label for="lastName"/>
             <t:textfield value="filter.lastName" t:id="lastName"/>
         </div>
+        <div class="col-sm-3 form-group">
+            <t:label for="classNumber"/>
+            <t:select value="filter.classNumber" t:id="classNumber" model="literal:10,11" blankLabel="Выберите класс"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3 form-group">
+            <t:label for="subjectName"/>
+            <t:select value="filter.subject" t:id="subjectName" blankLabel="Выберите предмет"/>
+        </div>
+        <div class="col-sm-3 form-group">
+            <t:label for="secondStage"/><br/>
+            <t:checkbox value="filter.secondStage" t:id="secondStage"/>
+        </div>
+        <div class="col-sm-3 form-group">
+            <t:label for="needApproval"/><br/>
+            <t:checkbox value="filter.needApproval" t:id="needApproval"/>
+        </div>
         <div class="col-sm-3">
             <t:submit class="btn btn-primary" value="Применить" />
         </div>
-    </t:form>
-</div>
+    </div>
+</t:form>
 
 <t:zone id="profilesZone" t:id="profilesZone">
 <t:grid t:id="usersGrid" source="profileDataSource" row="profile"

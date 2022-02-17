@@ -64,12 +64,11 @@
             </div>
 
             <div class="buttons row">
-                <div class="col-sm-4 col-sm-offset-3">
+                <div class="col-sm-10 col-sm-offset-2">
                     <t:eventlink event="toUpdate" context="olympiadConfig" class="btn btn-primary">${message:user-update}</t:eventlink>
-                    <!--
-                                    <t:eventlink event="delete" context="[person.id,person.version]"
-                                                 t:mixins="Confirm" Confirm.message="Delete ${person.firstName} ${person.lastName}?">Delete...</t:eventlink>
-                    -->
+                    <t:if test="secondStageRegistration">
+                        <t:eventlink event="sendReminder" context="olympiadConfig" class="btn btn-primary">Напомнить о регистрации 2-го этапа</t:eventlink>
+                    </t:if>
                 </div>
             </div>
 

@@ -32,7 +32,7 @@
 </div>
 <div class="row">
     <div class="col-sm-2">Школа</div>
-    <div class="col-sm-4">${profile.schoolNumber} <br/>(${profileSchoolLocation})</div>
+    <div class="col-sm-4">${profile.schoolNumber} <br/>${profile.region.name} (${profileSchoolLocation})</div>
     <div class="col-sm-2">Класс</div>
     <div class="col-sm-4">${profile.classNumber}</div>
 </div>
@@ -52,12 +52,36 @@
 </div>
 <div class="row">
     <div class="col-sm-2">Участие в олимпиаде</div>
-    <div class="col-sm-9">
+    <div class="col-sm-10">
+        <table class="table">
         <t:loop source="profile.participation" value="participationInfo">
-            ${olympiadSubjectName}<br/>
+            <tr>
+                <td>${olympiadSubjectName}</td>
+                <td>${olympiadResult}</td>
+                <td>
+                    <t:if test="!participationInfo.approved">
+                        <t:eventlink event="approveParticipation" context="participationInfo" class="btn btn-primary">Подтвердить участие</t:eventlink>
+                    </t:if>
+                </td>
+            </tr>
         </t:loop>
+        </table>
     </div>
 </div>
+<t:if test="approveAvailable">
+    <t:form id="rejected">
+        <div class="row">
+            <div class="col-sm-2">Причина</div>
+            <div class="col-sm-8">
+                <t:textarea value="rejectReason" validate="required"/>
+            </div>
+            <div class="col-sm-2">
+                <t:submit value="Отклонить"/>
+            </div>
+        </div>
+    </t:form>
+</t:if>
+
 <div class="row">
     <div class="col-sm-12">
         <t:pagelink page="control/profiles" class="btn btn-primary">К списку</t:pagelink>

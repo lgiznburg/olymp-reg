@@ -1,6 +1,9 @@
 package ru.rsmu.olympreg.viewentities;
 
+import ru.rsmu.olympreg.entities.OlympiadSubject;
 import ru.rsmu.olympreg.entities.UserRoleName;
+
+import javax.security.auth.Subject;
 
 /**
  * @author leonid.
@@ -18,6 +21,14 @@ public class CompetitorFilter {
     private String completed = "";
 
     private UserRoleName roleName;
+
+    private OlympiadSubject subject;
+
+    private boolean secondStage;
+
+    private boolean needApproval;
+
+    private Integer classNumber;
 
     public String getEmail() {
         return email;
@@ -65,5 +76,37 @@ public class CompetitorFilter {
 
     public void setRoleName( UserRoleName roleName ) {
         this.roleName = roleName;
+    }
+
+    public OlympiadSubject getSubject() {
+        return subject;
+    }
+
+    public void setSubject( OlympiadSubject subject ) {
+        this.subject = subject;
+    }
+
+    public boolean isSecondStage() {
+        return secondStage;
+    }
+
+    public void setSecondStage( boolean secondStage ) {
+        this.secondStage = secondStage;
+    }
+
+    public boolean isNeedApproval() {
+        return needApproval;
+    }
+
+    public void setNeedApproval( boolean needApproval ) {
+        this.needApproval = needApproval;
+    }
+
+    public Integer getClassNumber() {
+        return classNumber;
+    }
+
+    public void setClassNumber( Integer classNumber ) {
+        this.classNumber = classNumber;
     }
 }

@@ -210,7 +210,7 @@ public class Participation {
 
     public boolean onCreateBiologySecond() {
         prepare();
-        if ( isChemistryOpen2() ) {
+        if ( isBiologyOpen2() ) {
             ParticipationInfo info = new ParticipationInfo();
             info.setProfile( profile );
             info.setOlympiadSubject( OlympiadSubject.BIOLOGY );
