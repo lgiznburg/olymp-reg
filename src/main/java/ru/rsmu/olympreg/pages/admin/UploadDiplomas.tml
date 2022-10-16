@@ -1,0 +1,27 @@
+<html t:type="layout" t:pageTitle="Администрирование:Настрока олимпиады"
+      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"  xmlns:p="tapestry:parameter"
+>
+<body>
+<div class="row"><h3>Загрузка дипломов</h3></div>
+<div class="row"><p>Загружается архив в формате ZIP, содержащий сертификаты или дипломы.
+    Каждый сертификат должен быть в формате PDF, и его имя должно содержать личный номер участника.</p></div>
+
+<t:if test="message">
+    <p class="bg-info">
+        <t:outputraw value="message"/>
+    </p>
+</t:if>
+<div class="row">
+    <t:form t:id="uploadDiplomaForm">
+        <div class="col-sm-8">
+            <t:upload value="diplomaZipFile"/>
+        </div>
+        <div class="col-sm-4">
+            <input type="submit" class="btn btn-primary" value="Загрузить"/>
+        </div>
+    </t:form>
+</div>
+
+</body>
+
+</html>

@@ -6,14 +6,14 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import org.tynamo.security.services.SecurityService;
 import ru.rsmu.olympreg.dao.SystemPropertyDao;
 import ru.rsmu.olympreg.dao.UserDao;
-import ru.rsmu.olympreg.entities.CompetitorProfile;
-import ru.rsmu.olympreg.entities.User;
-import ru.rsmu.olympreg.entities.UserRoleName;
+import ru.rsmu.olympreg.entities.*;
 import ru.rsmu.olympreg.entities.system.StoredPropertyName;
 import ru.rsmu.olympreg.services.SecurityUserHelper;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 /**
  * @author leonid.
@@ -35,6 +35,9 @@ public class Index {
 
     @Property
     private CompetitorProfile profile;
+
+    @Property
+    private AttachedFile attachedTemp;
 
     @Inject
     private Messages messages;
@@ -64,5 +67,22 @@ public class Index {
         return systemPropertyDao.getPropertyAsInt( StoredPropertyName.REGISTRATION_CHEMISTRY_AVAILABLE ) > 0
         || systemPropertyDao.getPropertyAsInt( StoredPropertyName.REGISTRATION_BIOLOGY_AVAILABLE ) > 0;
     }
+
+
+    public List<AttachedFile> getDiplomaFiles() {
+        if ( profile.getAttachments() != null ) {
+            return profile.getAttachments().stream().filter( at -> at.getAttachmentRole() == AttachmentRole.DIPLOMA )
+                    .collect( Collectors.toList());
+        }
+        return Collections.emptyList();
+    }
+
+    public boolean isDiplomaPresent() {
+        if ( profile.getAttachments() != null ) {
+            return profile.getAttachments().stream().anyMatch( at -> at.getAttachmentRole() == AttachmentRole.DIPLOMA );
+        }
+        return false;
+    }
+
 
 }

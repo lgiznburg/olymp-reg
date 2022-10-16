@@ -18,7 +18,7 @@
         </div>
         <div class="col-sm-3 form-group">
             <t:label for="classNumber"/>
-            <t:select value="filter.classNumber" t:id="classNumber" model="literal:10,11" blankLabel="Выберите класс"/>
+            <t:select value="filter.classNumber" t:id="classNumber" model="literal:9,10,11" blankLabel="Выберите класс"/>
         </div>
     </div>
     <div class="row">

@@ -5,7 +5,7 @@
 
 <div class="row" style="margin-top: 2em;">
     <div class="col-sm-12">
-        <h3>Данные по предметам</h3>
+        <h3>Данные по предметам (ожидают назначения)</h3>
     </div>
 </div>
 <t:eventlink t:id="refreshStatsZone" async="true" style="display: none;">Hidden EventLink</t:eventlink>
@@ -14,6 +14,7 @@
     <thead>
     <tr>
         <th class="text-center">Предмет</th>
+        <th class="text-center">9 класс</th>
         <th class="text-center">10 класс</th>
         <th class="text-center">11 класс</th>
     </tr>
@@ -22,6 +23,7 @@
     <t:loop source="allOlympiadSubject" value="olympiadSubjectInternal">
         <tr>
             <td>${olympiadSubjectName}</td>
+            <td class="text-center"><strong>${overall9}</strong></td>
             <td class="text-center"><strong>${overall10}</strong></td>
             <td class="text-center"><strong>${overall11}</strong></td>
         </tr>
@@ -33,12 +35,17 @@
 <div class="row"><h3>Назначение</h3></div>
 
 <t:form t:id="assignExam">
+    <div class="row">
+        <div class="col-sm-3">Предмет</div>
+        <div class="col-sm-2">Класс</div>
+        <div class="col-sm-4">Экзамен</div>
+    </div>
 <div class="row">
     <div class="col-sm-3">
         <t:select value="olympiadSubject"/>
     </div>
     <div class="col-sm-2">
-        <t:select value="classNumber" model="literal:10,11"/>
+        <t:select value="classNumber" model="literal:9,10,11"/>
     </div>
     <div class="col-sm-4">
         <t:select t:id="examSelect" value="exam" model="examSelectModel" encoder="examValueEncoder"/>

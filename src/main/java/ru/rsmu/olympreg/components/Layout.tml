@@ -55,7 +55,7 @@
                                 <li><t:pagelink page="account/participation">Участие в олимпиаде</t:pagelink></li>
                                 <li role="separator" class="divider"></li>
                             </t:security.hasrole>
-                            <t:security.hasanyroles roles="admin,manager">
+                            <t:security.hasanyroles roles="admin,manager,moderator">
                                 <li><t:pagelink page="control/profiles">Список участников</t:pagelink></li>
                                 <li><t:pagelink page="control/statistics">Статистика</t:pagelink></li>
                                 <li role="separator" class="divider"></li>
@@ -64,6 +64,7 @@
                                 <li><t:pagelink page="admin/olympconfigs">Настроить даты олимпиады</t:pagelink></li>
                                 <li><t:pagelink page="admin/assignexam">Назначить экзамены</t:pagelink></li>
                                 <li><t:pagelink page="admin/loadexamresults">Получить результаты экзаменов</t:pagelink></li>
+                                <li><t:pagelink page="admin/uploaddiplomas">Загрузить дипломы</t:pagelink></li>
                                 <li><t:pagelink page="admin/users">Список пользователей</t:pagelink></li>
                                 <li><t:pagelink page="admin/systemproperties">Настройки</t:pagelink></li>
                                 <li role="separator" class="divider"/>

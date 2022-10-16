@@ -178,21 +178,24 @@ public class AssignExam {
         }
     }
 
-    public int getOverall10() {
-        Statistics.SubjectStats stats = findStatsForClassAndSubject( overallStats, olympiadSubjectInternal, 10 );
+    public int getOverallForClass( int classNumber ) {
+        Statistics.SubjectStats stats = findStatsForClassAndSubject( overallStats, olympiadSubjectInternal, classNumber );
         if ( stats != null ) {
             return stats.getCount();
         }
         return 0;
     }
 
+    public int getOverall9() {
+        return getOverallForClass( 9 );
+    }
+
+    public int getOverall10() {
+        return getOverallForClass( 10 );
+    }
 
     public int getOverall11() {
-        Statistics.SubjectStats stats = findStatsForClassAndSubject( overallStats, olympiadSubjectInternal, 11 );
-        if ( stats != null ) {
-            return stats.getCount();
-        }
-        return 0;
+        return getOverallForClass( 11 );
     }
 
     private Statistics.SubjectStats findStatsForClassAndSubject( List<Statistics.SubjectStats> statsList, OlympiadSubject olympiad, int classNumber ) {

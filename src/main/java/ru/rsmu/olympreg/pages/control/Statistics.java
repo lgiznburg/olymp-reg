@@ -117,43 +117,47 @@ public class Statistics {
         return OlympiadSubject.values();
     }
 
-    public int get10Region() {
+    public int getRegionForClass( int classNumber ) {
         List<SubjectStats> statsList = statsByRegions.get( region );
         if ( statsList != null ) {
-            SubjectStats stats = findStatsForClassAndSubject( statsList, olympiadSubject, 10 );
+            SubjectStats stats = findStatsForClassAndSubject( statsList, olympiadSubject, classNumber );
             if ( stats != null ) {
                 return stats.count;
             }
         }
         return 0;
+    }
+
+    public int get9Region() {
+        return getRegionForClass( 9 );
+    }
+
+    public int get10Region() {
+        return getRegionForClass( 10 );
     }
 
     public int get11Region() {
-        List<SubjectStats> statsList = statsByRegions.get( region );
-        if ( statsList != null ) {
-            SubjectStats stats = findStatsForClassAndSubject( statsList, olympiadSubject, 11 );
-            if ( stats != null ) {
-                return stats.count;
-            }
+        return getRegionForClass( 11 );
+    }
+
+    public int getOverallForClass( int classNumber) {
+        SubjectStats stats = findStatsForClassAndSubject( overallStats, olympiadSubject, classNumber );
+        if ( stats != null ) {
+            return stats.count;
         }
         return 0;
+    }
+
+    public int get9Overall() {
+        return getOverallForClass( 9 );
     }
 
     public int get10Overall() {
-        SubjectStats stats = findStatsForClassAndSubject( overallStats, olympiadSubject, 10 );
-        if ( stats != null ) {
-            return stats.count;
-        }
-        return 0;
+        return getOverallForClass( 10 );
     }
 
-
     public int get11Overall() {
-        SubjectStats stats = findStatsForClassAndSubject( overallStats, olympiadSubject, 11 );
-        if ( stats != null ) {
-            return stats.count;
-        }
-        return 0;
+        return getOverallForClass( 11 );
     }
 
     private SubjectStats findStatsForClassAndSubject( List<SubjectStats> statsList, OlympiadSubject olympiad, int classNumber ) {

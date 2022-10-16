@@ -216,7 +216,7 @@
                 <tr class="collapse" id="collapseUserClassNumb">
                     <td>&nbsp;</td>
                     <td>
-                        <t:select t:id="userClassNumb" value="profile.classNumber" t:model="literal:10,11" blankLabel="Выберите номер класса"/>
+                        <t:select t:id="userClassNumb" value="profile.classNumber" t:model="literal:9,10,11" blankLabel="Выберите номер класса"/>
                     </td>
                     <td><button class="btn btn-default"><span class="glyphicon glyphicon-save" aria-hidden="true"/></button> </td> <!--  value="${message:save}" -->
                 </tr>

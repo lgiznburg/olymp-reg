@@ -105,7 +105,7 @@
         <div class="form-group">
             <t:label for="classNumber" class="col-sm-4"/>
             <div class="col-sm-8">
-                <t:select value="olympiadConfig.classNumber" t:id="classNumber" t:model="literal:10,11" blankLabel="Выберите номер класса"/>
+                <t:select value="olympiadConfig.classNumber" t:id="classNumber" t:model="literal:9,10,11" blankLabel="Выберите номер класса"/>
             </div>
         </div>
 

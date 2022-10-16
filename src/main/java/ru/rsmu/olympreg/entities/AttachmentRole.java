@@ -6,5 +6,6 @@ package ru.rsmu.olympreg.entities;
 public enum AttachmentRole {
     PASSPORT,
     AGREEMENT,
-    SCHOOL
+    SCHOOL,
+    DIPLOMA
 }

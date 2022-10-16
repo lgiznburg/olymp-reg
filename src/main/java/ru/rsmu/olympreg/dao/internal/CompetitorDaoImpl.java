@@ -3,10 +3,7 @@ package ru.rsmu.olympreg.dao.internal;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
-import org.hibernate.criterion.CriteriaSpecification;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.*;
 import ru.rsmu.olympreg.dao.CompetitorDao;
 import ru.rsmu.olympreg.entities.CompetitorProfile;
 import ru.rsmu.olympreg.entities.OlympiadSubject;
@@ -15,9 +12,11 @@ import ru.rsmu.olympreg.entities.ProfileStage;
 import ru.rsmu.olympreg.viewentities.CompetitorFilter;
 import ru.rsmu.olympreg.viewentities.SortCriterion;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
 
 /**
  * @author leonid.
@@ -36,7 +35,33 @@ public class CompetitorDaoImpl extends BaseDaoImpl implements CompetitorDao {
         Criteria criteria = buildCriteria( filter, sortCriteria )
                 .setFirstResult( startIndex )
                 .setMaxResults( size );
-        return criteria.list();
+        ProjectionList projectionList = Projections.projectionList()
+                .add( Projections.distinct( Projections.id() ) );
+
+        if ( sortCriteria != null ) {
+            AtomicBoolean lastNameOrder = new AtomicBoolean( false );
+            sortCriteria.forEach( sc -> {
+                if ( sc.getPropertyName().equalsIgnoreCase( "lastName" ) ) {
+                    lastNameOrder.set( true );
+                }
+                projectionList.add( Projections.property( "user." + sc.getPropertyName() ) );
+            } );
+            if ( !lastNameOrder.get() ) {
+                projectionList.add( Projections.property( "user.lastName") );
+            }
+            criteria.setProjection( projectionList );
+        }
+
+        List<Long> idList = (List<Long>) criteria.list().stream()
+                .map( a -> ((Object[])a)[0] )
+                .collect( Collectors.toList());
+        if ( idList.isEmpty() ) return Collections.emptyList();
+        Criteria second = session.createCriteria( CompetitorProfile.class )
+                .createAlias( "user", "user" )
+                .add( Restrictions.in( "id", idList ) );
+        addSortCriteria( second, sortCriteria );
+
+        return second.list();
     }
 
     @Override
@@ -101,6 +126,7 @@ public class CompetitorDaoImpl extends BaseDaoImpl implements CompetitorDao {
                 .add( Restrictions.isNotNull( "profile.region" ) )
                 .add( Restrictions.eq( "olympiadSubject", olympiadSubject ) )
                 .add( Restrictions.isNull( "examName" ) )
+                .add( Restrictions.eq( "approved", true ))
                 .setMaxResults( maxResults );
         return criteria.list();
     }
@@ -141,6 +167,14 @@ public class CompetitorDaoImpl extends BaseDaoImpl implements CompetitorDao {
         return criteria.list();
     }
 
+    @Override
+    public CompetitorProfile findProfile( String personalNumber ) {
+        Criteria criteria = session.createCriteria( CompetitorProfile.class )
+                .add( Restrictions.eq( "caseNumber", personalNumber ) )
+                .setMaxResults( 1 );
+        return (CompetitorProfile) criteria.uniqueResult();
+    }
+
     private Criteria buildCriteria( CompetitorFilter filter, List<SortCriterion> sortCriteria ) {
         Criteria criteria = session.createCriteria( CompetitorProfile.class )
                 .createAlias( "user", "user" );
@@ -172,6 +206,15 @@ public class CompetitorDaoImpl extends BaseDaoImpl implements CompetitorDao {
             criteria.add( Restrictions.eq( "participation.approved", false ) );
         }
 
+        addSortCriteria( criteria, sortCriteria );
+        if ( filter.getSubject() != null || filter.isSecondStage() || filter.isNeedApproval() ) {
+            criteria.setResultTransformer( CriteriaSpecification.DISTINCT_ROOT_ENTITY );
+        }
+
+        return  criteria;
+    }
+
+    private void addSortCriteria( Criteria criteria, List<SortCriterion> sortCriteria ) {
         if ( sortCriteria != null ) {
             AtomicBoolean lastNameOrder = new AtomicBoolean( false );
             sortCriteria.forEach( sc -> {
@@ -189,10 +232,5 @@ public class CompetitorDaoImpl extends BaseDaoImpl implements CompetitorDao {
                 criteria.addOrder( Order.asc("user.lastName") );
             }
         }
-        if ( filter.getSubject() != null || filter.isSecondStage() || filter.isNeedApproval() ) {
-            criteria.setResultTransformer( CriteriaSpecification.DISTINCT_ROOT_ENTITY );
-        }
-
-        return  criteria;
     }
 }

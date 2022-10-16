@@ -1,6 +1,8 @@
 package ru.rsmu.olympreg.pages.control;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.tapestry5.annotations.InjectPage;
 import org.apache.tapestry5.annotations.PageActivationContext;
 import org.apache.tapestry5.annotations.Property;
@@ -18,6 +20,7 @@ import java.util.Map;
 /**
  * @author leonid.
  */
+@RequiresRoles( value = {"admin", "manager", "moderator"}, logical = Logical.OR)
 public class ProfileView {
     @Property
     @PageActivationContext
