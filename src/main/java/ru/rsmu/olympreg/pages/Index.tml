@@ -13,7 +13,8 @@
                     ${message:signup}
                 </t:pagelink>
                 <p:else>
-                    Регистрация для участия в олимпиаде завершена.
+                    В даный момент регистрация для участия в олимпиаде не проводится. 
+                    Следите за новостями на <a href="https://rsmu.ru">сайте Университета</a>.
                 </p:else>
             </t:if>
         </div>
@@ -28,32 +29,7 @@
 </t:security.guest>
 
 <t:security.hasrole role="competitor">
-    <t:competitorinfo/>
-    <!--<div class="row">
-        <div class="col-sm-5 col-sm-offset-1 text-lg">
-            <t:pagelink page="account/editprofile" title="Личный кабинет" class="btn btn-success">
-                Личный кабинет
-            </t:pagelink>
-        </div>
-
-    </div>-->
-    <t:if test="diplomaPresent">
-        <div class="panel panel-info" style="margin-top: 1em;">
-            <div class="panel-heading">
-                <h3 class="panel-title">По результатам участия в олимпиаде Вам выданы сертификаты участника или дипломы победителя / призера.</h3>
-            </div>
-            <div class="panel-body">
-                <table class="table">
-                    <t:loop source="diplomaFiles" value="attachedTemp">
-                        <tr>
-                            <td><t:pagelink page="account/previewdiploma" context="attachedTemp" target="_blank">${attachedTemp.sourceName}</t:pagelink></td>
-                        </tr>
-                    </t:loop>
-                </table>
-            </div>
-        </div>
-
-    </t:if>
+    <t:delegate to="competitorPresentation"/>
 </t:security.hasrole>
 
 <div class="row">
@@ -124,5 +100,36 @@
     </div>
 
 </div>
+
+<t:block t:id="competitorBlock">
+    <t:competitorinfo/>
+
+    <t:if test="diplomaPresent">
+        <div class="panel panel-info" style="margin-top: 1em;">
+            <div class="panel-heading">
+                <h3 class="panel-title">По результатам участия в олимпиаде Вам выданы сертификаты участника или дипломы победителя / призера.</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table">
+                    <t:loop source="diplomaFiles" value="attachedTemp">
+                        <tr>
+                            <td><t:pagelink page="account/previewdiploma" context="attachedTemp" target="_blank">${attachedTemp.sourceName}</t:pagelink></td>
+                        </tr>
+                    </t:loop>
+                </table>
+            </div>
+        </div>
+    </t:if>
+</t:block>
+
+<t:block t:id="registrationClosedBlock">
+    <div class="row">
+        <div class="col-sm-10 text-lg">
+            В даный момент регистрация для участия в олимпиаде не проводится.
+            После начала регистрации Вы сможете обновить Ваши данные для участия в олимпиаде в этом году.<br/>
+            Следите за новостями на <a href="https://rsmu.ru">сайте Университета</a>.
+        </div>
+    </div>
+</t:block>
 
 </html>

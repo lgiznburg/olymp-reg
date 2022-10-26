@@ -128,7 +128,6 @@ public class SignUp {
         }
         emailDao.save( emailQueue );
 
-
-            signUpSuccess = true;
+        signUpSuccess = true;
     }
 }

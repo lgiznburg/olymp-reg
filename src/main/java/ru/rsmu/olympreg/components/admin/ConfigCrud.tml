@@ -22,8 +22,8 @@
 
         <t:if test="olympiadConfig">
             <div class="row">
-                <div class="text-center col-sm-4">${olympiadConfig.classNumber} класс</div>
-                <div class="text-center col-sm-4">${subjectName}</div>
+                <div class="text-center col-sm-4"><h3>${olympiadConfig.classNumber} класс</h3></div>
+                <div class="text-center col-sm-4"><h3>${subjectName}</h3></div>
                 <div class="text-center col-sm-4">
                     Используется:
                     <t:if test="olympiadConfig.active">

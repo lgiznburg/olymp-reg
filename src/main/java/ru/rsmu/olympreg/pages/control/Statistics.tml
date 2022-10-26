@@ -63,7 +63,7 @@
     <tr>
         <th rowspan="2" class="text-center">Регион</th>
         <t:loop source="allOlympiadSubject" value="olympiadSubject">
-            <th colspan="2" class="text-center">${olympiadSubjectName}</th>
+            <th colspan="3" class="text-center">${olympiadSubjectName}</th>
         </t:loop>
     </tr>
     <tr>

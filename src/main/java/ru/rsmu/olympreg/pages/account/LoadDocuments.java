@@ -17,6 +17,7 @@ import org.apache.tapestry5.upload.components.Upload;
 import org.apache.tapestry5.upload.services.UploadedFile;
 import ru.rsmu.olympreg.dao.UserDao;
 import ru.rsmu.olympreg.entities.*;
+import ru.rsmu.olympreg.pages.Index;
 import ru.rsmu.olympreg.services.SecurityUserHelper;
 
 import java.io.IOException;
@@ -71,14 +72,23 @@ public class LoadDocuments {
     @Inject
     private Messages messages;
 
+    public Object onActivate() {
+        prepare();
+        if ( profile == null ) return Index.class;
+        return null;
+    }
 
+/*
     public void onPrepareForRender() {
         prepare();
     }
+*/
 
+/*
     public void onPrepareForSubmit() {
         prepare();
     }
+*/
 
     private void prepare() {
         user = securityUserHelper.getCurrentUser();

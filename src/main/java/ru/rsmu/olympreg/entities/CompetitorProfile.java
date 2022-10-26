@@ -47,6 +47,9 @@ public class CompetitorProfile implements Serializable {
     @Enumerated( EnumType.STRING )
     private SchoolLocation schoolLocation;
 
+    @Column
+    private Integer year;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -123,6 +126,14 @@ public class CompetitorProfile implements Serializable {
 
     public void setClassNumber( Integer classNumber ) {
         this.classNumber = classNumber;
+    }
+
+    public Integer getYear() {
+        return year;
+    }
+
+    public void setYear( Integer year ) {
+        this.year = year;
     }
 
     public User getUser() {

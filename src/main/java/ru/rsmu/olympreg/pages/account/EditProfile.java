@@ -14,7 +14,9 @@ import org.apache.tapestry5.services.ValueEncoderSource;
 import org.apache.tapestry5.util.AbstractSelectModel;
 import ru.rsmu.olympreg.dao.UserDao;
 import ru.rsmu.olympreg.entities.*;
+import ru.rsmu.olympreg.pages.Index;
 import ru.rsmu.olympreg.services.SecurityUserHelper;
+import ru.rsmu.olympreg.utils.YearHelper;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,14 +46,23 @@ public class EditProfile {
     @Inject
     private Messages messages;
 
+    public Object onActivate() {
+        prepare();
+        if ( profile == null ) return Index.class;
+        return null;
+    }
 
+/*
     public void onPrepareForRender() {
         prepare();
     }
+*/
 
+/*
     public void onPrepareForSubmit() {
         prepare();
     }
+*/
 
     private void prepare() {
         user = securityUserHelper.getCurrentUser();

@@ -79,6 +79,10 @@ public class ProfileView {
         }
     }
 
+    public String getProfileRegion() {
+        return profile.getRegion() != null ? profile.getRegion().getName() : "-";
+    }
+
     public String getOlympiadSubjectName() {
         String subjectName = "";
         switch ( participationInfo.getOlympiadSubject() ) {
@@ -135,10 +139,12 @@ public class ProfileView {
         emailDao.save( emailQueue );
         return true;
     }
+
     public boolean isApproveAvailable() {
         return profile.getParticipation().stream()
                 .anyMatch( pr -> !pr.getApproved() );
     }
+
     public void onSuccess() {
         Map<String,Object> model = new HashMap<>();
         User competitor = profile.getUser();
@@ -156,7 +162,6 @@ public class ProfileView {
             // do nothing
         }
         emailDao.save( emailQueue );
-
     }
 
     public String getAttachedURI() {

@@ -11,6 +11,7 @@ import org.tynamo.security.services.SecurityService;
 import ru.rsmu.olympreg.dao.UserDao;
 import ru.rsmu.olympreg.entities.*;
 import ru.rsmu.olympreg.services.SimpleUsernameToken;
+import ru.rsmu.olympreg.utils.YearHelper;
 
 import java.util.ArrayList;
 
@@ -63,6 +64,7 @@ public class RegistrationConfirm {
             int caseNumber = userDao.getNextPersonalNumber();
             profile.setCaseNumber( String.valueOf( caseNumber ) );
             profile.setProfileStage( ProfileStage.NEW );
+            profile.setYear( YearHelper.getActualYear() );
             userDao.save( profile );
 
             resultBlock = successBlock;

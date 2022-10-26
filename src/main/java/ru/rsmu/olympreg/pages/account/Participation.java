@@ -10,6 +10,7 @@ import ru.rsmu.olympreg.dao.SystemPropertyDao;
 import ru.rsmu.olympreg.dao.UserDao;
 import ru.rsmu.olympreg.entities.*;
 import ru.rsmu.olympreg.entities.system.StoredPropertyName;
+import ru.rsmu.olympreg.pages.Index;
 import ru.rsmu.olympreg.services.SecurityUserHelper;
 
 import java.util.Collections;
@@ -62,6 +63,13 @@ public class Participation {
     @Inject
     private SecurityUserHelper securityUserHelper;
 
+    public Object onActivate() {
+        prepare();
+        if ( profile == null ) return Index.class;
+        return null;
+    }
+
+/*
     public void onPrepareForRender() {
         prepare();
     }
@@ -69,12 +77,13 @@ public class Participation {
     public void onPrepareForSubmit() {
         prepare();
     }
+*/
 
     private void prepare() {
         user = securityUserHelper.getCurrentUser();
         profile = userDao.findProfile( user );
 
-        if ( profile.getClassNumber() != null ) {
+        if ( profile != null && profile.getClassNumber() != null ) {
             chemistryConfig = olympiadDao.findActiveForClassAndSubject( profile.getClassNumber(), OlympiadSubject.CHEMISTRY );
             biologyConfig = olympiadDao.findActiveForClassAndSubject( profile.getClassNumber(), OlympiadSubject.BIOLOGY );
         }

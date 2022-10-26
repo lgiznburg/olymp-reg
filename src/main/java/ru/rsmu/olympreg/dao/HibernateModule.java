@@ -98,6 +98,5 @@ public class HibernateModule {
         counter.setYear( calendar.get( Calendar.YEAR ) );
         counter.setCounter( 1 );
         configuration.add( "counter", counter );
-
     }
 }

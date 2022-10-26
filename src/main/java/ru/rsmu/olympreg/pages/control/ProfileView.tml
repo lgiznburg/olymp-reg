@@ -32,7 +32,7 @@
 </div>
 <div class="row">
     <div class="col-sm-2">Школа</div>
-    <div class="col-sm-4">${profile.schoolNumber} <br/>${profile.region.name} (${profileSchoolLocation})</div>
+    <div class="col-sm-4">${profile.schoolNumber} <br/>${profileRegion} (${profileSchoolLocation})</div>
     <div class="col-sm-2">Класс</div>
     <div class="col-sm-4">${profile.classNumber}</div>
 </div>

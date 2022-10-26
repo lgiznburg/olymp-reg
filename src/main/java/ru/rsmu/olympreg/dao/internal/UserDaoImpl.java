@@ -9,6 +9,7 @@ import org.hibernate.criterion.Restrictions;
 import ru.rsmu.olympreg.dao.UserDao;
 import ru.rsmu.olympreg.entities.*;
 import ru.rsmu.olympreg.utils.PasswordEncoder;
+import ru.rsmu.olympreg.utils.YearHelper;
 import ru.rsmu.olympreg.viewentities.CompetitorFilter;
 import ru.rsmu.olympreg.viewentities.SortCriterion;
 
@@ -76,6 +77,7 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
     public CompetitorProfile findProfile( User user ) {
         Criteria criteria =  session.createCriteria( CompetitorProfile.class )
                 .add( Restrictions.eq( "user", user  ) )
+                .add( Restrictions.eq( "year", YearHelper.getActualYear() ) )
                 .setMaxResults( 1 );
         return (CompetitorProfile) criteria.uniqueResult();
     }

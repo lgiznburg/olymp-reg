@@ -4,11 +4,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.criterion.*;
+import org.hibernate.type.IntegerType;
 import ru.rsmu.olympreg.dao.CompetitorDao;
 import ru.rsmu.olympreg.entities.CompetitorProfile;
 import ru.rsmu.olympreg.entities.OlympiadSubject;
 import ru.rsmu.olympreg.entities.ParticipationInfo;
 import ru.rsmu.olympreg.entities.ProfileStage;
+import ru.rsmu.olympreg.utils.YearHelper;
 import ru.rsmu.olympreg.viewentities.CompetitorFilter;
 import ru.rsmu.olympreg.viewentities.SortCriterion;
 
@@ -67,6 +69,8 @@ public class CompetitorDaoImpl extends BaseDaoImpl implements CompetitorDao {
     @Override
     public int countSubjectSelectedProfiles() {
         Criteria criteria = session.createCriteria( ParticipationInfo.class )
+                .createAlias( "profile", "profile" )
+                .add( Restrictions.eq( "profile.year", YearHelper.getActualYear() ) )
                 .setProjection( Projections.countDistinct( "profile" ) );
         return ((Long)criteria.uniqueResult()).intValue();
     }
@@ -75,6 +79,7 @@ public class CompetitorDaoImpl extends BaseDaoImpl implements CompetitorDao {
     public List<Object[]> findDetailedStats() {
         Criteria criteria = session.createCriteria( ParticipationInfo.class )
                 .createAlias( "profile", "profile" )
+                .add( Restrictions.eq( "profile.year", YearHelper.getActualYear() ) )
                 .add( Restrictions.isNotNull( "profile.classNumber" ) )
                 .add( Restrictions.isNotNull( "profile.region" ) )
                 .setProjection( Projections.projectionList()
@@ -90,6 +95,7 @@ public class CompetitorDaoImpl extends BaseDaoImpl implements CompetitorDao {
     public List<Object[]> findGlobalDetailedStats() {
         Criteria criteria = session.createCriteria( ParticipationInfo.class )
                 .createAlias( "profile", "profile" )
+                .add( Restrictions.eq( "profile.year", YearHelper.getActualYear() ) )
                 .add( Restrictions.isNotNull( "profile.classNumber" ) )
                 .add( Restrictions.isNotNull( "profile.region" ) )
                 .add( Restrictions.isNull( "examName" ) )
@@ -104,6 +110,7 @@ public class CompetitorDaoImpl extends BaseDaoImpl implements CompetitorDao {
     @Override
     public int countFilledBaseInfo() {
         Criteria criteria = session.createCriteria( CompetitorProfile.class )
+                .add( Restrictions.eq( "year", YearHelper.getActualYear() ) )
                 .add( Restrictions.ne( "profileStage", ProfileStage.NEW ) )
                 .setProjection( Projections.rowCount() );
         return ((Long)criteria.uniqueResult()).intValue();
@@ -113,8 +120,10 @@ public class CompetitorDaoImpl extends BaseDaoImpl implements CompetitorDao {
     public int countUploadCompleted() {
         Query query = session.createQuery(
                 "SELECT count(*) FROM CompetitorProfile cp " +
-                        "WHERE 3 = (SELECT count( distinct af.attachmentRole) FROM AttachedFile af WHERE af.profile = cp )"
-        );
+                        "WHERE cp.year = :year " +
+                        "AND 3 = (SELECT count( distinct af.attachmentRole) FROM AttachedFile af WHERE af.profile = cp )"
+        )
+                .setParameter( "year", YearHelper.getActualYear() );
         return ((Long)query.uniqueResult()).intValue();
     }
 
@@ -122,6 +131,7 @@ public class CompetitorDaoImpl extends BaseDaoImpl implements CompetitorDao {
     public List<ParticipationInfo> findNewParticipations( int classNumber, OlympiadSubject olympiadSubject, int maxResults ) {
         Criteria criteria = session.createCriteria( ParticipationInfo.class )
                 .createAlias( "profile", "profile" )
+                .add( Restrictions.eq( "profile.year", YearHelper.getActualYear() ) )
                 .add( Restrictions.eq( "profile.classNumber", classNumber ) )
                 .add( Restrictions.isNotNull( "profile.region" ) )
                 .add( Restrictions.eq( "olympiadSubject", olympiadSubject ) )
@@ -134,6 +144,8 @@ public class CompetitorDaoImpl extends BaseDaoImpl implements CompetitorDao {
     @Override
     public List<Object[]> findExamsWithNoResults() {
         Criteria criteria = session.createCriteria( ParticipationInfo.class )
+                .createAlias( "profile", "profile" )
+                .add( Restrictions.eq( "profile.year", YearHelper.getActualYear() ) )
                 .add( Restrictions.isNotNull( "examId" ) )
                 .add( Restrictions.lt("endDate", new Date()) )
                 .add( Restrictions.isNull( "result" ) )
@@ -149,6 +161,7 @@ public class CompetitorDaoImpl extends BaseDaoImpl implements CompetitorDao {
     public List<ParticipationInfo> findParticipation( long examId, String caseNumber ) {
         Criteria criteria = session.createCriteria( ParticipationInfo.class )
                 .createAlias( "profile", "profile" )
+                .add( Restrictions.eq( "profile.year", YearHelper.getActualYear() ) )
                 .add( Restrictions.eq( "profile.caseNumber", caseNumber ) )
                 .add( Restrictions.eq( "examId", examId ) );
         return criteria.list();
@@ -159,6 +172,7 @@ public class CompetitorDaoImpl extends BaseDaoImpl implements CompetitorDao {
         Criteria criteria = session.createCriteria( CompetitorProfile.class )
                 .createAlias( "participation", "participation" )
                 .add( Restrictions.eq( "classNumber", classNumber ) )
+                .add( Restrictions.eq( "year", YearHelper.getActualYear() ) )
                 .add( Restrictions.eq( "participation.olympiadSubject", subject ) )
                 .add( Restrictions.eq( "participation.stage", 0 ) )
                 .add( Restrictions.ge( "participation.result", secondStagePassScore ) )
@@ -177,7 +191,8 @@ public class CompetitorDaoImpl extends BaseDaoImpl implements CompetitorDao {
 
     private Criteria buildCriteria( CompetitorFilter filter, List<SortCriterion> sortCriteria ) {
         Criteria criteria = session.createCriteria( CompetitorProfile.class )
-                .createAlias( "user", "user" );
+                .createAlias( "user", "user" )
+                .add( Restrictions.eq( "year", YearHelper.getActualYear() ) );
         if ( filter.getSubject() != null || filter.isSecondStage() || filter.isNeedApproval() ) {
             criteria.createAlias( "participation", "participation" );
         }

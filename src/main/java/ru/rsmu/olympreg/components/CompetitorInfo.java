@@ -7,8 +7,10 @@ import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import ru.rsmu.olympreg.dao.UserDao;
 import ru.rsmu.olympreg.entities.CompetitorProfile;
+import ru.rsmu.olympreg.entities.ProfileStage;
 import ru.rsmu.olympreg.entities.User;
 import ru.rsmu.olympreg.services.SecurityUserHelper;
+import ru.rsmu.olympreg.utils.YearHelper;
 
 /**
  * @author leonid.
