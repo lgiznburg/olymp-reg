@@ -83,9 +83,7 @@ public class Index {
     }
 
     public boolean isRegistrationOpen() {
-        List<OlympiadConfig> configList = olympiadDao.getAllConfigs();
-        return configList.stream()
-                .anyMatch( config -> config.getRegistrationStart().before( new Date() ) && config.getRegistrationEnd().after( new Date() ) );
+        return olympiadDao.checkRegistrationOpen();
     }
 
     public List<AttachedFile> getDiplomaFiles() {

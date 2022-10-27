@@ -22,65 +22,72 @@
             <div class="row" style="padding-bottom: 2rem;">
                 <div class="col-sm-offset-1 col-sm-5">
                     <t:checkbox value="addToChemistry" t:id="addToChemistry"/>
-                    <t:label for="addToChemistry"> Записаться для участия в олимпиаде по <strong>Химии</strong></t:label>
+                    <t:label for="addToChemistry" style="padding-left:1em"> Записаться для участия в олимпиаде по <strong>Химии</strong></t:label>
                 </div>
                 <div class="col-sm-5 text-right"><input type="submit" value="Сохранить"/> </div>
             </div>
         </t:if>
         <t:if test="chemistryParticipation">
             <div class="row" style="padding-bottom: 2rem;">
-                <div class="col-sm-offset-1 col-sm-5">
+                <div class="col-sm-offset-1 col-sm-10">
                     <t:participationpreview info="chemistryParticipation" config="chemistryConfig"/>
                 </div>
             </div>
         </t:if>
         <t:if test="chemistryOpen2">
             <div class="row" style="padding-bottom: 2rem;">
-            <div class="col-sm-offset-1 col-sm-5">
+            <div class="col-sm-offset-1 col-sm-10">
                 <t:eventlink t:event="createChemistrySecond" class="btn btn-default">Подтвердить участие во 2-ом этапе по Химии</t:eventlink>
             </div>
             </div>
         </t:if>
         <t:if test="chemistryParticipation2">
             <div class="row" style="padding-bottom: 2rem;">
-                <div class="col-sm-offset-1 col-sm-5">
+                <div class="col-sm-offset-1 col-sm-10">
                     <t:participationpreview info="chemistryParticipation2" config="chemistryConfig"/>
                 </div>
             </div>
         </t:if>
 
-
         <t:if test="biologyOpen">
             <div class="row"  style="padding-bottom: 2rem;">
                 <div class="col-sm-offset-1 col-sm-5">
                     <t:checkbox value="addToBiology" t:id="addToBiology"/>
-                    <t:label for="addToBiology"> Записаться для участия в олимпиаде по <strong>Биологии</strong></t:label>
+                    <t:label for="addToBiology" style="padding-left:1em"> Записаться для участия в олимпиаде по <strong>Биологии</strong></t:label>
                 </div>
                 <div class="col-sm-5 text-right"><input type="submit" value="Сохранить"/> </div>
             </div>
         </t:if>
         <t:if test="biologyParticipation">
             <div class="row"  style="padding-bottom: 2rem;">
-                <div class="col-sm-offset-1 col-sm-5">
+                <div class="col-sm-offset-1 col-sm-10">
                     <t:participationpreview info="biologyParticipation" config="biologyConfig"/>
                 </div>
             </div>
         </t:if>
         <t:if test="biologyOpen2">
             <div class="row" style="padding-bottom: 2rem;">
-                <div class="col-sm-offset-1 col-sm-5">
+                <div class="col-sm-offset-1 col-sm-10">
                     <t:eventlink t:event="createBiologySecond" class="btn btn-default">Подтвердить участие во 2-ом этапе по Биологии</t:eventlink>
                 </div>
             </div>
         </t:if>
         <t:if test="biologyParticipation2">
             <div class="row" style="padding-bottom: 2rem;">
-                <div class="col-sm-offset-1 col-sm-5">
+                <div class="col-sm-offset-1 col-sm-10">
                     <t:participationpreview info="biologyParticipation2" config="biologyConfig"/>
                 </div>
             </div>
         </t:if>
-
     </t:form>
+    <t:if test="nothingFound">
+        <div class="row">
+            <div class="col-sm-offset-1 col-sm-10">
+                <p class="alert-warning">Не найдены олимпиады для Вашего участия. Проверьте, пожадйста,
+                корректность заполнения персональных данных. Напоминаем, что записаться для участия в олимпиаде
+                возможно только в период открытой регистрации на первый этап.</p>
+            </div>
+        </div>
+    </t:if>
 </body>
 </html>

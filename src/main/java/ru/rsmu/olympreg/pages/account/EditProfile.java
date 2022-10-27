@@ -12,6 +12,7 @@ import org.apache.tapestry5.ioc.Messages;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.ValueEncoderSource;
 import org.apache.tapestry5.util.AbstractSelectModel;
+import ru.rsmu.olympreg.dao.OlympiadDao;
 import ru.rsmu.olympreg.dao.UserDao;
 import ru.rsmu.olympreg.entities.*;
 import ru.rsmu.olympreg.pages.Index;
@@ -33,9 +34,11 @@ public class EditProfile {
     @Property
     private CompetitorProfile profile;
 
-
     @Inject
     private UserDao userDao;
+
+    @Inject
+    private OlympiadDao olympiadDao;
 
     @Inject
     private SecurityUserHelper securityUserHelper;
@@ -109,6 +112,11 @@ public class EditProfile {
                 return regions.stream().map( r -> new OptionModelImpl( r.getName(), r ) ).collect( Collectors.toList());
             }
         };
+    }
+
+    public boolean isRegistrationOpen() {
+        // going to block class number change after registration closing
+        return olympiadDao.checkRegistrationOpen();
     }
 
     public void onSuccess() {

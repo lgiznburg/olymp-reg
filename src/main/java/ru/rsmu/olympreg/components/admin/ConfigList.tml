@@ -3,16 +3,18 @@
 <t:content>
     <div id="usersList">
         <t:grid t:id="usersGrid" source="olympiadConfigList" row="olympiadIt"
-                exclude="id,registrationStart, registrationEnd, secondStage, secondStageRegistrationStart, secondStageRegistrationEnd, secondStagePassScore"
-                reorder="active,classNumber,subject,firstStage"
+                exclude="id,registrationStart, registrationEnd, secondStage, secondStageRegistrationStart, secondStageRegistrationEnd, secondStagePassScore,active"
+                reorder="classNumber,subject,firstStage"
                 class="table table-bordered table-hover"
                 rowsPerPage="25" pagerPosition="bottom"
                 empty="block:emptyConfigs">
+<!--
             <p:activeCell>
                 <t:if test="olympiadIt.active">
                     <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                 </t:if>
             </p:activeCell>
+-->
             <p:firstStageCell>
                 <t:eventLink event="configSelected" context="olympiadIt" class="prop:linkCssClass">
                     <t:output format="literal:dd/MM/yyyy" value="olympiadIt.firstStage"/>

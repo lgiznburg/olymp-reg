@@ -13,10 +13,7 @@ import ru.rsmu.olympreg.entities.system.StoredPropertyName;
 import ru.rsmu.olympreg.pages.Index;
 import ru.rsmu.olympreg.services.SecurityUserHelper;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -124,16 +121,14 @@ public class Participation {
     public boolean isChemistryOpen() {
         ParticipationInfo participationInfo1 = getChemistryParticipation();
         return chemistryConfig != null
-                && chemistryConfig.getRegistrationStart().before( new Date() )
-                && chemistryConfig.getRegistrationEnd().after( new Date() )
+                && checkRegistrationDate( chemistryConfig.getRegistrationStart(), chemistryConfig.getRegistrationEnd() )
                 && participationInfo1 == null;
     }
 
     public boolean isBiologyOpen() {
         ParticipationInfo participationInfo1 = getBiologyParticipation();
         return biologyConfig != null
-                && biologyConfig.getRegistrationStart().before( new Date() )
-                && biologyConfig.getRegistrationEnd().after( new Date() )
+                && checkRegistrationDate( biologyConfig.getRegistrationStart(), biologyConfig.getRegistrationEnd() )
                 && participationInfo1 == null;
     }
 
@@ -141,8 +136,7 @@ public class Participation {
         ParticipationInfo participationInfo1 = getChemistryParticipation();
         ParticipationInfo participationInfo2 = getChemistryParticipation2();
         return chemistryConfig != null
-                && chemistryConfig.getSecondStageRegistrationStart().before( new Date() )
-                && chemistryConfig.getSecondStageRegistrationEnd().after( new Date() )
+                && checkRegistrationDate( chemistryConfig.getSecondStageRegistrationStart(), chemistryConfig.getSecondStageRegistrationEnd() )
                 && participationInfo2 == null
                 && participationInfo1 != null
                 && participationInfo1.getResult() != null
@@ -153,8 +147,7 @@ public class Participation {
         ParticipationInfo participationInfo1 = getBiologyParticipation();
         ParticipationInfo participationInfo2 = getBiologyParticipation2();
         return biologyConfig != null
-                && biologyConfig.getSecondStageRegistrationStart().before( new Date() )
-                && biologyConfig.getSecondStageRegistrationEnd().after( new Date() )
+                && checkRegistrationDate( biologyConfig.getSecondStageRegistrationStart(), biologyConfig.getSecondStageRegistrationEnd() )
                 && participationInfo2 == null
                 && participationInfo1 != null
                 && participationInfo1.getResult() != null
@@ -230,5 +223,16 @@ public class Participation {
         return true;
     }
 
+    private boolean checkRegistrationDate( Date startDate, Date endDate ) {
+        Calendar calendar = Calendar.getInstance();
+        Date thisDay = calendar.getTime();
+        calendar.add( Calendar.DAY_OF_YEAR, -1 );
+        return  startDate.before( thisDay ) && endDate.after( calendar.getTime() );
+    }
 
+    public boolean isNothingFound() {
+        return profile == null || profile.getParticipation() == null
+                || profile.getParticipation().size() == 0
+                || ( chemistryConfig == null && biologyConfig == null );
+    }
 }

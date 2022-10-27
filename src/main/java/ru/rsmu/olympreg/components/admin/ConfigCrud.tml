@@ -36,33 +36,23 @@
                 </div>
             </div>
 
-            <div class="row>">
-                <div class="co-sm-6"><strong>Первый этап</strong></div>
-            </div>
-            <div class="row">
-                <div class="col-sm-8 text-right">Регистрация:
-                    <t:output format="literal:dd/MM/yyyy" value="olympiadConfig.registrationStart"/> - <t:output format="literal:dd/MM/yyyy" value="olympiadConfig.registrationEnd"/>
-                </div>
-                <div class="col-sm-4 text-right">Проведение:
-                    <t:output format="literal:dd/MM/yyyy" value="olympiadConfig.firstStage"/>
-                </div>
-            </div>
-            <div class="row>">
-                <div class="co-sm-6"><strong>Второй этап</strong></div>
-            </div>
-            <div class="row">
-                <div class="col-sm-8 text-right">Регистрация:
-                    <t:output format="literal:dd/MM/yyyy" value="olympiadConfig.secondStageRegistrationStart"/> - <t:output format="literal:dd/MM/yyyy" value="olympiadConfig.secondStageRegistrationEnd"/>
-                </div>
-                <div class="col-sm-4 text-right">Проведение:
-                    <t:output format="literal:dd/MM/yyyy" value="olympiadConfig.secondStage"/>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-sm-6">Проходной балл: <t:if test="olympiadConfig.secondStagePassScore">${olympiadConfig.secondStagePassScore}</t:if></div>
-            </div>
-
+            <table class="table table-bordered table-hover">
+                <tr>
+                    <th>Этап (Проходной балл)</th>
+                    <th>Регистрация</th>
+                    <th>Проведение</th>
+                </tr>
+                <tr>
+                    <td><strong>I</strong></td>
+                    <td><t:output format="literal:dd/MM/yyyy" value="olympiadConfig.registrationStart"/> - <t:output format="literal:dd/MM/yyyy" value="olympiadConfig.registrationEnd"/></td>
+                    <td><t:output format="literal:dd/MM/yyyy" value="olympiadConfig.firstStage"/></td>
+                </tr>
+                <tr>
+                    <td><strong>II</strong> <t:if test="olympiadConfig.secondStagePassScore">( ${olympiadConfig.secondStagePassScore} )</t:if></td>
+                    <td><t:output format="literal:dd/MM/yyyy" value="olympiadConfig.secondStageRegistrationStart"/> - <t:output format="literal:dd/MM/yyyy" value="olympiadConfig.secondStageRegistrationEnd"/></td>
+                    <td><t:output format="literal:dd/MM/yyyy" value="olympiadConfig.secondStage"/></td>
+                </tr>
+            </table>
             <div class="buttons row">
                 <div class="col-sm-10 col-sm-offset-2">
                     <t:eventlink event="toUpdate" context="olympiadConfig" class="btn btn-primary">${message:user-update}</t:eventlink>
@@ -163,6 +153,9 @@
             <div class="col-sm-8">
                 <t:checkbox t:id="active" value="olympiadConfig.active"/>
             </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-10 text-info">Даты начала и конца регистрации указываются включительно.</div>
         </div>
     </t:block>
 </t:content>

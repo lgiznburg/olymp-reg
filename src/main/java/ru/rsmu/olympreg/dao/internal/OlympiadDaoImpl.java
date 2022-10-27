@@ -10,6 +10,8 @@ import ru.rsmu.olympreg.entities.OlympiadConfig;
 import ru.rsmu.olympreg.entities.OlympiadSubject;
 import ru.rsmu.olympreg.utils.YearHelper;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,5 +39,18 @@ public class OlympiadDaoImpl extends BaseDaoImpl implements OlympiadDao {
                         YearHelper.getActualYear(), IntegerType.INSTANCE ) )
                 .setMaxResults( 1 );
         return (OlympiadConfig) criteria.uniqueResult();
+    }
+
+    @Override
+    public boolean checkRegistrationOpen() {
+        Calendar calendar = Calendar.getInstance();
+        Date currTime = calendar.getTime();
+        calendar.add( Calendar.DAY_OF_YEAR, -1 );
+        Date nextDay = calendar.getTime();
+        Criteria criteria = session.createCriteria( OlympiadConfig.class )
+                .add( Restrictions.le( "registrationStart", currTime) )
+                .add( Restrictions.gt( "registrationEnd", nextDay ) )
+                .setMaxResults( 1 );
+        return criteria.uniqueResult() != null;
     }
 }

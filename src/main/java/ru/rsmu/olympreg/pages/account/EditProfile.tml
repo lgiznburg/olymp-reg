@@ -206,20 +206,28 @@
                     <td>Класс</td>
                     <td><t:if test="profile.classNumber">${profile.classNumber}</t:if></td>
                     <td>
-                        <a href="#userClassNumb" class="btn btn-default" data-toggle="collapse"
-                           data-target="#collapseUserClassNumb"
-                           aria-expanded="false" aria-controls="collapseUserClassNumb">
-                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"/>
-                        </a>
+                        <t:if test="registrationOpen">
+                            <a href="#userClassNumb" class="btn btn-default" data-toggle="collapse"
+                               data-target="#collapseUserClassNumb"
+                               aria-expanded="false" aria-controls="collapseUserClassNumb">
+                                <span class="glyphicon glyphicon-pencil" aria-hidden="true"/>
+                            </a>
+                        </t:if>
                     </td>
                 </tr>
-                <tr class="collapse" id="collapseUserClassNumb">
-                    <td>&nbsp;</td>
-                    <td>
-                        <t:select t:id="userClassNumb" value="profile.classNumber" t:model="literal:9,10,11" blankLabel="Выберите номер класса"/>
-                    </td>
-                    <td><button class="btn btn-default"><span class="glyphicon glyphicon-save" aria-hidden="true"/></button> </td> <!--  value="${message:save}" -->
-                </tr>
+                <t:if test="registrationOpen">
+                    <tr class="collapse" id="collapseUserClassNumb">
+                        <td>&nbsp;</td>
+                        <td>
+                            <t:select t:id="userClassNumb" value="profile.classNumber" t:model="literal:9,10,11"
+                                      blankLabel="Выберите номер класса"/>
+                        </td>
+                        <td>
+                            <button class="btn btn-default"><span class="glyphicon glyphicon-save" aria-hidden="true"/>
+                            </button>
+                        </td> <!--  value="${message:save}" -->
+                    </tr>
+                </t:if>
 
             </table>
         </t:form>
