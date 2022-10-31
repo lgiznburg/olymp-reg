@@ -89,7 +89,7 @@ public class EmailServiceImpl implements EmailService {
         htmlEmail.setFrom( systemPropertyDao.getProperty( StoredPropertyName.EMAIL_FROM_ADDRESS ),
                 systemPropertyDao.getProperty( StoredPropertyName.EMAIL_FROM_SIGNATURE ),
                 "UTF-8" );
-        htmlEmail.setBounceAddress( systemPropertyDao.getProperty( StoredPropertyName.EMAIL_FROM_ADDRESS ) ); // todo add to system properties
+        htmlEmail.setBounceAddress( systemPropertyDao.getProperty( StoredPropertyName.EMAIL_FROM_ADDRESS ) );
             /*try {
                 List<InternetAddress> replyToAddresses = new ArrayList<>();
                 replyToAddresses.add( new InternetAddress("noreply@rsmu.ru") );
