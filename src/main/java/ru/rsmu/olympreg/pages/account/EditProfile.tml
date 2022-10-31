@@ -149,20 +149,28 @@
                     <td>Регион</td>
                     <td>${profileRegionName}</td>
                     <td>
-                        <a href="#userRegion" class="btn btn-default" data-toggle="collapse"
-                           data-target="#collapseUserRegion"
-                           aria-expanded="false" aria-controls="collapseUserRegion">
-                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"/>
-                        </a>
+                        <t:if test="registrationOpen">
+                            <a href="#userRegion" class="btn btn-default" data-toggle="collapse"
+                               data-target="#collapseUserRegion"
+                               aria-expanded="false" aria-controls="collapseUserRegion">
+                                <span class="glyphicon glyphicon-pencil" aria-hidden="true"/>
+                            </a>
+                        </t:if>
                     </td>
                 </tr>
-                <tr class="collapse" id="collapseUserRegion">
-                    <td>&nbsp;</td>
-                    <td>
-                        <t:select t:id="userRegion" value="profile.region" t:model="regionsModel" encoder="regionsEncoder" blankLabel="Выберите регион / субъект РФ"/>
-                    </td>
-                    <td><button class="btn btn-default"><span class="glyphicon glyphicon-save" aria-hidden="true"/></button> </td> <!--  value="${message:save}" -->
-                </tr>
+                <t:if test="registrationOpen">
+                    <tr class="collapse" id="collapseUserRegion">
+                        <td>&nbsp;</td>
+                        <td>
+                            <t:select t:id="userRegion" value="profile.region" t:model="regionsModel"
+                                      encoder="regionsEncoder" blankLabel="Выберите регион / субъект РФ"/>
+                        </td>
+                        <td>
+                            <button class="btn btn-default"><span class="glyphicon glyphicon-save" aria-hidden="true"/>
+                            </button>
+                        </td> <!--  value="${message:save}" -->
+                    </tr>
+                </t:if>
 
                 <tr>
                     <td>Название образовательного учереждения</td>

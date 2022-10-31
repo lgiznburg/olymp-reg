@@ -13,8 +13,11 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.ValueEncoderSource;
 import org.apache.tapestry5.util.AbstractSelectModel;
 import ru.rsmu.olympreg.dao.OlympiadDao;
+import ru.rsmu.olympreg.dao.SystemPropertyDao;
 import ru.rsmu.olympreg.dao.UserDao;
 import ru.rsmu.olympreg.entities.*;
+import ru.rsmu.olympreg.entities.system.StoredProperty;
+import ru.rsmu.olympreg.entities.system.StoredPropertyName;
 import ru.rsmu.olympreg.pages.Index;
 import ru.rsmu.olympreg.services.SecurityUserHelper;
 import ru.rsmu.olympreg.utils.YearHelper;
@@ -39,6 +42,9 @@ public class EditProfile {
 
     @Inject
     private OlympiadDao olympiadDao;
+
+    @Inject
+    private SystemPropertyDao systemPropertyDao;
 
     @Inject
     private SecurityUserHelper securityUserHelper;
@@ -109,7 +115,10 @@ public class EditProfile {
             @Override
             public List<OptionModel> getOptions() {
                 List<SubjectRegion> regions = userDao.findAll( SubjectRegion.class );
-                return regions.stream().map( r -> new OptionModelImpl( r.getName(), r ) ).collect( Collectors.toList());
+                int otherCountryAllowed = systemPropertyDao.getPropertyAsInt( StoredPropertyName.OTHER_COUNTRY_ALLOWED );
+                return regions.stream()
+                        .filter( r -> otherCountryAllowed == 1 || !r.getName().matches( "Не РФ" ) )
+                        .map( r -> new OptionModelImpl( r.getName(), r ) ).collect( Collectors.toList());
             }
         };
     }

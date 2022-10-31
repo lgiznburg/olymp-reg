@@ -22,6 +22,7 @@ public enum StoredPropertyName {
 
     VIEW_ONLY_THIS_YEAR_EXAM("Global", "Показывать экзамены только текущего года", "1", StoredPropertyType.INTEGER ),
     MY_OWN_URI("Global", "Адрес данного сервера", "https://olymp.rsmu.ru", StoredPropertyType.STRING ),
+    OTHER_COUNTRY_ALLOWED( "Global", "Разрешить участие школьников из других стран", "1", StoredPropertyType.INTEGER ),
     REGISTRATION_AVAILABLE("Global", "Регистрация открыта", "1", StoredPropertyType.INTEGER ),
     REGISTRATION_CHEMISTRY_AVAILABLE("Global", "Регистрация на Химию открыта", "1", StoredPropertyType.INTEGER ),
     REGISTRATION_BIOLOGY_AVAILABLE("Global", "Регистрация на Биологию открыта", "1", StoredPropertyType.INTEGER )
