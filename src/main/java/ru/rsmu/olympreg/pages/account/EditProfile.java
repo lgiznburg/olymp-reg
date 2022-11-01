@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
  * @author leonid.
  */
 @RequiresRoles( "competitor" )
-@Import( module = "bootstrap/collapse" )
+@Import( module = "bootstrap/modal" )
 public class EditProfile {
     @Property
     private User user;

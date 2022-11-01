@@ -55,4 +55,8 @@ public class CompetitorInfo {
                 && (profile.isAttachmentsCompleted() || !"documents".equalsIgnoreCase( currentPage ))
                 && (profile.isSubjectSelected() || !"participation".equalsIgnoreCase( currentPage ));
     }
+
+    public boolean showInstructions() {
+        return !profile.isProfileCompleted() || !profile.isAttachmentsCompleted() || !profile.isSubjectSelected();
+    }
 }

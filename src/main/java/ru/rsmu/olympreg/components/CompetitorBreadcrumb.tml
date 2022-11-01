@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
+      xmlns:p="tapestry:parameter"
+>
+<t:content>
+    <div class="row">
+        <div class="col-sm-10 text-lg" style="display: flex;">
+            <strong class="text-primary" style="padding: 8px 15px;">Личный кабинет &gt;</strong>
+            <ol class="breadcrumb">
+                <t:if test="profilePage">
+                    <li class="active">Информация об участнике</li>
+                    <p:else>
+                        <li><t:pagelink page="account/editprofile">Информация об участнике</t:pagelink></li>
+                    </p:else>
+                </t:if>
+                <t:if test="documentsPage">
+                    <li class="active">Скан-копии документов</li>
+                    <p:else>
+                        <li><t:pagelink page="account/loaddocuments">Скан-копии документов</t:pagelink></li>
+                    </p:else>
+                </t:if>
+                <t:if test="participationPage">
+                    <li class="active"><t:if test="subjectSelected">Участие в олимпиаде<p:else>Регистрация на олимпиаду</p:else></t:if></li>
+                    <p:else>
+                        <li><t:pagelink page="account/participation"><t:if test="subjectSelected">Участие в олимпиаде<p:else>Регистрация на олимпиаду</p:else></t:if></t:pagelink></li>
+                    </p:else>
+                </t:if>
+            </ol>
+        </div>
+    </div>
+
+</t:content>
+</html>

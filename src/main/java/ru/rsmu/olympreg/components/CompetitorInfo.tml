@@ -2,6 +2,31 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
 >
 <t:content>
+    <t:if test="showInstructions()">
+        <div class="row">
+            <div class="col-sm-10">
+                <div class="panel panel-warning bg-info" style="padding: 1em;">
+                    <h4>Внимание</h4>
+                    Для завершения регистрации Вы должны выполнить следующие действия:
+                    <ol>
+                        <li>
+                            Заполнить персональную информацию с указанием контактных данных,
+                            региона/субъекта РФ, названия или номера образовательного учереждения и номера класса.
+                        </li>
+                        <li>
+                            Загрузить скан-копии первой страницы паспорта, справки из школы
+                            и согласия на обработку персональных данных.
+                        </li>
+                        <li>
+                            Выбрать предмет или предметы, по которым Вы будете принимать участие в Олимпиаде.
+                        </li>
+                    </ol>
+                    В случае не полного заполнения указанной информации организационный комитет оставляет
+                    за собой право не допустить Вас к выполнению заданий Олимпиады.
+                </div>
+            </div>
+        </div>
+    </t:if>
     <t:if test="showMe()">
         <div class="row">
             <div class="col-sm-10">
@@ -11,23 +36,23 @@
     </t:if>
 
     <t:block t:id="emptyProfile">
-        <div class="panel panel-warning" style="margin-top: 1em;">
+        <div class="panel panel-danger bg-warning" style="margin-top: 1em;">
             <div class="panel-body">
                 Отсутствует информация, необходимая для участия в олимпиаде. Вам требуется заполнить <t:pagelink page="account/editprofile">данные участника олимпиады</t:pagelink>.
             </div>
         </div>
     </t:block>
     <t:block t:id="documentsMissed">
-        <div class="panel panel-warning" style="margin-top: 1em;">
+        <div class="panel panel-danger bg-warning" style="margin-top: 1em;">
             <div class="panel-body">
                 Введена базовая информация об участнике олимпиады. Необходимо <t:pagelink page="account/loaddocuments">загрузить скан-копии документов</t:pagelink>.
             </div>
         </div>
     </t:block>
     <t:block t:id="selectSubject">
-        <div class="panel panel-warning" style="margin-top: 1em;">
+        <div class="panel panel-danger bg-warning" style="margin-top: 1em;">
             <div class="panel-body">
-                Вам нужно <t:pagelink page="account/participation">выбрать предмет или предметы</t:pagelink> для участия.
+                Вам нужно <t:pagelink page="account/participation">выбрать профиль Олимпиды </t:pagelink> для участия.
             </div>
         </div>
     </t:block>
