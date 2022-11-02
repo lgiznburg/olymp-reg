@@ -71,7 +71,7 @@
             </t:if>
 
             <tr>
-                <td colspan="2"><h4>Загрузить соглависе на обработку персональных данных</h4></td>
+                <td colspan="2"><h4>Загрузить согласие на обработку персональных данных</h4></td>
                 <td>
                     <a href="#agreementFileField" class="btn btn-default" data-toggle="collapse"
                        data-target="#collapseAgreementUpload"
