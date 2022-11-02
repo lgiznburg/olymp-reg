@@ -9,80 +9,76 @@
 <div class="row"><h3>Прикрепленные документы</h3></div>
 
 <div class="row">
-    <t:form t:id="documentsForm">
-        <table class="table table-responsive">
-            <t:if test="formErrorMessage">
-                <tr><td colspan="2"><div class="alert alert-warning" role="alert">${formErrorMessage}</div></td></tr>
-            </t:if>
-        <tr>
-            <td colspan="2"><h4>Скан-копия паспорта</h4></td>
-            <td></td>
-        </tr>
-            <t:loop source="passportFiles" value="attachedTemp" encoder="attachedFileEncoder">
-                <tr>
-                    <td>${attachedTemp.sourceName}</td>
-                    <td>${attachedTemp.size}</td>
-                    <td><t:eventlink event="deleteFile" context="attachedTemp"><span class="glyphicon glyphicon-remove"/></t:eventlink> </td>
-                </tr>
-            </t:loop>
-            <t:if test="passportFiles.empty">
-                <tr>
-                    <td colspan="2">Скан-копия не загружена</td>
-                    <td></td>
-                </tr>
-            </t:if>
+    <t:form t:id="documentsForm" class="form-horizontal">
+        <t:if test="formErrorMessage">
+            <div class="row"><div class="alert alert-warning" role="alert">${formErrorMessage}</div></div>
+        </t:if>
 
-            <tr>
-                <td colspan="2"><h4>Загрузить скан-копию паспорта</h4></td>
-                <td>
-                    <a href="#passportFileField" class="btn btn-default" data-toggle="collapse"
-                       data-target="#collapsePassportUpload"
-                       aria-expanded="false" aria-controls="collapsePassportUpload">
-                        <span class="glyphicon glyphicon-upload" aria-hidden="true"/>
-                    </a>
-                </td>
-            </tr>
-            <tr class="collapse" id="collapsePassportUpload">
-                <td>&nbsp;</td>
-                <td>
+        <div class="row">
+            <div class="col-sm-8"> <h4>Скан-копия паспорта</h4></div>
+            <div class="col-sm-2">
+                <a href="#passportFileField" class="btn btn-info" data-toggle="collapse"
+                   data-target="#collapsePassportUpload"
+                   aria-expanded="false" aria-controls="collapsePassportUpload">
+                    Загрузить скан-копию
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <ul>
+                <t:loop source="passportFiles" value="attachedTemp" encoder="attachedFileEncoder">
+                    <li>
+                        <div class="col-sm-5">${attachedTemp.sourceName}</div>
+                        <div class="col-sm-2">${attachedTemp.size}</div>
+                        <div class="col-sm-1"><t:eventlink event="deleteFile" context="attachedTemp"><span class="glyphicon glyphicon-remove"/></t:eventlink> </div>
+                    </li>
+                    <t:if test="passportFiles.empty">
+                        <li>Скан-копия паспорта не загружена</li>
+                    </t:if>
+                </t:loop>
+            </ul>
+        </div>
+
+        <div class="collapse" id="collapsePassportUpload">
+            <div class="form-group">
+                <div class="col-sm-7 col-sm-offset-1">
                     <t:upload t:id="passportFileField" value="passportFile"/>
                     <br/><br/>
                     <span class="text-muted">Необходимо загрузить скан-копию первого разворота паспорта.</span>
-                </td>
-                <td><button class="btn btn-default"><span class="glyphicon glyphicon-save" aria-hidden="true"/></button> </td> <!--  value="${message:save}" -->
-            </tr>
-                <!-- agreement -->
-            <tr>
-                <td colspan="2"><h4>Согласие на обработку персональных данных</h4></td>
-                <td></td>
-            </tr>
-            <t:loop source="agreementFiles" value="attachedTemp" encoder="attachedFileEncoder">
-                <tr>
-                    <td>${attachedTemp.sourceName}</td>
-                    <td>${attachedTemp.size}</td>
-                    <td><t:eventlink event="deleteFile" context="attachedTemp"><span class="glyphicon glyphicon-remove"/></t:eventlink> </td>
-                </tr>
-            </t:loop>
-            <t:if test="agreementFiles.empty">
-                <tr>
-                    <td colspan="2">Согласие не загружено</td>
-                    <td></td>
-                </tr>
-            </t:if>
+                </div>
+                <div class="col-sm-3"><button class="btn btn-primary">Сохранить</button></div>
+            </div>
+        </div>
 
-            <tr>
-                <td colspan="2"><h4>Загрузить согласие на обработку персональных данных</h4></td>
-                <td>
-                    <a href="#agreementFileField" class="btn btn-default" data-toggle="collapse"
-                       data-target="#collapseAgreementUpload"
-                       aria-expanded="false" aria-controls="collapseAgreementUpload">
-                        <span class="glyphicon glyphicon-upload" aria-hidden="true"/>
-                    </a>
-                </td>
-            </tr>
-            <tr class="collapse" id="collapseAgreementUpload">
-                <td>&nbsp;</td>
-                <td>
+        <!-- agreement -->
+        <div class="row">
+            <div class="col-sm-8"> <h4>Согласие на обработку персональных данных</h4></div>
+            <div class="col-sm-2">
+                <a href="#agreementFileField" class="btn btn-info" data-toggle="collapse"
+                   data-target="#collapseAgreementUpload"
+                   aria-expanded="false" aria-controls="collapseAgreementUpload">
+                    Загрузить согласие
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <ul>
+                <t:loop source="agreementFiles" value="attachedTemp" encoder="attachedFileEncoder">
+                    <li>
+                        <div class="col-sm-5">${attachedTemp.sourceName}</div>
+                        <div class="col-sm-2">${attachedTemp.size}</div>
+                        <div class="col-sm-1"><t:eventlink event="deleteFile" context="attachedTemp"><span class="glyphicon glyphicon-remove"/></t:eventlink> </div>
+                    </li>
+                    <t:if test="agreementFiles.empty">
+                        <li>Согласие не загружено</li>
+                    </t:if>
+                </t:loop>
+            </ul>
+        </div>
+
+        <div class="collapse" id="collapseAgreementUpload">
+            <div class="form-group">
+                <div class="col-sm-7 col-sm-offset-1">
                     <t:upload t:id="agreementFileField" value="agreementFile"/>
                     <br/><br/>
                     <span class="text-muted">Скачайте и заполните
@@ -90,49 +86,47 @@
                             форму согласия на обработку персональных данных
                         </a>. Закрузите скан-копию этого документа.
                     </span>
-                </td>
-                <td><button class="btn btn-default"><span class="glyphicon glyphicon-save" aria-hidden="true"/></button> </td> <!--  value="${message:save}" -->
-            </tr>
+                </div>
+                <div class="col-sm-3"><button class="btn btn-primary">Сохранить</button></div>
+            </div>
+        </div>
 
-            <tr>
-                <td colspan="2"><h4>Справка из образовательного учереждения</h4></td>
-                <td></td>
-            </tr>
-            <t:loop source="schoolFiles" value="attachedTemp" encoder="attachedFileEncoder">
-                <tr>
-                    <td>${attachedTemp.sourceName}</td>
-                    <td>${attachedTemp.size}</td>
-                    <td><t:eventlink event="deleteFile" context="attachedTemp"><span class="glyphicon glyphicon-remove"/></t:eventlink> </td>
-                </tr>
-            </t:loop>
-            <t:if test="schoolFiles.empty">
-                <tr>
-                    <td colspan="2">Справка не загружена</td>
-                    <td></td>
-                </tr>
-            </t:if>
+        <div class="row">
+            <div class="col-sm-8"> <h4>Справка из образовательного учереждениях</h4></div>
+            <div class="col-sm-2">
+                <a href="#schoolFileField" class="btn btn-info" data-toggle="collapse"
+                   data-target="#collapseSchoolUpload"
+                   aria-expanded="false" aria-controls="collapseSchoolUpload">
+                    Загрузить справку
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <ul>
+                <t:loop source="schoolFiles" value="attachedTemp" encoder="attachedFileEncoder">
+                    <li>
+                        <div class="col-sm-5">${attachedTemp.sourceName}</div>
+                        <div class="col-sm-2">${attachedTemp.size}</div>
+                        <div class="col-sm-1"><t:eventlink event="deleteFile" context="attachedTemp"><span class="glyphicon glyphicon-remove"/></t:eventlink> </div>
+                    </li>
+                    <t:if test="schoolFiles.empty">
+                        <li>Справка не загружена</li>
+                    </t:if>
+                </t:loop>
+            </ul>
+        </div>
 
-            <tr>
-                <td colspan="2"><h4>Загрузить справку из образовательного учереждения</h4></td>
-                <td>
-                    <a href="#schoolFileField" class="btn btn-default" data-toggle="collapse"
-                       data-target="#collapseSchoolUpload"
-                       aria-expanded="false" aria-controls="collapseSchoolUpload">
-                        <span class="glyphicon glyphicon-upload" aria-hidden="true"/>
-                    </a>
-                </td>
-            </tr>
-            <tr class="collapse" id="collapseSchoolUpload">
-                <td>&nbsp;</td>
-                <td>
+        <div class="collapse" id="collapseSchoolUpload">
+            <div class="form-group">
+                <div class="col-sm-7 col-sm-offset-1">
                     <t:upload t:id="schoolFileField" value="schoolFile"/>
                     <br/><br/>
                     <span class="text-muted">Необходимо загрузить справку, подтверждающую обучение
                     в организации среднего или среднего-специального образования.</span>
-                </td>
-                <td><button class="btn btn-default"><span class="glyphicon glyphicon-save" aria-hidden="true"/></button> </td> <!--  value="${message:save}" -->
-            </tr>
-        </table>
+                </div>
+                <div class="col-sm-3"><button class="btn btn-primary">Сохранить</button></div>
+            </div>
+        </div>
 
     </t:form>
 </div>

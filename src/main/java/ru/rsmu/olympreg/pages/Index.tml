@@ -102,6 +102,7 @@
 </div>
 
 <t:block t:id="competitorBlock">
+    <t:competitorbreadcrumb/>
     <t:competitorinfo/>
 
     <t:if test="diplomaPresent">

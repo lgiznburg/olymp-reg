@@ -10,15 +10,18 @@
                     Для завершения регистрации Вы должны выполнить следующие действия:
                     <ol>
                         <li>
-                            Заполнить персональную информацию с указанием контактных данных,
+                            На вкладке <t:pagelink page="account/editprofile" class="bg-info">Информация об участнике</t:pagelink>
+                            заполнить персональную информацию с указанием контактных данных,
                             региона/субъекта РФ, названия или номера образовательного учереждения и номера класса.
                         </li>
                         <li>
-                            Загрузить скан-копии первой страницы паспорта, справки из школы
+                            На вкладке <t:pagelink page="account/loaddocuments" class="bg-info">Скан-копии документов</t:pagelink>
+                            загрузить копии первой страницы паспорта, справки из школы
                             и согласия на обработку персональных данных.
                         </li>
                         <li>
-                            Выбрать предмет или предметы, по которым Вы будете принимать участие в Олимпиаде.
+                            На вкладке <t:pagelink page="account/participation" class="bg-info">Регистрация/Участие в Олимпиаде</t:pagelink>
+                            выбрать предмет или предметы, по которым Вы будете принимать участие в Олимпиаде.
                         </li>
                     </ol>
                     В случае не полного заполнения указанной информации организационный комитет оставляет
@@ -38,28 +41,28 @@
     <t:block t:id="emptyProfile">
         <div class="panel panel-danger bg-warning" style="margin-top: 1em;">
             <div class="panel-body">
-                Отсутствует информация, необходимая для участия в олимпиаде. Вам требуется заполнить <t:pagelink page="account/editprofile">данные участника олимпиады</t:pagelink>.
+                Отсутствует информация, необходимая для участия в Олимпиаде. Вам требуется заполнить <t:pagelink page="account/editprofile">данные участника</t:pagelink>.
             </div>
         </div>
     </t:block>
     <t:block t:id="documentsMissed">
         <div class="panel panel-danger bg-warning" style="margin-top: 1em;">
             <div class="panel-body">
-                Введена базовая информация об участнике олимпиады. Необходимо <t:pagelink page="account/loaddocuments">загрузить скан-копии документов</t:pagelink>.
+                Введена базовая информация об участнике Олимпиады. Необходимо <t:pagelink page="account/loaddocuments">загрузить скан-копии документов</t:pagelink>.
             </div>
         </div>
     </t:block>
     <t:block t:id="selectSubject">
         <div class="panel panel-danger bg-warning" style="margin-top: 1em;">
             <div class="panel-body">
-                Вам нужно <t:pagelink page="account/participation">выбрать профиль Олимпиды </t:pagelink> для участия.
+                Вам нужно <t:pagelink page="account/participation">выбрать профиль Олимпиды</t:pagelink> для участия.
             </div>
         </div>
     </t:block>
     <t:block t:id="waitForLink">
         <div class="panel panel-info" style="margin-top: 1em;">
             <div class="panel-body">
-                Вы являетесь участником олимпиады. В дни проведения в <t:pagelink page="account/participation">личном кабинете</t:pagelink> будут доступны ссылки на задания олимпиады.
+                Вы являетесь участником Олимпиады. В дни проведения в <t:pagelink page="account/participation">личном кабинете</t:pagelink> будут доступны ссылки на задания Олимпиады.
             </div>
         </div>
     </t:block>
