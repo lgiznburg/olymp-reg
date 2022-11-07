@@ -189,6 +189,39 @@ public class CompetitorDaoImpl extends BaseDaoImpl implements CompetitorDao {
         return (CompetitorProfile) criteria.uniqueResult();
     }
 
+    @Override
+    public List<CompetitorProfile> findUncompletedProfiles() {
+        Query query = session.createQuery(
+                        "SELECT cp FROM CompetitorProfile cp " +
+                                "WHERE cp.year = :year " +
+                                "AND ( 3 > " +
+                                    "(SELECT count( distinct af.attachmentRole) FROM AttachedFile af WHERE af.profile = cp ) " +
+                                "OR cp.profileStage = :profileStage " +
+                                "OR 0 = (SELECT count(p) FROM ParticipationInfo p WHERE p.profile = cp) )"
+                )
+                .setParameter( "year", YearHelper.getActualYear() )
+                .setParameter( "profileStage", ProfileStage.NEW );
+        return query.list();
+    }
+
+    @Override
+    public List<CompetitorProfile> findPreviousYearProfiles() {
+        int year = YearHelper.getActualYear();
+        Query query = session.createQuery(
+                        "SELECT cp FROM CompetitorProfile cp " +
+                                "WHERE cp.year = :previous_year " +
+                                "AND cp.classNumber < 11 " +
+                                "AND cp.profileStage <> :profileStage " +
+                                "AND 0 = (SELECT count(cp2) FROM CompetitorProfile cp2 " +
+                                "WHERE cp2.user = cp.user " +
+                                "AND cp2.year = :year ) "
+                )
+                .setParameter( "year", year )
+                .setParameter( "previous_year", year - 1 )
+                .setParameter( "profileStage", ProfileStage.NEW );
+        return query.list();
+    }
+
     private Criteria buildCriteria( CompetitorFilter filter, List<SortCriterion> sortCriteria ) {
         Criteria criteria = session.createCriteria( CompetitorProfile.class )
                 .createAlias( "user", "user" )

@@ -3,8 +3,9 @@ package ru.rsmu.olympreg.pages.admin;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.tapestry5.annotations.ActivationRequestParameter;
 import org.apache.tapestry5.annotations.Property;
+import org.apache.tapestry5.ioc.annotations.Inject;
 import ru.rsmu.olympreg.entities.OlympiadConfig;
-import ru.rsmu.olympreg.entities.OlympiadConfig;
+import ru.rsmu.olympreg.services.CompetitorNotificationService;
 import ru.rsmu.olympreg.utils.CrudMode;
 
 /**
@@ -22,6 +23,9 @@ public class OlympConfigs {
     
     @Property
     private OlympiadConfig listConfig;
+
+    @Inject
+    private CompetitorNotificationService notificationService;
 
     public void setupRender() {
         listConfig = olympiadConfig;
@@ -68,5 +72,15 @@ public class OlympConfigs {
         olympiadConfig = updatedConfig;
     }
 
+    public boolean isNotificationReady() {
+        return notificationService.isDone();
+    }
 
+    public void onUncompletedNotification() {
+        notificationService.notifyUncompletedCompetitors();
+    }
+
+    public void onPreviousYearRemind() {
+        notificationService.notifyPreviousYearCompetitors();
+    }
 }

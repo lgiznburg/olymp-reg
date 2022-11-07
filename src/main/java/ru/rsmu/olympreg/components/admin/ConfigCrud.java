@@ -171,6 +171,7 @@ public class ConfigCrud {
                 EmailQueue emailQueue = new EmailQueue();
                 emailQueue.setEmailType( EmailType.SECOND_STAGE_REMIND );
                 emailQueue.setEmailAddress( competitor.getUsername() );
+                emailQueue.setUser( competitor );
                 ObjectMapper mapper = new ObjectMapper();
                 try {
                     emailQueue.setModel( mapper.writeValueAsString( model ) );

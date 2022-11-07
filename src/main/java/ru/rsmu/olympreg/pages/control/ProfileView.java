@@ -73,7 +73,7 @@ public class ProfileView {
             case SCHOOL:
                 return "Справка из школы";
             case AGREEMENT:
-                return "Согласия на обработку персональных данных";
+                return "Согласие на обработку персональных данных";
             default:
                 return "";
         }
@@ -130,6 +130,7 @@ public class ProfileView {
         EmailQueue emailQueue = new EmailQueue();
         emailQueue.setEmailType( EmailType.SECOND_STAGE_APPROVED );
         emailQueue.setEmailAddress( competitor.getUsername() );
+        emailQueue.setUser( competitor );
         ObjectMapper mapper = new ObjectMapper();
         try {
             emailQueue.setModel( mapper.writeValueAsString( model ) );
@@ -155,6 +156,7 @@ public class ProfileView {
         EmailQueue emailQueue = new EmailQueue();
         emailQueue.setEmailType( EmailType.SECOND_STAGE_REJECTED );
         emailQueue.setEmailAddress( competitor.getUsername() );
+        emailQueue.setUser( competitor );
         ObjectMapper mapper = new ObjectMapper();
         try {
             emailQueue.setModel( mapper.writeValueAsString( model ) );

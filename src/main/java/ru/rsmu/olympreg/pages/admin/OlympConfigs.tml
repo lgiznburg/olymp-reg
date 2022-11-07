@@ -13,7 +13,19 @@
         <t:admin.configcrud olympiadConfig="olympiadConfig" mode="mode" t:id="editor"/>
     </div>
 </div>
-
+<div class="row" style="margin-top: 2em;">
+    <div class="col-sm-12">
+        <t:if test="isNotificationReady()">
+            <t:eventlink t:id="uncompletedNotification" event="uncompletedNotification" class="btn btn-primary">
+                Рассылка незавершившим регистрацию
+            </t:eventlink> &nbsp;
+            <t:eventlink t:id="previousYearRemind" event="previousYearRemind" class="btn btn-primary">
+                Рассылка участникам прошлого года
+            </t:eventlink>
+            <p:else>Рассылка в процессе работы</p:else>
+        </t:if>
+    </div>
+</div>
 </body>
 
 </html>

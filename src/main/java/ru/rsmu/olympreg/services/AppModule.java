@@ -17,6 +17,7 @@ import org.tynamo.security.services.SecurityFilterChainFactory;
 import org.tynamo.security.services.impl.SecurityFilterChain;
 import ru.rsmu.olympreg.dao.HibernateModule;
 import ru.rsmu.olympreg.services.impl.AssignExamControlImpl;
+import ru.rsmu.olympreg.services.impl.CompetitorNotificationServiceImpl;
 import ru.rsmu.olympreg.services.impl.EmailServiceImpl;
 import ru.rsmu.olympreg.services.impl.RunJobsServiceImpl;
 import ru.rsmu.olympreg.utils.AssignExamJob;
@@ -87,6 +88,8 @@ public class AppModule {
 
         binder.bind( /*RestApiConnector.class,*/ TempolwConnector.class );
         binder.bind( AssignExamControl.class, AssignExamControlImpl.class );
+
+        binder.bind( CompetitorNotificationService.class, CompetitorNotificationServiceImpl.class );
     }
 
     public static RunJobsService buildRunJobsService( Collection<RunJobDescription> configuration,
