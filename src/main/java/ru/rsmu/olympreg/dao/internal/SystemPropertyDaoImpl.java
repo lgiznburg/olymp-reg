@@ -12,6 +12,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author leonid.
@@ -22,7 +24,7 @@ public class SystemPropertyDaoImpl extends BaseDaoImpl implements SystemProperty
     static final private SimpleDateFormat timeFormat = new SimpleDateFormat( "hh:mm" );
 
 
-    private HashMap<StoredPropertyName, String> properties = new HashMap<>();
+    private ConcurrentMap<StoredPropertyName, String> properties = new ConcurrentHashMap<>();
 
 
     private void buildPropertiesMap() {
