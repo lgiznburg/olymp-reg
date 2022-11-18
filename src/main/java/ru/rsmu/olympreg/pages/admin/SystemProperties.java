@@ -101,9 +101,7 @@ public class SystemProperties {
                 continue;
             }
             if ( property.getValue().equals( property.getPropertyName().getDefaultValue() )) {
-                if ( property.getId() > 0 ) {
-                    propertyService.delete( property );
-                }
+                propertyService.deleteProperty( property );
                 continue;
             }
             propertyService.saveProperty( property );

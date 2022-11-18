@@ -111,8 +111,11 @@ public class SystemPropertyDaoImpl extends BaseDaoImpl implements SystemProperty
         return result;
     }
 
-    public void delete( StoredProperty entity ) {
+    public void deleteProperty( StoredProperty entity ) {
         properties.put( entity.getPropertyName(), entity.getPropertyName().getDefaultValue() );
-        super.delete( entity );
+        StoredProperty stored = find( entity.getPropertyName() );
+        if ( stored.getId() != 0 ) {
+            super.delete( stored );
+        }
     }
 }

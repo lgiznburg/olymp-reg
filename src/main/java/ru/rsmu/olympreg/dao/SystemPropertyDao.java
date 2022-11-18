@@ -19,5 +19,7 @@ public interface SystemPropertyDao extends BaseDao {
 
     @CommitAfter
     void saveProperty( StoredProperty property );
+    void deleteProperty( StoredProperty entity );
+
     StoredProperty find( StoredPropertyName propertyName );
 }
