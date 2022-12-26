@@ -185,6 +185,7 @@ public class CompetitorDaoImpl extends BaseDaoImpl implements CompetitorDao {
     public CompetitorProfile findProfile( String personalNumber ) {
         Criteria criteria = session.createCriteria( CompetitorProfile.class )
                 .add( Restrictions.eq( "caseNumber", personalNumber ) )
+                .add( Restrictions.eq( "year", YearHelper.getActualYear() ) )
                 .setMaxResults( 1 );
         return (CompetitorProfile) criteria.uniqueResult();
     }
@@ -280,5 +281,17 @@ public class CompetitorDaoImpl extends BaseDaoImpl implements CompetitorDao {
                 criteria.addOrder( Order.asc("user.lastName") );
             }
         }
+    }
+
+    public void getStatistics() {
+        int year = YearHelper.getActualYear();
+        Query query = session.createQuery(
+                "SELECT p.stage, p.olympiadSubject, cp.classNumber, cp.region, cp.schoolLocation, COUNT( DISTINCT cp.id) " +
+                        "FROM ParticipationInfo p " +
+                        "JOIN p.profile cp " +
+                        "WHERE cp.year = :year " +
+                        "GROUP BY p.stage, p.olympiadSubject, cp.classNumber, cp.region, cp.schoolLocation"
+        );
+
     }
 }

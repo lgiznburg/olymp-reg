@@ -231,8 +231,8 @@ public class Participation {
     }
 
     public boolean isNothingFound() {
-        return profile == null || profile.getParticipation() == null
-                || profile.getParticipation().size() == 0
-                || ( chemistryConfig == null && biologyConfig == null );
+        return profile == null ||
+                ((profile.getParticipation() == null || profile.getParticipation().isEmpty())
+                &&  chemistryConfig == null && biologyConfig == null) ;
     }
 }
