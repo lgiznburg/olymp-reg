@@ -6,10 +6,7 @@ import org.hibernate.Query;
 import org.hibernate.criterion.*;
 import org.hibernate.type.IntegerType;
 import ru.rsmu.olympreg.dao.CompetitorDao;
-import ru.rsmu.olympreg.entities.CompetitorProfile;
-import ru.rsmu.olympreg.entities.OlympiadSubject;
-import ru.rsmu.olympreg.entities.ParticipationInfo;
-import ru.rsmu.olympreg.entities.ProfileStage;
+import ru.rsmu.olympreg.entities.*;
 import ru.rsmu.olympreg.utils.YearHelper;
 import ru.rsmu.olympreg.viewentities.CompetitorFilter;
 import ru.rsmu.olympreg.viewentities.SortCriterion;
@@ -222,6 +219,51 @@ public class CompetitorDaoImpl extends BaseDaoImpl implements CompetitorDao {
                 .setParameter( "profileStage", ProfileStage.NEW );
         return query.list();
     }
+
+    @Override
+    public boolean isLastYearWinner( User user, OlympiadSubject subject ) {
+        int year = YearHelper.getActualYear();
+        Query lastProfileQuesry = session.createQuery(
+                "FROM CompetitorProfile " +
+                        "WHERE year = :previous_year " +
+                        "AND user = :user " +
+                        "AND classNumber < 11" )
+                .setParameter( "user", user )
+                .setParameter( "previous_year", year - 1 )
+                .setMaxResults( 1 );
+        CompetitorProfile lastProfile = (CompetitorProfile) lastProfileQuesry.uniqueResult();
+        if ( lastProfile == null ) return false;
+
+        Query top3 = session.createQuery(
+                        "SELECT DISTINCT pi2.result FROM ParticipationInfo pi2 " +
+                                "JOIN pi2.profile cp2 " +
+                                "WHERE cp2.year = :previous_year " +
+                                "AND cp2.classNumber = :classNumber " +
+                                "AND pi2.stage = 1 " +
+                                "AND pi2.olympiadSubject = :subject " +
+                                "ORDER BY pi2.result desc" )
+                .setParameter( "previous_year", year - 1 )
+                .setParameter( "subject", subject )
+                .setParameter( "classNumber", lastProfile.getClassNumber() )
+                .setMaxResults( 3 );
+        List<Integer> top3results = top3.list();
+        if ( top3results.isEmpty() ) return false;
+
+        Query query = session.createQuery(
+                        "SELECT pi FROM ParticipationInfo pi JOIN pi.profile cp " +
+                                "WHERE cp.year = :previous_year " +
+                                "AND cp.user = :user " +
+                                "AND cp.classNumber < 11 " +
+                                "AND pi.stage = 1 " +
+                                "AND pi.olympiadSubject = :subject " +
+                                "AND pi.result IN ( :top3) " )
+                .setParameter( "user", user )
+                .setParameter( "previous_year", year - 1 )
+                .setParameter( "subject", subject )
+                .setParameterList( "top3", top3results );
+        return !query.list().isEmpty();
+    }
+
 
     private Criteria buildCriteria( CompetitorFilter filter, List<SortCriterion> sortCriteria ) {
         Criteria criteria = session.createCriteria( CompetitorProfile.class )

@@ -5,6 +5,7 @@ import org.apache.tapestry5.PersistenceConstants;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.ioc.annotations.Inject;
+import ru.rsmu.olympreg.dao.CompetitorDao;
 import ru.rsmu.olympreg.dao.OlympiadDao;
 import ru.rsmu.olympreg.dao.SystemPropertyDao;
 import ru.rsmu.olympreg.dao.UserDao;
@@ -56,6 +57,9 @@ public class Participation {
 
     @Inject
     private OlympiadDao olympiadDao;
+
+    @Inject
+    private CompetitorDao competitorDao;
 
     @Inject
     private SecurityUserHelper securityUserHelper;
@@ -138,9 +142,7 @@ public class Participation {
         return chemistryConfig != null
                 && checkRegistrationDate( chemistryConfig.getSecondStageRegistrationStart(), chemistryConfig.getSecondStageRegistrationEnd() )
                 && participationInfo2 == null
-                && participationInfo1 != null
-                && participationInfo1.getResult() != null
-                && participationInfo1.getResult().compareTo( chemistryConfig.getSecondStagePassScore() ) >= 0;
+                && isPassedToSecondStage( participationInfo1, chemistryConfig );
     }
 
     public boolean isBiologyOpen2() {
@@ -149,9 +151,14 @@ public class Participation {
         return biologyConfig != null
                 && checkRegistrationDate( biologyConfig.getSecondStageRegistrationStart(), biologyConfig.getSecondStageRegistrationEnd() )
                 && participationInfo2 == null
-                && participationInfo1 != null
-                && participationInfo1.getResult() != null
-                && participationInfo1.getResult().compareTo( biologyConfig.getSecondStagePassScore() ) >= 0;
+                && isPassedToSecondStage( participationInfo1, biologyConfig );
+    }
+
+    private boolean isPassedToSecondStage( ParticipationInfo info, OlympiadConfig config ) {
+        return ( info != null
+                &&  info.getResult() != null
+                && info.getResult().compareTo( config.getSecondStagePassScore() ) >= 0 )
+                || competitorDao.isLastYearWinner( profile.getUser(), config.getSubject() );
     }
 
     public ParticipationInfo getChemistryParticipation() {

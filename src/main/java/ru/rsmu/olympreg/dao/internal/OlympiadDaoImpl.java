@@ -53,4 +53,17 @@ public class OlympiadDaoImpl extends BaseDaoImpl implements OlympiadDao {
                 .setMaxResults( 1 );
         return criteria.uniqueResult() != null;
     }
+
+    @Override
+    public boolean checkSecondRegistrationOpen() {
+        Calendar calendar = Calendar.getInstance();
+        Date currTime = calendar.getTime();
+        calendar.add( Calendar.DAY_OF_YEAR, -1 );
+        Date nextDay = calendar.getTime();
+        Criteria criteria = session.createCriteria( OlympiadConfig.class )
+                .add( Restrictions.le( "secondStageRegistrationStart", currTime) )
+                .add( Restrictions.gt( "secondStageRegistrationEnd", nextDay ) )
+                .setMaxResults( 1 );
+        return criteria.uniqueResult() != null;
+    }
 }

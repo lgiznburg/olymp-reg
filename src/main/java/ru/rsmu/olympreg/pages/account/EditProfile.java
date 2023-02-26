@@ -12,6 +12,7 @@ import org.apache.tapestry5.ioc.Messages;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.ValueEncoderSource;
 import org.apache.tapestry5.util.AbstractSelectModel;
+import ru.rsmu.olympreg.dao.CompetitorDao;
 import ru.rsmu.olympreg.dao.OlympiadDao;
 import ru.rsmu.olympreg.dao.SystemPropertyDao;
 import ru.rsmu.olympreg.dao.UserDao;
@@ -42,6 +43,9 @@ public class EditProfile {
 
     @Inject
     private OlympiadDao olympiadDao;
+
+    @Inject
+    private CompetitorDao competitorDao;
 
     @Inject
     private SystemPropertyDao systemPropertyDao;
@@ -125,7 +129,10 @@ public class EditProfile {
 
     public boolean isRegistrationOpen() {
         // going to block class number change after registration closing
-        return olympiadDao.checkRegistrationOpen();
+        return olympiadDao.checkRegistrationOpen()
+                || ( olympiadDao.checkSecondRegistrationOpen()
+                && ( competitorDao.isLastYearWinner( user, OlympiadSubject.BIOLOGY )
+        || competitorDao.isLastYearWinner( user, OlympiadSubject.CHEMISTRY ) ) ) ;
     }
 
     public void onSuccess() {

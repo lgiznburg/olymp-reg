@@ -3,6 +3,7 @@ package ru.rsmu.olympreg.dao;
 import ru.rsmu.olympreg.entities.CompetitorProfile;
 import ru.rsmu.olympreg.entities.OlympiadSubject;
 import ru.rsmu.olympreg.entities.ParticipationInfo;
+import ru.rsmu.olympreg.entities.User;
 import ru.rsmu.olympreg.viewentities.CompetitorFilter;
 import ru.rsmu.olympreg.viewentities.SortCriterion;
 
@@ -39,4 +40,6 @@ public interface CompetitorDao extends BaseDao {
     List<CompetitorProfile> findUncompletedProfiles();
 
     List<CompetitorProfile> findPreviousYearProfiles();
+
+    boolean isLastYearWinner( User user, OlympiadSubject subject );
 }

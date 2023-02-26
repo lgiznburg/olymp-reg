@@ -31,7 +31,7 @@ public class CompetitorBreadcrumb {
     }
 
     public boolean isSubjectSelected() {
-        return !profile.getParticipation().isEmpty();
+        return profile.getParticipation() != null && !profile.getParticipation().isEmpty();
     }
 
     public boolean isProfilePage() {
