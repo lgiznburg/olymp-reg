@@ -264,6 +264,17 @@ public class CompetitorDaoImpl extends BaseDaoImpl implements CompetitorDao {
         return !query.list().isEmpty();
     }
 
+    @Override
+    public List<CompetitorProfile> findStageParticipants( Integer stage, OlympiadSubject subject ) {
+        Criteria criteria = session.createCriteria( CompetitorProfile.class )
+                .createAlias( "participation", "participation" )
+                .add( Restrictions.eq( "year", YearHelper.getActualYear() ) )
+                .add( Restrictions.eq( "participation.olympiadSubject", subject ) )
+                .add( Restrictions.eq( "participation.stage", stage ) )
+                .add( Restrictions.eq("participation.approved", true) )
+                .setResultTransformer( CriteriaSpecification.DISTINCT_ROOT_ENTITY );
+        return criteria.list();
+    }
 
     private Criteria buildCriteria( CompetitorFilter filter, List<SortCriterion> sortCriteria ) {
         Criteria criteria = session.createCriteria( CompetitorProfile.class )

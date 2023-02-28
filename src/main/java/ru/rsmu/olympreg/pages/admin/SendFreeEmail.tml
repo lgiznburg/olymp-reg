@@ -1,0 +1,50 @@
+<html t:type="layout" t:pageTitle="Администрирование:Рассылка"
+      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
+>
+<body>
+
+<div class="row" style="margin-top: 2em;">
+    <div class="col-sm-12">
+        <h3>Рассылка сообщений всем участникам</h3>
+    </div>
+</div>
+<t:if test="message">
+    <p class="bg-info">
+        <t:outputraw value="message"/>
+    </p>
+</t:if>
+
+<t:form t:id="assignExam">
+    <div class="row"  style="margin-top: 1em;">
+        <div class="col-sm-2">Предмет</div>
+        <div class="col-sm-4">
+            <t:select id="subject" value="subject"/>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 1em;">
+        <div class="col-sm-2">Этап олимпиады</div>
+        <div class="col-sm-4">
+            <t:select id="stage" value="stage" model="stageSelectModel"/>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 1em;">
+        <div class="col-sm-2">Текст сообщения</div>
+        <div class="col-sm-10">
+            <t:textarea id="emailText" value="emailText" style="width:100%" rows="30"/>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 1em;">
+        <div class="col-sm-2">Прикрепляемый файл</div>
+        <div class="col-sm-6">
+            <t:upload id="emailAttachment" value="emailAttachment"/>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 1em;">
+        <div class="col-sm-7 col-sm-offset-1">
+            <t:submit value="Начать процесс"/>
+        </div>
+    </div>
+</t:form>
+</body>
+
+</html>

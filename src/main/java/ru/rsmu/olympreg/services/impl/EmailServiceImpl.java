@@ -10,12 +10,19 @@ import org.apache.velocity.tools.ToolContext;
 import org.apache.velocity.tools.ToolManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.rsmu.olympreg.dao.EmailDao;
 import ru.rsmu.olympreg.dao.SystemPropertyDao;
+import ru.rsmu.olympreg.entities.AttachedFile;
+import ru.rsmu.olympreg.entities.AttachedFileContent;
 import ru.rsmu.olympreg.entities.User;
 import ru.rsmu.olympreg.entities.system.StoredPropertyName;
 import ru.rsmu.olympreg.services.EmailService;
 import ru.rsmu.olympreg.services.EmailType;
+import ru.rsmu.olympreg.viewentities.FileNameTransliterator;
 
+import javax.activation.DataSource;
+import javax.mail.util.ByteArrayDataSource;
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.util.Map;
@@ -32,6 +39,9 @@ public class EmailServiceImpl implements EmailService {
 
     @Inject
     private SystemPropertyDao systemPropertyDao;
+
+    @Inject
+    private EmailDao emailDao;
 
     public EmailServiceImpl() {
         velocityEngine = new VelocityEngine();
@@ -102,6 +112,17 @@ public class EmailServiceImpl implements EmailService {
         model.put( "signature", systemPropertyDao.getProperty( StoredPropertyName.EMAIL_FROM_SIGNATURE ) );
         htmlEmail.setSubject( evaluateSubject( emailType.getSubject(), model ) );
         htmlEmail.setHtmlMsg( generateEmailMessage( emailType.getFileName(), model ) );
+
+        if ( emailType == EmailType.FREE_INFO ) {
+            AttachedFile attachedFile = emailDao.findEmailAttachment();
+            if ( attachedFile != null ) {
+                AttachedFileContent content = emailDao.find( AttachedFileContent.class, attachedFile.getContentId() );
+                if ( content != null ) {
+                    htmlEmail.embed(  new ByteArrayDataSource( content.getContent(), attachedFile.getContentType() ),
+                            FileNameTransliterator.transliterateRuEn( attachedFile.getSourceName() ) );
+                }
+            }
+        }
 
         return htmlEmail;
     }

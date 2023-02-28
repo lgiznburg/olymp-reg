@@ -10,7 +10,8 @@ public enum EmailType {
     SECOND_STAGE_APPROVED( "/emails/SecondStageApproved.vm", "Подтверждение участия во втором этапе олимпиады для школьников в РНИМУ им.Н.И.Пирогова"),
     SECOND_STAGE_REJECTED( "/emails/SecondStageRejected.vm", "Недостаточно данных для участия во втором этапе олимпиады для школьников в РНИМУ им.Н.И.Пирогова"),
     LAST_YEAR_REMIND("/emails/LastYearRemind.vm", "Открыта регистрация для участия в олимпиаде для школьников в РНИМУ им.Н.И.Пирогова"),
-    FIRST_STAGE_UNCOMPLETED("/emails/FirstStageRemind.vm", "Недостаточно данных для участия во первом этапе олимпиады для школьников в РНИМУ им.Н.И.Пирогова");
+    FIRST_STAGE_UNCOMPLETED("/emails/FirstStageRemind.vm", "Недостаточно данных для участия во первом этапе олимпиады для школьников в РНИМУ им.Н.И.Пирогова"),
+    FREE_INFO("/emails/FreeInfo.vm", "Информация для участников олимпиады для школьников в РНИМУ им.Н.И.Пирогова");
 
     public static final String EXAM_PASSWORD_SHORT_NAME = "EXAM_PASSWORD_";
 
