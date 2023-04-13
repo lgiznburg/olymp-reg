@@ -3,7 +3,7 @@
 <t:content>
     <div id="usersList">
         <t:grid t:id="usersGrid" source="olympiadConfigList" row="olympiadIt"
-                exclude="id,registrationStart, registrationEnd, secondStage, secondStageRegistrationStart, secondStageRegistrationEnd, secondStagePassScore,active"
+                exclude="id,registrationStart, registrationEnd, secondStage, secondStageRegistrationStart, secondStageRegistrationEnd, secondStagePassScore,active,firstStageWinnerScore"
                 reorder="classNumber,subject,firstStage"
                 class="table table-bordered table-hover"
                 rowsPerPage="25" pagerPosition="bottom"

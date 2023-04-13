@@ -51,6 +51,9 @@ public class OlympiadConfig implements Serializable {
     @Column(name = "second_stage_pass_score")
     private int secondStagePassScore;
 
+    @Column(name = "first_stage_winner_score")
+    private int firstStageWinnerScore;
+
     @Column(name = "active")
     private boolean active;
 
@@ -132,6 +135,14 @@ public class OlympiadConfig implements Serializable {
 
     public void setSecondStagePassScore( int secondStagePassScore ) {
         this.secondStagePassScore = secondStagePassScore;
+    }
+
+    public int getFirstStageWinnerScore() {
+        return firstStageWinnerScore;
+    }
+
+    public void setFirstStageWinnerScore( int firstStageWinnerScore ) {
+        this.firstStageWinnerScore = firstStageWinnerScore;
     }
 
     public boolean isActive() {

@@ -6,10 +6,14 @@
                    http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
-    <include file="2021-10-01-create-schema.xml" relativeToChangelogFile="true"/>
-    <include file="2021-10-21-attached-files.xml" relativeToChangelogFile="true"/>
-    <include file="2021-01-15-olymp-config.xml" relativeToChangelogFile="true"/>
-    <include file="2022-10-16-profile-year.xml" relativeToChangelogFile="true"/>
-    <include file="2023-04-10-add-winner-score.xml" relativeToChangelogFile="true"/>
-
+    <changeSet id="2023-04-10-add-winner-score" author="lginzburg">
+        <addColumn tableName="olympiad_config">
+            <column name="first_stage_winner_score" type="INT" defaultValueNumeric="0"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2023-04-10-populate-winner-score" author="lginzburg">
+        <update tableName="olympiad_config">
+            <column name="first_stage_winner_score" valueNumeric="0"/>
+        </update>
+    </changeSet>
 </databaseChangeLog>

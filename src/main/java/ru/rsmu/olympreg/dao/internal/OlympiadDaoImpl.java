@@ -24,8 +24,8 @@ public class OlympiadDaoImpl extends BaseDaoImpl implements OlympiadDao {
         Criteria criteria = session.createCriteria( OlympiadConfig.class )
                 .addOrder( Order.desc( "active" ) )
                 .addOrder( Order.desc( "registrationStart" ) )
-                .addOrder( Order.asc( "classNumber" ) )
-                .addOrder( Order.asc( "subject" ) );
+                .addOrder( Order.asc( "subject" ) )
+                .addOrder( Order.asc( "classNumber" ) );
         return criteria.list();
     }
 
@@ -65,5 +65,22 @@ public class OlympiadDaoImpl extends BaseDaoImpl implements OlympiadDao {
                 .add( Restrictions.gt( "secondStageRegistrationEnd", nextDay ) )
                 .setMaxResults( 1 );
         return criteria.uniqueResult() != null;
+    }
+
+    @Override
+    public List<OlympiadConfig> getAllCurrentConfigs( int actualYear ) {
+        Calendar start = Calendar.getInstance();
+        start.set( Calendar.YEAR, actualYear );
+        start.set( Calendar.DAY_OF_YEAR, start.getActualMinimum( Calendar.DAY_OF_YEAR ) );
+        Calendar end = Calendar.getInstance();
+        end.set( Calendar.YEAR, actualYear );
+        end.set( Calendar.DAY_OF_YEAR, end.getActualMaximum( Calendar.DAY_OF_YEAR ) );
+
+        Criteria criteria = session.createCriteria( OlympiadConfig.class )
+                .add( Restrictions.gt( "registrationStart", start.getTime() ) )
+                .add( Restrictions.lt( "registrationStart", end.getTime() ) )
+                .addOrder( Order.asc( "subject" ) )
+                .addOrder( Order.asc( "classNumber" ) );
+        return criteria.list();
     }
 }

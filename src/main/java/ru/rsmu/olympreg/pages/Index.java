@@ -41,9 +41,6 @@ public class Index {
     @Property
     private CompetitorProfile profile;
 
-    @Property
-    private AttachedFile attachedTemp;
-
     @Inject
     private Messages messages;
 
@@ -104,21 +101,6 @@ public class Index {
 
     public boolean isRegistrationOpen() {
         return olympiadDao.checkRegistrationOpen();
-    }
-
-    public List<AttachedFile> getDiplomaFiles() {
-        if ( profile.getAttachments() != null ) {
-            return profile.getAttachments().stream().filter( at -> at.getAttachmentRole() == AttachmentRole.DIPLOMA )
-                    .collect( Collectors.toList());
-        }
-        return Collections.emptyList();
-    }
-
-    public boolean isDiplomaPresent() {
-        if ( profile.getAttachments() != null ) {
-            return profile.getAttachments().stream().anyMatch( at -> at.getAttachmentRole() == AttachmentRole.DIPLOMA );
-        }
-        return false;
     }
 
     public Block getCompetitorPresentation() {

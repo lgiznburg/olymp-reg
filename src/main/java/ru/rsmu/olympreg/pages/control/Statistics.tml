@@ -88,4 +88,12 @@
     </tbody>
 </table>
 
+<div class="row" style="margin-top: 2em;">
+    <div class="col-sm-12">
+            <t:pagelink page="control/finalstatistics" class="btn btn-primary" target="_blank">
+                Финальная статистика по Олимпиаде
+            </t:pagelink>
+    </div>
+</div>
+
 </html>

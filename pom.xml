@@ -221,6 +221,18 @@ of testing facilities designed for use with TestNG (http://testng.org/), so it's
             <version>2.0</version>
         </dependency>
 
+        <!-- POI for excel export -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>4.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>4.0.0</version>
+        </dependency>
+
         <!-- Quartz scheduler -->
         <dependency>
             <groupId>com.anjlab.tapestry5</groupId>

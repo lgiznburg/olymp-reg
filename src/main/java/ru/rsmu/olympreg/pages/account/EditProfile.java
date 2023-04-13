@@ -65,18 +65,6 @@ public class EditProfile {
         return null;
     }
 
-/*
-    public void onPrepareForRender() {
-        prepare();
-    }
-*/
-
-/*
-    public void onPrepareForSubmit() {
-        prepare();
-    }
-*/
-
     private void prepare() {
         user = securityUserHelper.getCurrentUser();
         profile = userDao.findProfile( user );

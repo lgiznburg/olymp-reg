@@ -1,6 +1,7 @@
 package ru.rsmu.olympreg.dao;
 
 import ru.rsmu.olympreg.entities.CompetitorProfile;
+import ru.rsmu.olympreg.entities.OlympiadConfig;
 import ru.rsmu.olympreg.entities.OlympiadSubject;
 import ru.rsmu.olympreg.entities.ParticipationInfo;
 import ru.rsmu.olympreg.entities.User;
@@ -43,5 +44,9 @@ public interface CompetitorDao extends BaseDao {
 
     boolean isLastYearWinner( User user, OlympiadSubject subject );
 
+    List<Integer> getTop3Results( OlympiadSubject subject, int classNumber, int year );
+
     List<CompetitorProfile> findStageParticipants( Integer stage, OlympiadSubject subject  );
+
+    List<Object[]> findFinalStatistics( OlympiadConfig config, int stage, int minScore );
 }

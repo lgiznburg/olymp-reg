@@ -4,7 +4,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.criterion.*;
-import org.hibernate.type.IntegerType;
 import ru.rsmu.olympreg.dao.CompetitorDao;
 import ru.rsmu.olympreg.entities.*;
 import ru.rsmu.olympreg.utils.YearHelper;
@@ -234,19 +233,7 @@ public class CompetitorDaoImpl extends BaseDaoImpl implements CompetitorDao {
         CompetitorProfile lastProfile = (CompetitorProfile) lastProfileQuesry.uniqueResult();
         if ( lastProfile == null ) return false;
 
-        Query top3 = session.createQuery(
-                        "SELECT DISTINCT pi2.result FROM ParticipationInfo pi2 " +
-                                "JOIN pi2.profile cp2 " +
-                                "WHERE cp2.year = :previous_year " +
-                                "AND cp2.classNumber = :classNumber " +
-                                "AND pi2.stage = 1 " +
-                                "AND pi2.olympiadSubject = :subject " +
-                                "ORDER BY pi2.result desc" )
-                .setParameter( "previous_year", year - 1 )
-                .setParameter( "subject", subject )
-                .setParameter( "classNumber", lastProfile.getClassNumber() )
-                .setMaxResults( 3 );
-        List<Integer> top3results = top3.list();
+        List<Integer> top3results = getTop3Results( subject, lastProfile.getClassNumber(), year - 1 );
         if ( top3results.isEmpty() ) return false;
 
         Query query = session.createQuery(
@@ -262,6 +249,23 @@ public class CompetitorDaoImpl extends BaseDaoImpl implements CompetitorDao {
                 .setParameter( "subject", subject )
                 .setParameterList( "top3", top3results );
         return !query.list().isEmpty();
+    }
+
+    @Override
+    public List<Integer> getTop3Results( OlympiadSubject subject, int classNumber, int year ) {
+        Query top3 = session.createQuery(
+                        "SELECT DISTINCT pi2.result FROM ParticipationInfo pi2 " +
+                                "JOIN pi2.profile cp2 " +
+                                "WHERE cp2.year = :given_year " +
+                                "AND cp2.classNumber = :classNumber " +
+                                "AND pi2.stage = 1 " +
+                                "AND pi2.olympiadSubject = :subject " +
+                                "ORDER BY pi2.result desc" )
+                .setParameter( "given_year", year )
+                .setParameter( "subject", subject )
+                .setParameter( "classNumber", classNumber )
+                .setMaxResults( 3 );
+        return  top3.list();
     }
 
     @Override
@@ -336,15 +340,21 @@ public class CompetitorDaoImpl extends BaseDaoImpl implements CompetitorDao {
         }
     }
 
-    public void getStatistics() {
-        int year = YearHelper.getActualYear();
-        Query query = session.createQuery(
-                "SELECT p.stage, p.olympiadSubject, cp.classNumber, cp.region, cp.schoolLocation, COUNT( DISTINCT cp.id) " +
-                        "FROM ParticipationInfo p " +
-                        "JOIN p.profile cp " +
-                        "WHERE cp.year = :year " +
-                        "GROUP BY p.stage, p.olympiadSubject, cp.classNumber, cp.region, cp.schoolLocation"
-        );
-
+    @Override
+    public List<Object[]> findFinalStatistics( OlympiadConfig config, int stage, int minScore ) {
+        Criteria criteria = session.createCriteria( ParticipationInfo.class )
+                .createAlias( "profile", "profile" )
+                .add( Restrictions.eq( "profile.year", YearHelper.getActualYear() ) )
+                .add( Restrictions.eq( "profile.classNumber", config.getClassNumber() ) )
+                .add( Restrictions.eq("olympiadSubject", config.getSubject() ) )
+                .add( Restrictions.eq("stage", stage ) )
+                .add( Restrictions.gt("result", minScore ) )
+                .add( Restrictions.isNotNull( "profile.region" ) )
+                .setProjection( Projections.projectionList()
+                        .add( Projections.groupProperty( "profile.region" ) )
+                        .add( Projections.groupProperty( "profile.schoolLocation" ) )
+                        .add( Projections.countDistinct( "profile" ) )
+                );
+        return criteria.list();
     }
 }

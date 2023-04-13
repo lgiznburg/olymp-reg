@@ -14,4 +14,6 @@ public interface OlympiadDao extends BaseDao {
     OlympiadConfig findActiveForClassAndSubject( int classNumber, OlympiadSubject subject );
     boolean checkRegistrationOpen();
     boolean checkSecondRegistrationOpen();
+
+    List<OlympiadConfig> getAllCurrentConfigs( int actualYear );
 }
