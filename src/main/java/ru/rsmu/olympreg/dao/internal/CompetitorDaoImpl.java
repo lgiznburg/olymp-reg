@@ -348,7 +348,7 @@ public class CompetitorDaoImpl extends BaseDaoImpl implements CompetitorDao {
                 .add( Restrictions.eq( "profile.classNumber", config.getClassNumber() ) )
                 .add( Restrictions.eq("olympiadSubject", config.getSubject() ) )
                 .add( Restrictions.eq("stage", stage ) )
-                .add( Restrictions.gt("result", minScore ) )
+                .add( Restrictions.ge("result", minScore ) )
                 .add( Restrictions.isNotNull( "profile.region" ) )
                 .setProjection( Projections.projectionList()
                         .add( Projections.groupProperty( "profile.region" ) )
