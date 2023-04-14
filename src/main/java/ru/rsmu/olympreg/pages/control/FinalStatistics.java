@@ -39,12 +39,7 @@ public class FinalStatistics {
         if ( configs.isEmpty() ) return null;
 
         List<SubjectRegion> allRegions = olympiadDao.findAll( SubjectRegion.class );
-        allRegions.sort( new Comparator<SubjectRegion>() {
-            @Override
-            public int compare( SubjectRegion o1, SubjectRegion o2 ) {
-                return Integer.compare( o1.getCode(), o2.getCode() );
-            }
-        } );
+        allRegions.sort( Comparator.comparingInt( SubjectRegion::getCode ) );
         HSSFWorkbook workbook = new HSSFWorkbook();
 
         for ( OlympiadConfig config : configs ) {
@@ -132,6 +127,16 @@ public class FinalStatistics {
                 fillStats( row, 5, statsWinner, null );
             }
         }
+        // calculate sums
+        Row totals = sheet.createRow( rowN );
+        cell = totals.createCell( 0 );
+        cell.setCellValue( "Итого ="  );
+        for ( int i = 1; i <= 6; i++ ) {
+            char c = (char) ('A' + i);
+            cell = totals.createCell( i );
+            cell.setCellFormula( String.format( "SUM(%s3:%s%d)", c, c, rowN ) );
+        }
+
         sheet.autoSizeColumn( 0 );
         sheet.autoSizeColumn( 2 );
         sheet.autoSizeColumn( 4 );
