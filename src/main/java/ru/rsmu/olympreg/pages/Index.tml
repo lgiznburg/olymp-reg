@@ -14,7 +14,7 @@
                 </t:pagelink>
                 <p:else>
                     В данный момент регистрация для участия в олимпиаде не проводится.
-                    Следите за новостями на <a href="https://rsmu.ru">сайте Университета</a>.
+                    Следите за новостями на <a href="https://rsmu.ru" target="_blank">сайте Университета</a>.
                 </p:else>
             </t:if>
         </div>
@@ -33,35 +33,12 @@
 </t:security.hasrole>
 
 <div class="row">
-    <div class="col-sm-10"><h3>Нормативная документация</h3></div>
+    <div class="col-sm-10"><h3>Информация по олимпиаде</h3></div>
     <div class="col-sm-5 text-lg" style="padding-bottom: 1rem;">
         <div class="panel panel-default">
             <div class="panel-body">
-                <a href="https://rsmu.ru/fileadmin/templates/DOC/Conferences/Pirogov_olimp_po_himii_i_biologii/Polozhenie_ob_Olimpiade_2022_na_sait.pdf" target="_blank">
-                    <div class="pull-left">
-                        <img style="width: 2rem; height: 2.76rem; margin: 0.6rem 1.0rem;" src="${context:static/img/filePDFa1.svg}"/>
-                    </div>
-                    <div class="linkTXT">Положение о Пироговской олимпиаде для школьников по химии и биологии</div>
-                </a>
-            </div>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <a href="https://rsmu.ru/fileadmin/templates/DOC/Conferences/Pirogov_olimp_po_himii_i_biologii/Reglament_Olimpiady_2022_2023.pdf" target="_blank">
-                    <div class="pull-left">
-                        <img style="width: 2rem; height: 2.76rem; margin: 0.6rem 1.0rem;" src="${context:static/img/filePDFa1.svg}"/>
-                    </div>
-                    <div class="linkTXT">Регламент проведения Пироговской олимпиады для школьников по химии и биологии в 2022-2023 учебном году</div>
-                </a>
-            </div>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <a href="https://rsmu.ru/fileadmin/templates/DOC/Conferences/Pirogov_olimp_po_himii_i_biologii/pravila_poved_uchastnikov_o_2020.pdf" target="_blank">
-                    <div class="pull-left">
-                        <img style="width: 2rem; height: 2.76rem; margin: 0.6rem 1.0rem;" src="${context:static/img/filePDFa1.svg}"/>
-                    </div>
-                    <div class="linkTXT">Правила поведения для участников Олимпиады</div>
+                <a href="https://rsmu.ru/academics/for-school-students/pirogov-olimpiada/" target="_blank">
+                    <div class="linkTXT">Информация о проведении Пироговской олимпиады для школьников</div>
                 </a>
             </div>
         </div>
@@ -69,31 +46,8 @@
     <div class="col-sm-5  text-lg" style="padding-bottom: 1rem;">
         <div class="panel panel-default">
             <div class="panel-body">
-                <a href="https://rsmu.ru/fileadmin/templates/DOC/Conferences/Pirogov_olimp_po_himii_i_biologii/Prikaz_O_provedenii_Pirogovskoi_olimpiady_2022_2023.pdf" target="_blank">
-                    <div class="pull-left">
-                        <img style="width: 2rem; height: 2.76rem; margin: 0.6rem 1.0rem;" src="${context:static/img/filePDFa1.svg}"/>
-                    </div>
-                    <div class="linkTXT">Приказ № 947 рук от 28.09.2022 "О проведении Пироговской олимпиады для школьников по химии и биологии в 2022-2023 учебном году"</div>
-                </a>
-            </div>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <a href="https://rsmu.ru/fileadmin/templates/DOC/Conferences/Pirogov_olimp_po_himii_i_biologii/forma_zayavl_Apellyaciya_o_2020.doc" target="_blank">
-                    <div class="pull-left">
-                        <img style="width: 2rem; height: 2.76rem; margin: 0.6rem 1.0rem;" src="${context:static/img/fileDOCa1.svg}"/>
-                    </div>
-                    <div class="linkTXT">Форма подачи заявления на апелляцию</div>
-                </a>
-            </div>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <a href="https://rsmu.ru/fileadmin/templates/DOC/Conferences/Pirogov_olimp_po_himii_i_biologii/forma_sogl_na_obr_PD_o_2020.doc" target="_blank">
-                    <div class="pull-left">
-                        <img style="width: 2rem; height: 2.76rem; margin: 0.6rem 1.0rem;" src="${context:static/img/fileDOCa1.svg}"/>
-                    </div>
-                    <div class="linkTXT">Форма cогласия на обработку персональных данных</div>
+                <a href="https://rsmu.ru/academics/for-school-students/pirogov-olimpiada/po-docs/" target="_blank">
+                    <div class="linkTXT">Нормативные документы и полезные файлы</div>
                 </a>
             </div>
         </div>
@@ -111,7 +65,7 @@
         <div class="col-sm-10 text-lg">
             В даный момент регистрация для участия в олимпиаде не проводится.
             После начала регистрации Вы сможете обновить Ваши данные для участия в олимпиаде в этом году.<br/>
-            Следите за новостями на <a href="https://rsmu.ru">сайте Университета</a>.
+            Следите за новостями на <a href="https://rsmu.ru" target="_blank">сайте Университета</a>.
         </div>
     </div>
 </t:block>
