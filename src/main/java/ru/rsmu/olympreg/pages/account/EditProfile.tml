@@ -87,28 +87,28 @@
                 <t:form t:id="profileForm">
                     <table class="table table-responsive">
                         <tr>
-                            <td><t:label for="userLastName">Фамилия</t:label></td>
+                            <td><t:label for="userLastName">Фамилия <sup color="red">*</sup></t:label></td>
                             <td>
                                 <t:textfield t:id="userLastName" value="user.lastName" validate="required"/>
                             </td>
                         </tr>
 
                         <tr>
-                            <td><t:label for="userFirstName">Имя</t:label></td>
+                            <td><t:label for="userFirstName">Имя <sup color="red">*</sup></t:label></td>
                             <td>
                                 <t:textfield t:id="userFirstName" value="user.firstName" validate="required"/>
                             </td>
                         </tr>
 
                         <tr>
-                            <td><t:label for="userMiddleName">Отчество</t:label></td>
+                            <td><t:label for="userMiddleName">Отчество <sup color="red">*</sup></t:label></td>
                             <td>
                                 <t:textfield t:id="userMiddleName" value="user.middleName"/>
                             </td>
                         </tr>
 
                         <tr>
-                            <td><t:label for="birthdate">Дата рождения</t:label></td>
+                            <td><t:label for="birthdate">Дата рождения <sup color="red">*</sup></t:label></td>
                             <td>
                                 <div style="width:50%;">
                                     <t:datefield t:id="birthdate" value="profile.birthDate" validate="required"/>
@@ -117,7 +117,7 @@
                         </tr>
 
                         <tr>
-                            <td><label>Пол</label></td>
+                            <td><label>Пол <sup color="red">*</sup></label></td>
                             <td>
                                 <t:RadioGroup value="profile.sex" validate="required">
                                     <t:Radio t:id="radioH" value="literal:F" label="Женский" /> <t:label for="radioH"/><br/>
@@ -127,7 +127,7 @@
                         </tr>
 
                         <tr>
-                            <td><t:label for="userPhoneNumber">Контактный телефон</t:label></td>
+                            <td><t:label for="userPhoneNumber">Контактный телефон <sup color="red">*</sup></t:label></td>
                             <td>
                                 <t:textfield t:id="userPhoneNumber" value="profile.phoneNumber" t:mixins="MaskedInput" mask="+7(999)999-9999" placeholder="+7(___)___-____" validate="required"/>
                             </td>
@@ -135,27 +135,27 @@
 
                         <tr>
                             <t:if test="registrationOpen">
-                                <td><t:label for="userRegion">Регион</t:label></td>
+                                <td><t:label for="userRegion">Регион <sup color="red">*</sup></t:label></td>
                                 <td>
                                     <t:select t:id="userRegion" value="profile.region" t:model="regionsModel"
                                               encoder="regionsEncoder" blankLabel="Выберите регион / субъект РФ" validate="required"/>
                                 </td>
                                 <p:else>
-                                    <td>Регион</td>
+                                    <td>Регион <sup color="red">*</sup></td>
                                     <td>${profileRegionName}</td>
                                 </p:else>
                             </t:if>
                         </tr>
 
                         <tr>
-                            <td><t:label for="userSchoolNumber">Название образовательного учереждения</t:label></td>
+                            <td><t:label for="userSchoolNumber">Название образовательного учереждения <sup color="red">*</sup></t:label></td>
                             <td>
                                 <t:textfield t:id="userSchoolNumber" value="profile.schoolNumber" validate="required"/>
                             </td>
                         </tr>
 
                         <tr>
-                            <td><t:label for="userSchoolLocation">Расположение образовательной организации</t:label></td>
+                            <td><t:label for="userSchoolLocation">Расположение образовательной организации <sup color="red">*</sup></t:label></td>
                             <td>
                                 <t:select t:id="userSchoolLocation" value="profile.schoolLocation" blankLabel="Выберите место расположения школы" validate="required"/>
                             </td>
@@ -163,13 +163,13 @@
 
                         <tr>
                             <t:if test="registrationOpen">
-                                <td><t:label for="userClassNumb">Класс</t:label></td>
+                                <td><t:label for="userClassNumb">Класс <sup color="red">*</sup></t:label></td>
                                 <td>
                                     <t:select t:id="userClassNumb" value="profile.classNumber" t:model="literal:9,10,11"
                                               blankLabel="Выберите номер класса" validate="required"/>
                                 </td>
                                 <p:else>
-                                    <td>Класс</td>
+                                    <td>Класс <sup color="red">*</sup></td>
                                     <td><t:if test="profile.classNumber">${profile.classNumber}</t:if></td>
                                 </p:else>
                             </t:if>
