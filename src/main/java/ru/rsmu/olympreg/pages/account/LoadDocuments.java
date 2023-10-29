@@ -15,8 +15,10 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.ValueEncoderSource;
 import org.apache.tapestry5.upload.components.Upload;
 import org.apache.tapestry5.upload.services.UploadedFile;
+import ru.rsmu.olympreg.dao.SystemPropertyDao;
 import ru.rsmu.olympreg.dao.UserDao;
 import ru.rsmu.olympreg.entities.*;
+import ru.rsmu.olympreg.entities.system.StoredPropertyName;
 import ru.rsmu.olympreg.pages.Index;
 import ru.rsmu.olympreg.services.SecurityUserHelper;
 
@@ -56,6 +58,9 @@ public class LoadDocuments {
 
     @Inject
     private UserDao userDao;
+
+    @Inject
+    private SystemPropertyDao systemPropertyDao;
 
     @Inject
     private SecurityUserHelper securityUserHelper;
@@ -184,5 +189,9 @@ public class LoadDocuments {
         formErrorMessage = messages.get( "incorrect-file-size" );
 
         return this;
+    }
+
+    public String getAgreementLink(){
+        return systemPropertyDao.getProperty( StoredPropertyName.AGREEMENT_FILE_LOCATION );
     }
 }

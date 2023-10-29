@@ -18,6 +18,7 @@ public enum StoredPropertyName {
     TEMPOLW_SYSTEM_URL("Integration", "URL системы проведения тестирования", "https://chembio.rsmu.ru", StoredPropertyType.STRING ),
     TEMPOLW_USER("Integration", "Имя пользователя системы проведения тестирования", "prk_admin@rsmu.ru", StoredPropertyType.STRING ),
     TEMPOLW_PASSWORD("Integration", "Пароль системы проведения тестирования", "6A8AEAFFD00E99F5B377B084FA577E3B", StoredPropertyType.STRING ),
+    AGREEMENT_FILE_LOCATION("Integration", "Форма согласия на обработку персональных данных", "https://rsmu.ru/fileadmin/templates/DOC/Conferences/Pirogov_olimp_po_himii_i_biologii/forma_sogl_na_obr_PD_o_2020.doc", StoredPropertyType.STRING ),
 
 
     VIEW_ONLY_THIS_YEAR_EXAM("Global", "Показывать экзамены только текущего года", "1", StoredPropertyType.INTEGER ),
