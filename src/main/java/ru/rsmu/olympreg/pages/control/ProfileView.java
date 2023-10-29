@@ -83,6 +83,10 @@ public class ProfileView {
         return profile.getRegion() != null ? profile.getRegion().getName() : "-";
     }
 
+    public String getProfileForeignCountry() {
+        return profile.getCountry() != null ? profile.getCountry().getName() : "";
+    }
+
     public String getOlympiadSubjectName() {
         String subjectName = "";
         switch ( participationInfo.getOlympiadSubject() ) {

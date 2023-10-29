@@ -11,11 +11,9 @@ import org.apache.tapestry5.internal.OptionModelImpl;
 import org.apache.tapestry5.ioc.Messages;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.ValueEncoderSource;
+import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 import org.apache.tapestry5.util.AbstractSelectModel;
-import ru.rsmu.olympreg.dao.CompetitorDao;
-import ru.rsmu.olympreg.dao.OlympiadDao;
-import ru.rsmu.olympreg.dao.SystemPropertyDao;
-import ru.rsmu.olympreg.dao.UserDao;
+import ru.rsmu.olympreg.dao.*;
 import ru.rsmu.olympreg.entities.*;
 import ru.rsmu.olympreg.entities.system.StoredProperty;
 import ru.rsmu.olympreg.entities.system.StoredPropertyName;
@@ -51,6 +49,9 @@ public class EditProfile {
     private SystemPropertyDao systemPropertyDao;
 
     @Inject
+    private CountryDao countryDao;
+
+    @Inject
     private SecurityUserHelper securityUserHelper;
 
     @Inject
@@ -58,6 +59,13 @@ public class EditProfile {
 
     @Inject
     private Messages messages;
+
+    @Inject
+    private JavaScriptSupport javaScriptSupport;
+
+    private void setupRender() {
+        javaScriptSupport.require( "select_country" );
+    }
 
     public Object onActivate() {
         prepare();
@@ -111,6 +119,22 @@ public class EditProfile {
                 return regions.stream()
                         .filter( r -> otherCountryAllowed == 1 || !r.getName().matches( "Не РФ" ) )
                         .map( r -> new OptionModelImpl( r.getName(), r ) ).collect( Collectors.toList());
+            }
+        };
+    }
+
+    public SelectModel getCountryModel() {
+        return new AbstractSelectModel() {
+            @Override
+            public List<OptionGroupModel> getOptionGroups() {
+                return null;
+            }
+
+            @Override
+            public List<OptionModel> getOptions() {
+                List<Country> countries = countryDao.findAll( Country.class );
+                return countries.stream()
+                        .map( r -> new OptionModelImpl( r.getShortName(), r )  ).collect( Collectors.toList());
             }
         };
     }

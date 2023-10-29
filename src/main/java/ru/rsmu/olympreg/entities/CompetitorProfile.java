@@ -35,7 +35,7 @@ public class CompetitorProfile implements Serializable {
 
     @Column(name = "passport_date")
     @Temporal( TemporalType.DATE )
-    private String passportDate;
+    private Date passportDate;
 
     @Column
     private String snils;
@@ -44,8 +44,9 @@ public class CompetitorProfile implements Serializable {
     @JoinColumn(name = "region_id")
     private SubjectRegion region;
 
-    @Column(name = "country_name")
-    private String countryName;
+    @ManyToOne
+    @JoinColumn(name = "country_id")
+    private Country country;
 
     @Column(name = "school_number")
     private String schoolNumber;
@@ -181,11 +182,11 @@ public class CompetitorProfile implements Serializable {
         this.passportNumber = passportNumber;
     }
 
-    public String getPassportDate() {
+    public Date getPassportDate() {
         return passportDate;
     }
 
-    public void setPassportDate( String passportDate ) {
+    public void setPassportDate( Date passportDate ) {
         this.passportDate = passportDate;
     }
 
@@ -197,12 +198,12 @@ public class CompetitorProfile implements Serializable {
         this.snils = snils;
     }
 
-    public String getCountryName() {
-        return countryName;
+    public Country getCountry() {
+        return country;
     }
 
-    public void setCountryName( String countryName ) {
-        this.countryName = countryName;
+    public void setCountry( Country country ) {
+        this.country = country;
     }
 
     @Transient

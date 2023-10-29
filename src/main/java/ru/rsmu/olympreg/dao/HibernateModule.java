@@ -8,15 +8,15 @@ import org.apache.tapestry5.ioc.ServiceBinder;
 import org.apache.tapestry5.ioc.annotations.Contribute;
 import org.apache.tapestry5.ioc.annotations.Match;
 import ru.rsmu.olympreg.dao.internal.*;
-import ru.rsmu.olympreg.entities.CompetitorCounter;
-import ru.rsmu.olympreg.entities.User;
-import ru.rsmu.olympreg.entities.UserRole;
-import ru.rsmu.olympreg.entities.UserRoleName;
+import ru.rsmu.olympreg.entities.*;
 import ru.rsmu.olympreg.seedentity.hibernate.SeedEntity;
 import ru.rsmu.olympreg.seedentity.hibernate.SeedEntityImpl;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
 import java.util.LinkedList;
 
@@ -31,6 +31,7 @@ public class HibernateModule {
         binder.bind( EmailDao.class, EmailDaoImpl.class );
         binder.bind( CompetitorDao.class, CompetitorDaoImpl.class );
         binder.bind( OlympiadDao.class, OlympiadDaoImpl.class );
+        binder.bind( CountryDao.class, CountryDaoImpl.class );
 
         //seed entity - initial DB population
         binder.bind(SeedEntity.class, SeedEntityImpl.class);
@@ -98,5 +99,31 @@ public class HibernateModule {
         counter.setYear( calendar.get( Calendar.YEAR ) );
         counter.setCounter( 1 );
         configuration.add( "counter", counter );
+
+        populateCountries( configuration );
+    }
+
+    private static void populateCountries( OrderedConfiguration<Object> configuration ) {
+        InputStream is = HibernateModule.class
+                .getClassLoader().getResourceAsStream( "catalogs/countries.csv" );
+        if ( is != null ) {
+            BufferedReader br = new BufferedReader(new InputStreamReader( is, StandardCharsets.UTF_8));
+            boolean skipFirstLine = true;
+            try {
+                for ( String strLine; (strLine = br.readLine()) != null; ) {
+                    if ( skipFirstLine ) {
+                        skipFirstLine = false;
+                        continue;
+                    }
+                    String[] parts = strLine.split( ";" );
+                    if ( parts.length > 5 ) {
+                        Country country = new Country( parts[0], parts[1], parts[2], parts[3], parts[4] );
+                        configuration.add( parts[3], country );
+                    }
+                }
+            } catch (IOException e) {
+                // Unable to read countries
+            }
+        }
     }
 }

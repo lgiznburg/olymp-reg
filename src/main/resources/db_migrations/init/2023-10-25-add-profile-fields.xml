@@ -6,12 +6,29 @@
                    http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
+    <changeSet id="2023-10-25-create-countries-table" author="lginzburg">
+        <createTable tableName="countries">
+            <column autoIncrement="true" name="id" type="${id.type}">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="short_name" type="${string.type}"/>
+            <column name="name" type="${string.type}"/>
+            <column name="iso3" type="${string.type}"/>
+            <column name="iso2" type="${string.type}"/>
+            <column name="oksm" type="${string.type}"/>
+        </createTable>
+    </changeSet>
+
     <changeSet id="2023-10-25-add-passport-snils" author="lginzburg">
         <addColumn tableName="competitor_profile">
             <column name="passport_number" type="${string.type}" />
             <column name="passport_date" type="date"/>
             <column name="snils" type="${string.type}"/>
-            <column name="country_name" type="${string.type}"/>
+            <column name="country_id" type="${id.type}"/>
         </addColumn>
+
+        <addForeignKeyConstraint baseTableName="competitor_profile" baseColumnNames="country_id"
+                                 constraintName="fk_profile_to_countries" referencedTableName="countries"
+                                 referencedColumnNames="id"/>
     </changeSet>
 </databaseChangeLog>

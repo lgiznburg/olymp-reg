@@ -5,12 +5,15 @@ import org.apache.shiro.codec.Base64;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.realm.Realm;
 import org.apache.tapestry5.SymbolConstants;
+import org.apache.tapestry5.ValueEncoder;
 import org.apache.tapestry5.ioc.*;
-import org.apache.tapestry5.ioc.annotations.*;
+import org.apache.tapestry5.ioc.annotations.Contribute;
+import org.apache.tapestry5.ioc.annotations.ImportModule;
+import org.apache.tapestry5.ioc.annotations.InjectService;
+import org.apache.tapestry5.ioc.annotations.Startup;
 import org.apache.tapestry5.ioc.services.ApplicationDefaults;
 import org.apache.tapestry5.ioc.services.SymbolProvider;
 import org.apache.tapestry5.upload.services.UploadSymbols;
-import org.quartz.Job;
 import org.quartz.Scheduler;
 import org.tynamo.security.SecuritySymbols;
 import org.tynamo.security.services.SecurityFilterChainFactory;
@@ -24,13 +27,12 @@ import ru.rsmu.olympreg.utils.AssignExamJob;
 import ru.rsmu.olympreg.utils.CleanUpRegistrationJob;
 import ru.rsmu.olympreg.utils.GetExamResultsJob;
 import ru.rsmu.olympreg.utils.SendEmailJob;
-import ru.rsmu.olympreg.utils.restconnector.RestApiConnector;
 import ru.rsmu.olympreg.utils.restconnector.TempolwConnector;
+import ru.rsmu.olympreg.encoders.CountryValueEncoder;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Collection;
-import java.util.Map;
 
 /**
  * @author leonid.
@@ -90,6 +92,8 @@ public class AppModule {
         binder.bind( AssignExamControl.class, AssignExamControlImpl.class );
 
         binder.bind( CompetitorNotificationService.class, CompetitorNotificationServiceImpl.class );
+
+        binder.bind( ValueEncoder.class, CountryValueEncoder.class ).withId( CountryValueEncoder.class.getSimpleName() );
     }
 
     public static RunJobsService buildRunJobsService( Collection<RunJobDescription> configuration,
