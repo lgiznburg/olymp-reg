@@ -82,7 +82,7 @@
                     <t:upload t:id="agreementFileField" value="agreementFile"/>
                     <br/><br/>
                     <span class="text-muted">Скачайте и заполните
-                        <a href="https://rsmu.ru/fileadmin/templates/DOC/Conferences/Pirogov_olimp_po_himii_i_biologii/forma_sogl_na_obr_PD_o_2020.doc" target="_blank">
+                        <a href="${agreementLink}" target="_blank">
                             форму согласия на обработку персональных данных
                         </a>. Закрузите скан-копию этого документа.
                     </span>
