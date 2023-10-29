@@ -47,9 +47,31 @@
         </tr>
 
         <tr>
+            <td>Серия и номер паспорта</td>
+            <td><t:if test="profile.passportNumber">${profile.passportNumber}</t:if></td>
+        </tr>
+
+        <tr>
+            <td>Дата выдачи паспорта</td>
+            <td><t:output format="literal:dd MMMM yyyy" value="profile.passportDate"/></td>
+        </tr>
+
+        <tr>
+            <td>СНИЛС</td>
+            <td><t:if test="profile.snils">${profile.snils}</t:if></td>
+        </tr>
+
+        <tr>
             <td>Регион</td>
             <td>${profileRegionName}</td>
         </tr>
+
+        <t:if test="profile.foreignCountry">
+            <tr>
+                <td>Страна</td>
+                <td><t:if test="profile.countryName">${profile.countryName}</t:if></td>
+            </tr>
+        </t:if>
 
         <tr>
             <td>Название образовательного учереждения</td>
@@ -130,6 +152,27 @@
                             <td><t:label for="userPhoneNumber">Контактный телефон</t:label></td>
                             <td>
                                 <t:textfield t:id="userPhoneNumber" value="profile.phoneNumber" t:mixins="MaskedInput" mask="+7(999)999-9999" placeholder="+7(___)___-____" validate="required"/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><t:label for="userPassportNumber">Серия и номер паспорта</t:label></td>
+                            <td>
+                                <t:textfield t:id="userPassportNumber" value="profile.passportNumber" validate="required"/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><t:label for="userPhoneNumber">Дата выдачи паспорта</t:label></td>
+                            <td>
+                                <t:textfield t:id="userPassportDate" value="profile.passportDate" validate="required"/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><t:label for="userPhoneNumber">Номер СНИЛС</t:label></td>
+                            <td>
+                                <t:textfield t:id="userPhoneNumber" value="profile.snils" t:mixins="MaskedInput" mask="999-999-999 99" placeholder="___-___-___ __" validate="required"/>
                             </td>
                         </tr>
 

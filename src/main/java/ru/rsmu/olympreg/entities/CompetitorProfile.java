@@ -30,9 +30,22 @@ public class CompetitorProfile implements Serializable {
     @Temporal( TemporalType.DATE )
     private Date birthDate;
 
+    @Column(name = "passport_number")
+    private String passportNumber;
+
+    @Column(name = "passport_date")
+    @Temporal( TemporalType.DATE )
+    private String passportDate;
+
+    @Column
+    private String snils;
+
     @ManyToOne
     @JoinColumn(name = "region_id")
     private SubjectRegion region;
+
+    @Column(name = "country_name")
+    private String countryName;
 
     @Column(name = "school_number")
     private String schoolNumber;
@@ -158,6 +171,43 @@ public class CompetitorProfile implements Serializable {
 
     public void setAttachments( List<AttachedFile> attachments ) {
         this.attachments = attachments;
+    }
+
+    public String getPassportNumber() {
+        return passportNumber;
+    }
+
+    public void setPassportNumber( String passportNumber ) {
+        this.passportNumber = passportNumber;
+    }
+
+    public String getPassportDate() {
+        return passportDate;
+    }
+
+    public void setPassportDate( String passportDate ) {
+        this.passportDate = passportDate;
+    }
+
+    public String getSnils() {
+        return snils;
+    }
+
+    public void setSnils( String snils ) {
+        this.snils = snils;
+    }
+
+    public String getCountryName() {
+        return countryName;
+    }
+
+    public void setCountryName( String countryName ) {
+        this.countryName = countryName;
+    }
+
+    @Transient
+    public boolean isForeignCountry() {
+        return region != null && region.isForeignCountry();
     }
 
     public void addAttachment( AttachedFile attachedFile ) {

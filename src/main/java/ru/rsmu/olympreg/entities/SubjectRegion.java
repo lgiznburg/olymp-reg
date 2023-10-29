@@ -44,4 +44,9 @@ public class SubjectRegion implements Serializable {
     public void setName( String name ) {
         this.name = name;
     }
+
+    @Transient
+    public boolean isForeignCountry() {
+        return code == 100 || code == 101;
+    }
 }

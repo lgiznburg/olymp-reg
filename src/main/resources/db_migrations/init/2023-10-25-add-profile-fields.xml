@@ -6,11 +6,12 @@
                    http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
-    <include file="2021-10-01-create-schema.xml" relativeToChangelogFile="true"/>
-    <include file="2021-10-21-attached-files.xml" relativeToChangelogFile="true"/>
-    <include file="2021-01-15-olymp-config.xml" relativeToChangelogFile="true"/>
-    <include file="2022-10-16-profile-year.xml" relativeToChangelogFile="true"/>
-    <include file="2023-04-10-add-winner-score.xml" relativeToChangelogFile="true"/>
-    <include file="2023-10-25-add-profile-fields.xml" relativeToChangelogFile="true"/>
-
+    <changeSet id="2023-10-25-add-passport-snils" author="lginzburg">
+        <addColumn tableName="competitor_profile">
+            <column name="passport_number" type="${string.type}" />
+            <column name="passport_date" type="date"/>
+            <column name="snils" type="${string.type}"/>
+            <column name="country_name" type="${string.type}"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>
