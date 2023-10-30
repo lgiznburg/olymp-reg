@@ -10,7 +10,6 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import ru.rsmu.olympreg.dao.CompetitorDao;
 import ru.rsmu.olympreg.dao.EmailDao;
 import ru.rsmu.olympreg.entities.*;
-import ru.rsmu.olympreg.entities.system.StoredPropertyName;
 import ru.rsmu.olympreg.services.EmailType;
 
 import java.io.IOException;
@@ -81,6 +80,10 @@ public class ProfileView {
 
     public String getProfileRegion() {
         return profile.getRegion() != null ? profile.getRegion().getName() : "-";
+    }
+
+    public String getProfileForeignCountryName() {
+        return profile.getCountry() != null ? profile.getCountry().getName() : "";
     }
 
     public String getOlympiadSubjectName() {

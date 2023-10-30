@@ -47,9 +47,31 @@
         </tr>
 
         <tr>
+            <td>Серия и номер паспорта</td>
+            <td><t:if test="profile.passportNumber">${profile.passportNumber}</t:if></td>
+        </tr>
+
+        <tr>
+            <td>Дата выдачи паспорта</td>
+            <td><t:output format="literal:dd MMMM yyyy" value="profile.passportDate"/></td>
+        </tr>
+
+        <tr>
+            <td>СНИЛС</td>
+            <td><t:if test="profile.snils">${profile.snils}</t:if></td>
+        </tr>
+
+        <tr>
             <td>Регион</td>
             <td>${profileRegionName}</td>
         </tr>
+
+        <t:if test="profile.foreignCountry">
+            <tr>
+                <td>Страна</td>
+                <td><t:if test="profile.country">${profile.country.name}</t:if></td>
+            </tr>
+        </t:if>
 
         <tr>
             <td>Название образовательного учереждения</td>
@@ -110,19 +132,18 @@
                         <tr>
                             <td><t:label for="birthdate">Дата рождения <sup color="red">*</sup></t:label></td>
                             <td>
-                                <div style="width:50%;">
+                                <div style="width:80%;">
                                     <t:datefield t:id="birthdate" value="profile.birthDate" validate="required"/>
                                 </div>
                             </td>
                         </tr>
 
                         <tr>
-                            <td><label>Пол <sup color="red">*</sup></label></td>
+                            <td><t:label for="userSex">Пол <sup color="red">*</sup></t:label></td>
                             <td>
-                                <t:RadioGroup value="profile.sex" validate="required">
-                                    <t:Radio t:id="radioH" value="literal:F" label="Женский" /> <t:label for="radioH"/><br/>
-                                    <t:Radio t:id="radioM" value="literal:M" label="Мужской" /> <t:label for="radioM"/><br/>
-                                </t:RadioGroup>
+                                <div style="width:80%;">
+                                    <t:select t:id="userSex" value="profile.sex" t:model="literal:F=Женский,M=Мужской" validate="required" blankOption="ALWAYS"/>
+                                </div>
                             </td>
                         </tr>
 
@@ -134,18 +155,54 @@
                         </tr>
 
                         <tr>
-                            <t:if test="registrationOpen">
+                            <td><t:label for="userPassportNumber">Серия и номер паспорта <sup color="red">*</sup></t:label></td>
+                            <td>
+                                <t:textfield t:id="userPassportNumber" value="profile.passportNumber" validate="required"/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><t:label for="userPassportDate">Дата выдачи паспорта <sup color="red">*</sup></t:label></td>
+                            <td>
+                                <t:datefield t:id="userPassportDate" value="profile.passportDate" validate="required"/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><t:label for="userSnils">Номер СНИЛС <sup color="red">*</sup></t:label></td>
+                            <td>
+                                <t:textfield t:id="userSnils" value="profile.snils" t:mixins="MaskedInput" mask="999-999-999 99" placeholder="___-___-___ __" validate="required"/>
+                            </td>
+                        </tr>
+
+                        <t:if test="registrationOpen">
+                            <tr>
                                 <td><t:label for="userRegion">Регион <sup color="red">*</sup></t:label></td>
                                 <td>
                                     <t:select t:id="userRegion" value="profile.region" t:model="regionsModel"
                                               encoder="regionsEncoder" blankLabel="Выберите регион / субъект РФ" validate="required"/>
                                 </td>
-                                <p:else>
-                                    <td>Регион <sup color="red">*</sup></td>
-                                    <td>${profileRegionName}</td>
-                                </p:else>
-                            </t:if>
-                        </tr>
+                            </tr>
+                            <tr class="collapse" id="countryNameRow">
+                                <td><t:label for="userCountry">Страна <sup color="red">*</sup></t:label></td>
+                                <td>
+                                    <t:select t:id="userCountry" value="profile.country" t:model="countryModel"
+                                              blankLabel="Выберите страну" validate="required"/>
+                                </td>
+                            </tr>
+                            <p:else>
+                                <tr>
+                                <td>Регион</td>
+                                <td>${profileRegionName}</td>
+                                </tr>
+                                <t:if test="profile.foreignCountry">
+                                    <tr>
+                                        <td>Страна</td>
+                                        <td><t:if test="profile.country">${profile.country.name}</t:if></td>
+                                    </tr>
+                                </t:if>
+                            </p:else>
+                        </t:if>
 
                         <tr>
                             <td><t:label for="userSchoolNumber">Название образовательного учереждения <sup color="red">*</sup></t:label></td>
