@@ -47,6 +47,11 @@ public class HibernateModule {
     //populate with initial values
     @Contribute(SeedEntity.class)
     public static void addSeedEntities( OrderedConfiguration<Object> configuration) {
+        populateUsers( configuration );
+        populateCountries( configuration );
+    }
+
+    private static void populateUsers( OrderedConfiguration<Object> configuration ) {
         //Roles:
         UserRole adminRole = new UserRole();
         adminRole.setRoleName( UserRoleName.admin );
@@ -99,8 +104,6 @@ public class HibernateModule {
         counter.setYear( calendar.get( Calendar.YEAR ) );
         counter.setCounter( 1 );
         configuration.add( "counter", counter );
-
-        populateCountries( configuration );
     }
 
     private static void populateCountries( OrderedConfiguration<Object> configuration ) {

@@ -38,7 +38,7 @@
 </div>
 <div class="row">
     <div class="col-sm-2">Регион</div>
-    <div class="col-sm-9">${profileRegion} <t:if test="profile.foreignCountry">${profileForeignCountry}</t:if></div>
+    <div class="col-sm-9">${profileRegion} <t:if test="profile.foreignCountry">${profileForeignCountryName}</t:if></div>
 </div>
 <div class="row">
     <div class="col-sm-2">Загруженные документы</div>
