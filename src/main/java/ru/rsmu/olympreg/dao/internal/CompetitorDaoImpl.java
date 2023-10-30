@@ -220,6 +220,30 @@ public class CompetitorDaoImpl extends BaseDaoImpl implements CompetitorDao {
     }
 
     @Override
+    public CompetitorProfile findPreviousYearsProfile() {
+        List<CompetitorProfile> profilesList = findPreviousYearProfiles();
+
+        if ( profilesList.isEmpty() ) {
+            int year = YearHelper.getActualYear();
+            Query query = session.createQuery(
+                            "SELECT cp FROM CompetitorProfile cp " +
+                                    "WHERE cp.year = :year_before_last " +
+                                    "AND cp.classNumber < 10 " +
+                                    "AND cp.profileStage <> :profileStage " +
+                                    "AND 0 = (SELECT count(cp2) FROM CompetitorProfile cp2 " +
+                                    "WHERE cp2.user = cp.user " +
+                                    "AND cp2.year = :year ) "
+                    )
+                    .setParameter("year", year)
+                    .setParameter("year_before_last", year - 2)
+                    .setParameter("profileStage", ProfileStage.NEW);
+            profilesList.addAll(query.list());
+        }
+
+        return profilesList.isEmpty() ? null : profilesList.get(0);
+    }
+
+    @Override
     public boolean isLastYearWinner( User user, OlympiadSubject subject ) {
         int year = YearHelper.getActualYear();
         Query lastProfileQuesry = session.createQuery(
