@@ -104,6 +104,21 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
         return criteria.list();
     }
 
+    @Override
+    public int countCandidates( CompetitorFilter filter ) {
+        return ((Long)buildCandidatesCriteria( filter, null )
+                .setProjection( Projections.rowCount() )
+                .uniqueResult()).intValue();
+    }
+
+    @Override
+    public List<UserCandidate> findFilteredCandidates( CompetitorFilter filter, List<SortCriterion> sortCriteria, int startIndex, int size ) {
+        Criteria criteria = buildCandidatesCriteria( filter, sortCriteria )
+                .setFirstResult( startIndex )
+                .setMaxResults( size );
+        return criteria.list();
+    }
+
     private Criteria buildCriteria( CompetitorFilter filter, List<SortCriterion> sortCriteria ) {
         Criteria criteria = session.createCriteria( User.class );
         if ( StringUtils.isNotBlank( filter.getEmail() ) ) {
@@ -135,6 +150,34 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
             }
         }
         return  criteria;
+    }
+
+    private Criteria buildCandidatesCriteria( CompetitorFilter filter, List<SortCriterion> sortCriteria ) {
+        Criteria criteria = session.createCriteria( UserCandidate.class );
+        if ( StringUtils.isNotBlank( filter.getEmail() ) ) {
+            criteria.add( Restrictions.like( "email", "%" + filter.getEmail() + "%" ) );
+        }
+        if ( StringUtils.isNotBlank( filter.getLastName() ) ) {
+            criteria.add( Restrictions.like( "lastName", "%" + filter.getLastName() + "%" ) );
+        }
+        if ( sortCriteria != null ) {
+            AtomicBoolean emailOrder = new AtomicBoolean( false );
+            sortCriteria.forEach( sc -> {
+                if ( sc.getPropertyName().equalsIgnoreCase( "email" ) ) {
+                    emailOrder.set( true );
+                }
+                if ( sc.getDirection() == SortCriterion.ASCENDING ) {
+                    criteria.addOrder( Order.asc( sc.getPropertyName() ) );
+                }
+                else if ( sc.getDirection() == SortCriterion.DESCENDING ) {
+                    criteria.addOrder( Order.desc( sc.getPropertyName() ) );
+                }
+            } );
+            if ( !emailOrder.get() ) {
+                criteria.addOrder( Order.asc("email") );
+            }
+        }
+        return criteria;
     }
 
 }

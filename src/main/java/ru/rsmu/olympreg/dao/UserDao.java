@@ -31,4 +31,8 @@ public interface UserDao extends BaseDao {
     int countUsers( CompetitorFilter filter );
 
     List<User> findFilteredUsers( CompetitorFilter filter, List<SortCriterion> sortCriteria, int startIndex, int size );
+
+    int countCandidates( CompetitorFilter filter );
+
+    List<UserCandidate> findFilteredCandidates( CompetitorFilter filter, List<SortCriterion> sortCriteria, int startIndex, int size );
 }
