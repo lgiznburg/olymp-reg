@@ -1,0 +1,18 @@
+<html t:type="layout" t:pageTitle="Администрирование:Пользователи"
+      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
+>
+<body>
+<div class="row"><h3>Ожидание подтверждения e-mail</h3></div>
+
+<div class="row">
+    <div class="col-sm-4">
+        <t:admin.candidateslist candidate="candidate" t:id="list"/>
+    </div>
+    <div class="col-sm-8">
+        <t:admin.candidateview candidate="candidate" t:id="editor"/>
+    </div>
+</div>
+
+</body>
+
+</html>
