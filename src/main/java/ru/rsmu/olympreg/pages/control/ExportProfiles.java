@@ -7,8 +7,10 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.tapestry5.StreamResponse;
+import org.apache.tapestry5.ioc.annotations.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.rsmu.olympreg.dao.CompetitorDao;
 import ru.rsmu.olympreg.dao.internal.CompetitorDaoImpl;
 import ru.rsmu.olympreg.entities.CompetitorProfile;
 import ru.rsmu.olympreg.entities.OlympiadSubject;
@@ -28,9 +30,11 @@ import java.util.List;
 public class ExportProfiles {
     private static final Logger logger = LoggerFactory.getLogger( ExportProfiles.class );
 
+    @Inject
+    private CompetitorDao competitorDao;
+
     public StreamResponse onActivate() {
         CompetitorFilter filter = new CompetitorFilter();
-        CompetitorDaoImpl competitorDao = new CompetitorDaoImpl();
         List<CompetitorProfile> profiles = competitorDao.findProfiles( filter, new ArrayList<SortCriterion>(),
                 1, competitorDao.countProfiles( filter ) );
         if ( profiles.isEmpty() ) return null;
@@ -68,9 +72,9 @@ public class ExportProfiles {
         cellTitle = rowTitle.createCell( cellNumber++);
         cellTitle.setCellValue( "Регион" );
         cellTitle = rowTitle.createCell( cellNumber++);
-        cellTitle.setCellValue( "Загружены сканы" );
-        cellTitle = rowTitle.createCell( cellNumber++);
         cellTitle.setCellValue( "Страна" );
+        cellTitle = rowTitle.createCell( cellNumber++);
+        cellTitle.setCellValue( "Загружены сканы" );
         cellTitle = rowTitle.createCell( cellNumber++);
         cellTitle.setCellValue( "Участие в химии" );
         cellTitle = rowTitle.createCell( cellNumber++);
@@ -98,13 +102,17 @@ public class ExportProfiles {
             cell.setCellValue( profile.getSex() );
 
             cell = rowTitle.createCell( cellNumber++ );
-            cell.setCellValue( profile.getBirthDate() );
+            if ( profile.getBirthDate() != null ) {
+                cell.setCellValue( profile.getBirthDate() );
+            }
 
             cell = rowTitle.createCell( cellNumber++ );
             cell.setCellValue( profile.getPassportNumber() );
 
             cell = rowTitle.createCell( cellNumber++ );
-            cell.setCellValue( profile.getPassportDate() );
+            if ( profile.getPassportDate() != null ) {
+                cell.setCellValue( profile.getPassportDate() );
+            }
 
             cell = rowTitle.createCell( cellNumber++ );
             cell.setCellValue( profile.getSnils() );
@@ -116,19 +124,20 @@ public class ExportProfiles {
             cell.setCellValue( profile.getSchoolNumber() );
 
             cell = rowTitle.createCell( cellNumber++ );
-            cell.setCellValue( profile.getSchoolLocation().getTranslated() );
+            if ( profile.getSchoolLocation() != null ) {
+                cell.setCellValue( profile.getSchoolLocation().getTranslated() );
+            }
 
             cell = rowTitle.createCell( cellNumber++ );
-            cell.setCellValue( profile.getRegion().getName() );
+            if ( profile.getRegion() != null ) {
+                cell.setCellValue( profile.getRegion().getName() );
+            }
 
             cellNumber++;
             if ( profile.isForeignCountry() ) {
                 cell = rowTitle.createCell( cellNumber );
                 cell.setCellValue( profile.getCountry().getShortName() );
             }
-
-            cell = rowTitle.createCell( cellNumber++ );
-            cell.setCellValue( profile.isAttachmentsCompleted() );
 
             cell = rowTitle.createCell( cellNumber++ );
             if ( profile.isAttachmentsCompleted() ) {
