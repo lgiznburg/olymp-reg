@@ -20,7 +20,7 @@
     <t:zone t:id="candidateListZone">
         <div id="usersList">
             <t:grid t:id="candidatesGrid" source="candidateDataSource" row="candidateIt"
-                    exclude="id,firstName,middleName,lastName,password,keyCode,createdDate"
+                    exclude="id,firstName,middleName,lastName,password,keyCode,createdDate,type"
                     reorder="email,fullName"
                     class="table table-bordered table-hover"
                     rowsPerPage="25" pagerPosition="bottom"

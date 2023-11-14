@@ -160,6 +160,10 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
         if ( StringUtils.isNotBlank( filter.getLastName() ) ) {
             criteria.add( Restrictions.like( "lastName", "%" + filter.getLastName() + "%" ) );
         }
+        else {
+            criteria.add( Restrictions.neOrIsNotNull( "lastName", "" ) );
+        }
+        criteria.add( Restrictions.eq( "type", UserCandidateType.account ) );
         if ( sortCriteria != null ) {
             AtomicBoolean emailOrder = new AtomicBoolean( false );
             sortCriteria.forEach( sc -> {

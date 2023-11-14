@@ -40,6 +40,18 @@ public class UserCandidate implements Serializable {
     @Column(name = "key_code")
     private String keyCode;
 
+    @Column
+    @Enumerated(EnumType.ORDINAL)
+    private UserCandidateType type = UserCandidateType.account;
+
+    public UserCandidateType getType() {
+        return type;
+    }
+
+    public void setType( UserCandidateType type ) {
+        this.type = type;
+    }
+
     public Long getId() {
         return id;
     }

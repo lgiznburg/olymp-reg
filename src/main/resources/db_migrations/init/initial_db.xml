@@ -12,5 +12,6 @@
     <include file="2022-10-16-profile-year.xml" relativeToChangelogFile="true"/>
     <include file="2023-04-10-add-winner-score.xml" relativeToChangelogFile="true"/>
     <include file="2023-10-25-add-profile-fields.xml" relativeToChangelogFile="true"/>
+    <include file="2023-11-13-add-candidate-type.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

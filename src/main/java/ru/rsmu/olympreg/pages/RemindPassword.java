@@ -16,6 +16,7 @@ import ru.rsmu.olympreg.dao.UserDao;
 import ru.rsmu.olympreg.entities.EmailQueue;
 import ru.rsmu.olympreg.entities.User;
 import ru.rsmu.olympreg.entities.UserCandidate;
+import ru.rsmu.olympreg.entities.UserCandidateType;
 import ru.rsmu.olympreg.entities.system.StoredPropertyName;
 import ru.rsmu.olympreg.services.EmailType;
 
@@ -99,6 +100,7 @@ public class RemindPassword {
 
         if ( user != null ) {
             UserCandidate candidate = new UserCandidate();
+            candidate.setType( UserCandidateType.password );
             candidate.setEmail( userLogin );
             candidate.setCreatedDate( new Date() );
             candidate.setPassword( userDao.encrypt( userPassword ) );
