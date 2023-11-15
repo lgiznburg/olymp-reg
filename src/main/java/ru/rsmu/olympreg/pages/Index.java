@@ -94,7 +94,9 @@ public class Index {
         if ( previousProfile != null ) {
             profile.setBirthDate( previousProfile.getBirthDate() );
             profile.setPhoneNumber( previousProfile.getPhoneNumber() );
-            profile.setClassNumber( previousProfile.getClassNumber() + profile.getYear() - previousProfile.getYear() );
+            if ( previousProfile.getClassNumber() != null ) { // class number should not be null, but for any case
+                profile.setClassNumber( previousProfile.getClassNumber() + profile.getYear() - previousProfile.getYear() );
+            }
             profile.setSex( previousProfile.getSex() );
             profile.setPassportDate( previousProfile.getPassportDate() );
             profile.setPassportNumber( previousProfile.getPassportNumber() );
