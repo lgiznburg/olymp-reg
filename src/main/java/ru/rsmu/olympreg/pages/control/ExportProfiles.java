@@ -1,9 +1,9 @@
 package ru.rsmu.olympreg.pages.control;
 
-import antlr.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -12,7 +12,6 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.rsmu.olympreg.dao.CompetitorDao;
-import ru.rsmu.olympreg.dao.internal.CompetitorDaoImpl;
 import ru.rsmu.olympreg.entities.CompetitorProfile;
 import ru.rsmu.olympreg.entities.OlympiadSubject;
 import ru.rsmu.olympreg.entities.ParticipationInfo;
@@ -43,6 +42,9 @@ public class ExportProfiles {
         int actualYear = YearHelper.getActualYear();
 
         HSSFWorkbook workbook = new HSSFWorkbook();
+        CellStyle dateStyle = workbook.createCellStyle();
+        dateStyle.setDataFormat((short)14 );  // base date format (depends on local)
+
         HSSFSheet sheet = workbook.createSheet( "profiles");
 
         Row rowTitle = sheet.createRow(0);
@@ -108,6 +110,7 @@ public class ExportProfiles {
             cell = row.createCell( cellNumber++ );
             if ( profile.getBirthDate() != null ) {
                 cell.setCellValue( profile.getBirthDate() );
+                cell.setCellStyle( dateStyle );
             }
 
             cell = row.createCell( cellNumber++ );
@@ -116,6 +119,7 @@ public class ExportProfiles {
             cell = row.createCell( cellNumber++ );
             if ( profile.getPassportDate() != null ) {
                 cell.setCellValue( profile.getPassportDate() );
+                cell.setCellStyle( dateStyle );
             }
 
             cell = row.createCell( cellNumber++ );
@@ -145,7 +149,7 @@ public class ExportProfiles {
             }
 
             cell = row.createCell( cellNumber++ );
-                cell.setCellValue( profile.isAttachmentsCompleted() ? "Да" : "Нет" );
+            cell.setCellValue( profile.isAttachmentsCompleted() ? "Да" : "Нет" );
 
             boolean chemistry = false;
             boolean biology = false;
@@ -165,6 +169,9 @@ public class ExportProfiles {
             cell = row.createCell( cellNumber++ );
             cell.setCellValue( biology ? "Да" : "Нет" );
 
+        }
+        for ( int column = 0; column < cellNumber; column++ ) {
+            sheet.autoSizeColumn( column );
         }
 
         //convert table to bytearray and return
