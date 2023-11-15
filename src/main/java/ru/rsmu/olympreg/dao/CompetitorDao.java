@@ -42,6 +42,8 @@ public interface CompetitorDao extends BaseDao {
 
     List<CompetitorProfile> findPreviousYearProfiles();
 
+    public CompetitorProfile findPreviousYearsProfile();
+
     boolean isLastYearWinner( User user, OlympiadSubject subject );
 
     List<Integer> getTop3Results( OlympiadSubject subject, int classNumber, int year );

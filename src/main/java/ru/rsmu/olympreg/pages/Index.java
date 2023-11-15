@@ -89,6 +89,32 @@ public class Index {
         profile.setCaseNumber( String.valueOf( caseNumber ) );
         profile.setProfileStage( ProfileStage.NEW );
         profile.setYear( YearHelper.getActualYear() );
+
+        CompetitorProfile previousProfile = competitorDao.findPreviousYearsProfile();
+        if ( previousProfile != null ) {
+            profile.setBirthDate( previousProfile.getBirthDate() );
+            profile.setPhoneNumber( previousProfile.getPhoneNumber() );
+            if ( previousProfile.getClassNumber() != null ) { // class number should not be null, but for any case
+                profile.setClassNumber( previousProfile.getClassNumber() + profile.getYear() - previousProfile.getYear() );
+            }
+            profile.setSex( previousProfile.getSex() );
+            profile.setPassportDate( previousProfile.getPassportDate() );
+            profile.setPassportNumber( previousProfile.getPassportNumber() );
+            profile.setSnils( previousProfile.getSnils() );
+
+            for ( AttachedFile attachment : previousProfile.getAttachments() ) {
+                if ( attachment.getAttachmentRole() == AttachmentRole.PASSPORT ){
+                    AttachedFile passport = new AttachedFile();
+                    passport.setAttachmentRole( attachment.getAttachmentRole() );
+                    passport.setContentId( attachment.getContentId() );
+                    passport.setSize( attachment.getSize() );
+                    passport.setContentType( attachment.getContentType() );
+                    passport.setSourceName( passport.getSourceName() );
+                    profile.addAttachment( passport );
+                }
+            }
+        }
+
         userDao.save( profile );
     }
 
