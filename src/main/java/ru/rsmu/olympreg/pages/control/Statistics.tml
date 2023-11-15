@@ -96,12 +96,5 @@
     </div>
 </div>
 
-<div class="row" style="margin-top: 2em;">
-    <div class="col-sm-12">
-            <t:pagelink page="control/exportprofiles" class="btn btn-primary" target="_blank">
-                Профили участников
-            </t:pagelink>
-    </div>
-</div>
 
 </html>

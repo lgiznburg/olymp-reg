@@ -1,5 +1,6 @@
 package ru.rsmu.olympreg.pages.control;
 
+import antlr.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -25,6 +26,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @RequiresRoles( value = {"admin", "manager", "moderator"}, logical = Logical.OR)
 public class ExportProfiles {
@@ -36,7 +38,7 @@ public class ExportProfiles {
     public StreamResponse onActivate() {
         CompetitorFilter filter = new CompetitorFilter();
         List<CompetitorProfile> profiles = competitorDao.findProfiles( filter, new ArrayList<SortCriterion>(),
-                1, competitorDao.countProfiles( filter ) );
+                0, competitorDao.countProfiles( filter ) );
         if ( profiles.isEmpty() ) return null;
         int actualYear = YearHelper.getActualYear();
 
@@ -82,83 +84,87 @@ public class ExportProfiles {
 
         int rowNumber = 1;
         for ( CompetitorProfile profile : profiles ) {
-            Row row = sheet.createRow( rowNumber );
+            Row row = sheet.createRow( rowNumber++ );
             cellNumber = 0;
             User user = profile.getUser();
 
-            Cell cell = rowTitle.createCell( cellNumber++ );
+            Cell cell = row.createCell( cellNumber++ );
             cell.setCellValue( profile.getCaseNumber() );
 
-            cell = rowTitle.createCell( cellNumber++ );
+            cell = row.createCell( cellNumber++ );
             cell.setCellValue( user.getFullName() );
 
-            cell = rowTitle.createCell( cellNumber++ );
+            cell = row.createCell( cellNumber++ );
             cell.setCellValue( user.getUsername() );
 
-            cell = rowTitle.createCell( cellNumber++ );
-            cell.setCellValue( profile.getPhoneNumber() );
+            cell = row.createCell( cellNumber++ );
+            cell.setCellValue( profile.getPhoneNumber() == null ? "" : profile.getPhoneNumber() );
 
-            cell = rowTitle.createCell( cellNumber++ );
-            cell.setCellValue( profile.getSex() );
+            cell = row.createCell( cellNumber++ );
+            if ( profile.getSex() != null ) {
+                cell.setCellValue( Objects.equals( profile.getSex(), "F" ) ? "Жен." : "Муж." );
+            }
 
-            cell = rowTitle.createCell( cellNumber++ );
+            cell = row.createCell( cellNumber++ );
             if ( profile.getBirthDate() != null ) {
                 cell.setCellValue( profile.getBirthDate() );
             }
 
-            cell = rowTitle.createCell( cellNumber++ );
-            cell.setCellValue( profile.getPassportNumber() );
+            cell = row.createCell( cellNumber++ );
+            cell.setCellValue( profile.getPassportNumber() == null ? "" : profile.getPassportNumber() );
 
-            cell = rowTitle.createCell( cellNumber++ );
+            cell = row.createCell( cellNumber++ );
             if ( profile.getPassportDate() != null ) {
                 cell.setCellValue( profile.getPassportDate() );
             }
 
-            cell = rowTitle.createCell( cellNumber++ );
-            cell.setCellValue( profile.getSnils() );
+            cell = row.createCell( cellNumber++ );
+            cell.setCellValue( profile.getSnils() == null ? "" : profile.getSnils() );
 
-            cell = rowTitle.createCell( cellNumber++ );
-            cell.setCellValue( profile.getClassNumber() );
+            cell = row.createCell( cellNumber++ );
+            if ( profile.getClassNumber() != null ) {
+                cell.setCellValue(  profile.getClassNumber() );
+            }
 
-            cell = rowTitle.createCell( cellNumber++ );
-            cell.setCellValue( profile.getSchoolNumber() );
+            cell = row.createCell( cellNumber++ );
+            cell.setCellValue( profile.getSchoolNumber() == null ? "" : profile.getSchoolNumber() );
 
-            cell = rowTitle.createCell( cellNumber++ );
+            cell = row.createCell( cellNumber++ );
             if ( profile.getSchoolLocation() != null ) {
                 cell.setCellValue( profile.getSchoolLocation().getTranslated() );
             }
 
-            cell = rowTitle.createCell( cellNumber++ );
+            cell = row.createCell( cellNumber++ );
             if ( profile.getRegion() != null ) {
                 cell.setCellValue( profile.getRegion().getName() );
             }
 
-            cellNumber++;
+            cell = row.createCell( cellNumber++ );
             if ( profile.isForeignCountry() ) {
-                cell = rowTitle.createCell( cellNumber );
-                cell.setCellValue( profile.getCountry().getShortName() );
+                cell.setCellValue( profile.getCountry() == null ? "" : profile.getCountry().getShortName() );
             }
 
-            cell = rowTitle.createCell( cellNumber++ );
-            if ( profile.isAttachmentsCompleted() ) {
-                cell.setCellValue( "Да" );
-            }
-            else {
-                cell.setCellValue( "Нет" );
-            }
+            cell = row.createCell( cellNumber++ );
+                cell.setCellValue( profile.isAttachmentsCompleted() ? "Да" : "Нет" );
 
+            boolean chemistry = false;
+            boolean biology = false;
             if ( !profile.getParticipation().isEmpty() ){
                 for ( ParticipationInfo participationInfo : profile.getParticipation() ) {
                     if ( participationInfo.getOlympiadSubject().equals(OlympiadSubject.CHEMISTRY) ){
-                        cell = rowTitle.createCell( cellNumber );
-                        cell.setCellValue( "Да" );
+                        chemistry = true;
                     }
                     else if ( participationInfo.getOlympiadSubject().equals(OlympiadSubject.BIOLOGY) ) {
-                        cell = rowTitle.createCell( cellNumber + 1 );
-                        cell.setCellValue( "Да" );
+                        biology = true;
                     }
                 }
             }
+            cell = row.createCell( cellNumber++ );
+            cell.setCellValue( chemistry ? "Да" : "Нет" );
+
+            cell = row.createCell( cellNumber++ );
+            cell.setCellValue( biology ? "Да" : "Нет" );
+
         }
 
         //convert table to bytearray and return

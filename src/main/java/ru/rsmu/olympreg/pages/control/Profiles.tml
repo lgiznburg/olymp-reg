@@ -76,4 +76,12 @@
 
 </t:zone>
 
+<div class="row" style="margin-top: 2em;">
+    <div class="col-sm-12">
+        <t:pagelink page="control/exportprofiles" class="btn btn-primary" target="_blank">
+            Выгрузить профили участников
+        </t:pagelink>
+    </div>
+</div>
+
 </html>
