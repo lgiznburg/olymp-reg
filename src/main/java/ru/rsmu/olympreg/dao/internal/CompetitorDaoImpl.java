@@ -220,6 +220,16 @@ public class CompetitorDaoImpl extends BaseDaoImpl implements CompetitorDao {
     }
 
     @Override
+    public List<CompetitorProfile> findPreviousUserProfiles( User user ) {
+        Query query = session.createQuery(
+                        "SELECT cp FROM CompetitorProfile cp " +
+                                "WHERE cp.user = :user "
+                )
+                .setParameter( "user", user );
+        return query.list();
+    }
+
+    @Override
     public CompetitorProfile findPreviousYearsProfile() {
         List<CompetitorProfile> profilesList = findPreviousYearProfiles();
 

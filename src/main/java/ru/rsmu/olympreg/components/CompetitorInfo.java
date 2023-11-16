@@ -5,6 +5,7 @@ import org.apache.tapestry5.annotations.InjectComponent;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.ioc.annotations.Inject;
+import ru.rsmu.olympreg.dao.CompetitorDao;
 import ru.rsmu.olympreg.dao.UserDao;
 import ru.rsmu.olympreg.entities.*;
 import ru.rsmu.olympreg.services.SecurityUserHelper;
@@ -29,10 +30,13 @@ public class CompetitorInfo {
     private AttachedFile attachedTemp;
 
     @Inject
-    private Block emptyProfile, documentsMissed, selectSubject, waitForLink, showDiploma;
+    private Block emptyProfile, documentsMissed, selectSubject, waitForLink;
 
     @Inject
     private UserDao userDao;
+
+    @Inject
+    private CompetitorDao competitorDao;
 
     @Inject
     private SecurityUserHelper securityUserHelper;
@@ -52,9 +56,6 @@ public class CompetitorInfo {
         if ( !profile.isSubjectSelected() ) {
             return selectSubject;
         }
-        if ( isDiplomaPresent() ) {
-            return showDiploma;
-        }
         return waitForLink;
     }
 
@@ -69,19 +70,20 @@ public class CompetitorInfo {
     }
 
     public List<AttachedFile> getDiplomaFiles() {
-        if ( profile.getAttachments() != null ) {
-            return profile.getAttachments().stream().filter( at -> at.getAttachmentRole() == AttachmentRole.DIPLOMA )
-                    .collect( Collectors.toList());
-        }
-        return Collections.emptyList();
+        List<CompetitorProfile> profiles = competitorDao.findPreviousUserProfiles( profile.getUser() );
+        return profiles.stream().flatMap( pr -> pr.getAttachments().stream() )
+                .filter( at -> at.getAttachmentRole() == AttachmentRole.DIPLOMA )
+                .collect( Collectors.toList());
     }
 
     public boolean isDiplomaPresent() {
-        if ( profile.getAttachments() != null ) {
-            return profile.getAttachments().stream().anyMatch( at -> at.getAttachmentRole() == AttachmentRole.DIPLOMA );
-        }
-        return false;
+        List<CompetitorProfile> profiles = competitorDao.findPreviousUserProfiles( profile.getUser() );
+        return profiles.stream().flatMap( pr -> pr.getAttachments().stream() )
+                .anyMatch( at -> at.getAttachmentRole() == AttachmentRole.DIPLOMA );
     }
 
+    public String getAttachmentYears() {
+        return String.format( "%d/%d", attachedTemp.getProfile().getYear(), attachedTemp.getProfile().getYear() + 1 );
+    }
 
 }

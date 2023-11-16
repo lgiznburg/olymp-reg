@@ -37,6 +37,27 @@
             </div>
         </div>
     </t:if>
+    <t:if test="diplomaPresent">
+        <div class="row">
+            <div class="col-sm-10">
+                <div class="panel panel-info" style="margin-top: 1em;">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">По результатам участия в олимпиаде Вам выданы сертификаты участника или дипломы победителя / призера.</h3>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table">
+                            <t:loop source="diplomaFiles" value="attachedTemp">
+                                <tr>
+                                    <td>${attachmentYears} учебный год</td>
+                                    <td><t:pagelink page="account/previewdiploma" context="attachedTemp" target="_blank">${attachedTemp.sourceName}</t:pagelink></td>
+                                </tr>
+                            </t:loop>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t:if>
 
     <t:block t:id="emptyProfile">
         <div class="panel panel-danger bg-warning" style="margin-top: 1em;">
@@ -63,22 +84,6 @@
         <div class="panel panel-info" style="margin-top: 1em;">
             <div class="panel-body">
                 Вы являетесь участником Олимпиады. В дни проведения в <t:pagelink page="account/participation">личном кабинете</t:pagelink> будут доступны ссылки на задания Олимпиады.
-            </div>
-        </div>
-    </t:block>
-    <t:block t:id="showDiploma">
-        <div class="panel panel-info" style="margin-top: 1em;">
-            <div class="panel-heading">
-                <h3 class="panel-title">По результатам участия в олимпиаде Вам выданы сертификаты участника или дипломы победителя / призера.</h3>
-            </div>
-            <div class="panel-body">
-                <table class="table">
-                    <t:loop source="diplomaFiles" value="attachedTemp">
-                        <tr>
-                            <td><t:pagelink page="account/previewdiploma" context="attachedTemp" target="_blank">${attachedTemp.sourceName}</t:pagelink></td>
-                        </tr>
-                    </t:loop>
-                </table>
             </div>
         </div>
     </t:block>
