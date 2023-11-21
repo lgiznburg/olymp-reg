@@ -41,14 +41,8 @@ public class PreviewDiploma {
     public StreamResponse onActivate() {
         if ( securityService.isUser() && securityService.hasRole( UserRoleName.competitor.name() )) {
             User user = securityUserHelper.getCurrentUser();
-            CompetitorProfile profile = userDao.findProfile( user );
-            if ( profile == null || profile.getAttachments() == null ) {
+            if ( !file.getProfile().getUser().equals( user ) ) {
                 return null;
-            }
-            else {
-                if ( profile.getAttachments().stream().noneMatch( at -> Objects.equals( at.getId(), file.getId() ) ) ) {
-                    return null;
-                }
             }
         }
         AttachedFileContent attachedFileContent = userDao.find( AttachedFileContent.class, file.getContentId() );
