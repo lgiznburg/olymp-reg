@@ -155,7 +155,10 @@ public class ConfigCrud {
 
                 Map<String,Object> model = new HashMap<>();
                 User competitor = profile.getUser();
-
+                if (profile.getSex().equalsIgnoreCase( "F" ) )
+                    model.put("sexEnding", "ая");
+                else
+                    model.put("sexEnding", "ый");
                 model.put( "fullName", competitor.getFullName() );
                 String subjectName = "";
                 switch ( config.getSubject() ) {
