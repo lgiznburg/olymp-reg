@@ -47,7 +47,7 @@ public class ProfileView {
         if ( "F".equalsIgnoreCase( profile.getSex() ) ) {
             return "жен.";
         }
-        if ( "М".equalsIgnoreCase( profile.getSex() ) ) {
+        if ( "m".equalsIgnoreCase( profile.getSex() ) ) {
             return "муж.";
         }
         return "";

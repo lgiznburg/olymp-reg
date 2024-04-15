@@ -56,8 +56,8 @@ public class FinalStatistics {
 
             sheet = workbook.createSheet( config.getSubject().name() +" " + config.getClassNumber() + " 2nd stage");
             List<Integer> top3 = competitorDao.getTop3Results( config.getSubject(), config.getClassNumber(), actualYear );
-            int winner = top3.isEmpty() ? 0 : top3.get( 0 );
-            int prize = top3.isEmpty() ? 0 : top3.get( top3.size() - 1 );
+            int winner = ( top3 == null || top3.isEmpty() ) ? 0 : top3.get( 0 );
+            int prize = ( top3 == null || top3.isEmpty() ) ? 0 : top3.get( top3.size() - 1 );
             // 2nd stage
             Map<SubjectRegion, FinalStats> participationSecond = getStats( config, 1, 0 );
             // prize
