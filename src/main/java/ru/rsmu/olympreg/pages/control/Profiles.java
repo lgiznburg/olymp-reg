@@ -18,6 +18,9 @@ import ru.rsmu.olympreg.entities.CompetitorProfile;
 import ru.rsmu.olympreg.viewentities.CompetitorDataSource;
 import ru.rsmu.olympreg.viewentities.CompetitorFilter;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author leonid.
  */
@@ -76,5 +79,18 @@ public class Profiles {
         if ( request.isXHR() ) {
             ajaxResponseRenderer.addRender( profilesZone );
         }
+    }
+
+    public Map<String, Object> getExportParams() {
+        Map<String, Object> exportParams = new HashMap<String, Object>();
+        exportParams.put( "personalNumber", filter.getPersonalNumber() );
+        exportParams.put( "email", filter.getEmail() );
+        exportParams.put( "firstName", filter.getFirstName() );
+        exportParams.put( "lastName", filter.getLastName() );
+        exportParams.put( "subject", filter.getSubject() == null ? "" : filter.getSubject().name() );
+        exportParams.put( "secondStage", filter.isSecondStage() );
+        exportParams.put( "needApproval", filter.isNeedApproval() );
+        exportParams.put( "classNumber", filter.getClassNumber() );
+        return exportParams;
     }
 }

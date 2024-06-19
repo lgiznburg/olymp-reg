@@ -74,14 +74,13 @@
         <div id="noUsers">${message:no-users-found}</div>
     </t:block>
 
-</t:zone>
-
 <div class="row" style="margin-top: 2em;">
     <div class="col-sm-12">
-        <t:pagelink page="control/exportprofiles" class="btn btn-primary" target="_blank">
+        <t:pagelink page="control/exportprofiles" parameters="exportParams" class="btn btn-primary" target="_blank">
             Выгрузить профили участников
         </t:pagelink>
     </div>
 </div>
+</t:zone>
 
 </html>

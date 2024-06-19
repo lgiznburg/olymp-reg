@@ -8,14 +8,14 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.tapestry5.StreamResponse;
+import org.apache.tapestry5.annotations.ActivationRequestParameter;
+import org.apache.tapestry5.annotations.Property;
+import org.apache.tapestry5.annotations.RequestParameter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.rsmu.olympreg.dao.CompetitorDao;
-import ru.rsmu.olympreg.entities.CompetitorProfile;
-import ru.rsmu.olympreg.entities.OlympiadSubject;
-import ru.rsmu.olympreg.entities.ParticipationInfo;
-import ru.rsmu.olympreg.entities.User;
+import ru.rsmu.olympreg.entities.*;
 import ru.rsmu.olympreg.utils.YearHelper;
 import ru.rsmu.olympreg.viewentities.CompetitorFilter;
 import ru.rsmu.olympreg.viewentities.SortCriterion;
@@ -29,6 +29,32 @@ import java.util.Objects;
 
 @RequiresRoles( value = {"admin", "manager", "moderator"}, logical = Logical.OR)
 public class ExportProfiles {
+    private static final int MAX_PROFILES_EXPORTED = 2000;
+
+    @ActivationRequestParameter
+    private String email = "";
+
+    @ActivationRequestParameter
+    private String firstName = "";
+
+    @ActivationRequestParameter
+    private String personalNumber = "";
+
+    @ActivationRequestParameter
+    private String lastName = "";
+
+    @ActivationRequestParameter
+    private OlympiadSubject subject;
+
+    @ActivationRequestParameter
+    private boolean secondStage;
+
+    @ActivationRequestParameter
+    private boolean needApproval;
+
+    @ActivationRequestParameter
+    private Integer classNumber;
+
     private static final Logger logger = LoggerFactory.getLogger( ExportProfiles.class );
 
     @Inject
@@ -36,8 +62,18 @@ public class ExportProfiles {
 
     public StreamResponse onActivate() {
         CompetitorFilter filter = new CompetitorFilter();
+        filter.setFirstName( firstName );
+        filter.setLastName( lastName );
+        filter.setEmail( email );
+        filter.setPersonalNumber( personalNumber );
+        filter.setClassNumber( classNumber );
+        filter.setSubject( subject );
+        filter.setNeedApproval( needApproval );
+        filter.setSecondStage( secondStage );
+
+        int size = Math.min( competitorDao.countProfiles( filter ), MAX_PROFILES_EXPORTED );
         List<CompetitorProfile> profiles = competitorDao.findProfiles( filter, new ArrayList<SortCriterion>(),
-                0, competitorDao.countProfiles( filter ) );
+                0,  size );
         if ( profiles.isEmpty() ) return null;
         int actualYear = YearHelper.getActualYear();
 
